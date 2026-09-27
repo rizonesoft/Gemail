@@ -5,6 +5,9 @@ node_modules/
 dist/
 lib/
 
+# Scratch, derived TODO caches, and campaign guard state (never authoritative)
+build/
+
 # Environment
 .env
 .env.local
@@ -36,3 +39,6 @@ coverage/
 *.crt
 *.key
 *.pem
+
+# Python bytecode from the TODO tooling
+__pycache__/

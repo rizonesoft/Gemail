@@ -1,0 +1,18 @@
+{
+  "schema_version": 2,
+  "note": "Bounds campaign discovery, never operator planning. per_run_discovered_sections: the most sections one campaign run may file on its own (each carries an `**Origin:** discovered run=<id> <YYYY-MM-DD>` line; a section with no Origin line is operator-directed and uncapped). backlog_cap: the most entries todo/backlog.md may hold. The live values must equal the latest history snapshot; history is append-only; a raise needs approved_by operator and the operator's words quoted in reason. Format and rules: todo/README.md, The budget and the backlog.",
+  "backlog_cap": 500,
+  "per_run_discovered_sections": 15,
+  "history": [
+    {
+      "date": "2026-09-27",
+      "change": "Initial budget, carried from Photon's schema 2 values at the port: at most 15 discovered sections per phase run, backlog capped at 500 entries.",
+      "reason": "Operator decision 2026-09-27: \"Create the same exact runners (process plan, process section, other skills, scripts, etc.), but adapt it for Gemail.\" The runner lineage chosen was \"Photon\", whose live caps these are.",
+      "approved_by": "operator",
+      "snapshot": {
+        "backlog_cap": 500,
+        "per_run_discovered_sections": 15
+      }
+    }
+  ]
+}

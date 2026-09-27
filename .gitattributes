@@ -1,0 +1,24 @@
+# Gemail: line endings and binary handling.
+# The repository moved from WSL to Windows on 2026-09-27; everything text is
+# stored LF, and the files POSIX tools, hooks, and the TODO tooling read are
+# checked out LF on every platform.
+* text=auto
+
+*.sh text eol=lf
+*.py text eol=lf
+*.ps1 text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+tools/githooks/** text eol=lf
+todo/.warning-baseline text eol=lf
+todo/.design-baseline text eol=lf
+
+*.png binary
+*.ico binary
+*.jpg binary
