@@ -64,7 +64,7 @@ Use the `skill arg` line it prints as the canonical form for the rest of the run
 - **Never mark `[x]` without evidence.** The Implementation Order row flips only after the review stamp exists.
 - **The user's mail first.** A section that writes into a message (insert, replace a selection, set the body, open a reply form) is built to: a preview the user sees before the write, the write only on an explicit user action, the original text recoverable (the replaced selection kept for one-step restore), and nothing sent on the user's behalf. A section that writes settings reads back what it wrote and survives a malformed stored value. Its Test checkpoint exercises the failure path, not only the happy path: read mode, an empty selection, a stream cut mid-response, a revoked key.
 - **One source of truth for a value.** Any value the user trusts (the selected model, a setting, a word count, a cost estimate, the API key) is computed or stored in exactly one place, a service under `src/services/` or the settings service, and the DOM code renders it rather than deciding it. A calculation in a click handler that nothing verifies is a bug.
-- **House style is the bar on surfaces.** A section that builds a surface proves it against the capture under `docs/captures/taskpane/` and the design spec under `docs/design/`, not against memory of what the other tabs look like. Tailwind utilities over the tokens the spec names, no inline colors, and no UI framework. A second loading indicator, error banner, or settings writer in a second feature is a defect, and so is moving code into `src/services/` before a second feature needs it.
+- **The approved design is the bar on surfaces.** A section that builds a surface reproduces the `docs/design/mockup.md` anchors its `**Design:**` line cites, 1:1, and proves it by a capture under `docs/captures/taskpane/` compared with the render under `docs/design/mockup/renders/`, not against memory or prose. Values come only from `docs/design/tokens.json` (through `src/styles/tokens.css` once `D03 T04 §1` ships), icons only from `iconSvg()` in `src/ui/icons.ts` (catalog `docs/design/icons.md`), and ribbon and manifest images only from `assets/icons/png/`. No color literal, font declaration, or inline `<svg>` in `src/`: `python scripts/design-lint.py` refuses them. No UI framework. A second loading indicator, error banner, or settings writer in a second feature is a defect, and so is moving code into `src/services/` before a second feature needs it.
 - **Writes are proven in both directions.** A section that writes into a message proves the restore as well as the write, and what happens when Office.js refuses the write (read mode, a locked item, an unsupported requirement set).
 
 ## The session does every step
@@ -171,7 +171,9 @@ Work the checklist top to bottom. Tick each item as its Done-when becomes true, 
 
 ### 5. Surface completeness (UI sections)
 
-Before the checkpoint, account for **every control, menu item, dialog, command, and state** the section's Fidelity counterpart has, each resolved to working (proven on the rendered surface) or deferred to a named, resolving section. A control disabled with a reason that names no section is missing, not deferred. `review-todo-section` refuses the stamp for an unaccounted control; decide here, not there.
+Before the checkpoint, run the mockup conformance item (the template's wording: render the built surface, compare it with the section's `docs/design/mockup.md` anchors and their renders, tokens and registry icons only, a capture under `docs/captures/taskpane/`, `python scripts/design-lint.py` green): a difference from the mockup is fixed, or recorded as a `**Design deviation:**` with its follow-up section before the stamp, never shipped silently. A surface the mockup does not draw is composed only from its components (`docs/design/mockup.md#surfaces-the-mockup-does-not-draw`); when the operator is in the session and the surface is new, draw it in the design artifact first (`design-sync`).
+
+Then account for **every control, menu item, dialog, command, and state** the section's Fidelity counterpart has, each resolved to working (proven on the rendered surface) or deferred to a named, resolving section. A control disabled with a reason that names no section is missing, not deferred. `review-todo-section` refuses the stamp for an unaccounted control; decide here, not there.
 
 ### 6. Run the Test checkpoint, for real
 
@@ -254,6 +256,7 @@ Tell the user plainly: what was built, what the checkpoint proved (quoted), what
 - Do not flip the Implementation Order row. Review owns that.
 - Do not claim a checkpoint passed without running it: quote the output.
 - Do not build a UI surface whose named baseline artifact does not exist. The capture ships first.
+- Do not build a surface the approved mockup contradicts, and do not raise `docs/design/.lint-baseline.json`: fix the code, or record a `**Design deviation:**` with its follow-up.
 - Do not end with the plan unsynced.
 - Do not stamp before the independent review has run, or without recording that it could not.
 - Do not discard a review finding silently. Fix it, refute it in the stamp, or file it.

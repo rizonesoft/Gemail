@@ -1,0 +1,46 @@
+{
+  "Icons.png": {
+    "board": "Icons.dc.html",
+    "props": {},
+    "boardSha256": "f4a1fe0966568b83f51d10dca5a1067b20543ed4498e23a593843fc553b28314",
+    "pngSha256": "74690f95299fd78d1925902f5ce00c7f7e01225089001e4002038af8c2f72568"
+  },
+  "Improve--accepted-false.png": {
+    "board": "Improve.dc.html",
+    "props": {
+      "accepted": false
+    },
+    "boardSha256": "3a3037b00bb260eed3ddad6be8b1af497194db371abec04cd02218d1833f676a",
+    "pngSha256": "e50b2e30b016bf5aab2b2ebd9e3f5ece30ec3c0ab94b6e1bad1fa5ad158930ef"
+  },
+  "Improve.png": {
+    "board": "Improve.dc.html",
+    "props": {
+      "accepted": true
+    },
+    "boardSha256": "3a3037b00bb260eed3ddad6be8b1af497194db371abec04cd02218d1833f676a",
+    "pngSha256": "a4bd4ff6c20f396c00119eabc1f0da31cae2ed650491d5677ffb3bab8ebd975b"
+  },
+  "Main--streaming-false.png": {
+    "board": "Main.dc.html",
+    "props": {
+      "streaming": false
+    },
+    "boardSha256": "bfa2db2437c727aeb3d16910cd0db9de17bacf32207f01295407827d222c73ed",
+    "pngSha256": "2a2b005d0df75eb2103ca21ac8847d84861658d184dda414caf03a9b970da01c"
+  },
+  "Main.png": {
+    "board": "Main.dc.html",
+    "props": {
+      "streaming": true
+    },
+    "boardSha256": "bfa2db2437c727aeb3d16910cd0db9de17bacf32207f01295407827d222c73ed",
+    "pngSha256": "9e26fdede3925f2c9de77aee5d1f9a738fe8b61ea319367183002cb31d71ed11"
+  },
+  "Settings.png": {
+    "board": "Settings.dc.html",
+    "props": {},
+    "boardSha256": "db34fe67750cdc2acec047c51113d5515f07ac95245ecf88b3e088a54efbc33f",
+    "pngSha256": "c2f5a08fdccabfc00a1caed5595f8cedcb7e74131d39148f363aec2edc48df7c"
+  }
+}

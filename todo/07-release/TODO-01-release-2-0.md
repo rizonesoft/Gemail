@@ -38,6 +38,7 @@ depends_on: []
 - -> XREF: D06 T03 §4 -- §5 documents attachments, the timeline, and CC suggestions
 - -> XREF: D06 T04 §3 -- §5 documents the theme behavior and the usage view
 - -> XREF: D99 T01 §8 -- the operator updates organization deployments after §6 ships
+- -> XREF: D03 T04 §5 -- the manifests already point at the approved icons in `assets/icons/png/`
 
 ## Outcome
 
@@ -55,7 +56,7 @@ depends_on: []
 
 | Order | Section | Deliverable                                  | Depends On                                      | Status |
 | :---: | :-----: | -------------------------------------------- | ----------------------------------------------- | :----: |
-|   1   |   §1    | Requirement sets for new Outlook and the web | D00 T01 §1                                      |  [ ]   |
+|   1   |   §1    | Requirement sets for new Outlook and the web | D00 T01 §1, D03 T04 §5 |  [ ]   |
 |   2   |   §2    | One manifest source and validation in CI     | §1, D00 T02 §4                                  |  [ ]   |
 |   3   |   §3    | Icons at every size from the SVG sources     | §1                                              |  [ ]   |
 |   4   |   §4    | The release process                          | §2                                              |  [ ]   |
@@ -73,11 +74,11 @@ The operator decided on 2026-09-27 to support new Outlook and Outlook on the web
 - [ ] Set `<Set Name="Mailbox" MinVersion>` in `manifest.xml` to the highest set a core feature (Reply, Draft, Summarize, Improve, Extract, Translate) needs, and the `VersionOverrides` `DefaultMinVersion` values to match. Done when: `npm run validate` passes and the chosen set is justified in the table.
 - [ ] Apply one client policy: guard every call above the floor with `Office.context.requirements.isSetSupported("Mailbox", "<set>")`, and when unsupported disable the control and notify the user with its reason ("Needs a newer Outlook"). Done when: a mock test per guarded feature asserts the disabled state and message on a client reporting only the floor.
 - [ ] Remove the six `OpenPanel.*` image entries from `manifest.xml` and `manifest.dev.xml`. Done when: `grep -c open-panel manifest.xml` prints `0`.
-- [ ] Rename `assets/tool-icons/fix-grammer-spelling-{16,32,80}.png` to `fix-grammar-spelling-*` with `git mv` and update the six references per manifest. Done when: `grep -rc grammer manifest.xml manifest.dev.xml assets` prints only zeros.
+- [ ] Confirm the misspelt icon is gone: `D03 T04 §5` replaced `assets/tool-icons/` with `assets/icons/png/menu/fix-grammar-and-spelling-*.png`. Done when: `grep -rc grammer manifest.xml manifest.dev.xml assets` prints only zeros. **Corrected 2026-09-27:** was "Rename `assets/tool-icons/fix-grammer-spelling-{16,32,80}.png` ... with `git mv`"; the whole directory was retired by the design import's icon set.
 - [ ] Add `scripts/check-manifest-assets.js` that lists every `DefaultValue="https://localhost:3000/..."` image and page URL in `manifest.xml` and asserts the file exists under `dist/` after `npm run build`. Done when: it exits 0 now and exits 1 naming the file when an icon is deleted in a scratch copy.
 - [ ] Commit: `"manifest: requirement sets for new Outlook and the web, and no dead icons"`
 
-**Test checkpoint:** `npm run validate` passes; `node scripts/check-manifest-assets.js` exits 0 after `npm run build`, and exits 1 naming `icon-80.png` when that file is removed in a scratch copy; the requirement-set tests pass under `npx jest src/services/outlook.test.ts -t "requirement"`. Cheaper substitute that fails: leaving `MinVersion="1.1"`, which the table shows is below the APIs called unguarded.
+**Test checkpoint:** `npm run validate` passes; `node scripts/check-manifest-assets.js` exits 0 after `npm run build`, and exits 1 naming `assets/icons/png/app/gemail-80.png` when that file is removed in a scratch copy; the requirement-set tests pass under `npx jest src/services/outlook.test.ts -t "requirement"`. Cheaper substitute that fails: leaving `MinVersion="1.1"`, which the table shows is below the APIs called unguarded.
 
 ## 2. One Manifest Source and Validation in CI
 
@@ -95,13 +96,13 @@ Two hand-kept manifests drift (the dev one is already a version behind and carri
 
 The PNG icons have no committed source, so every size is redrawn by hand or upscaled. This section commits SVG sources for the app icon and the ribbon tool icons and renders every size the manifests name, so the operator's new artwork (`D99 T01 §5`) lands by replacing one SVG and rerunning one command. Rendering needs a rasterizer: `@resvg/resvg-js` (a WebAssembly build, no native toolchain on Windows) is the chosen dev dependency, recorded here as the section's dependency decision.
 
-- [ ] Add `assets/icons/source/app.svg` and one SVG per ribbon tool icon (`ai-tools`, `fix-grammar-spelling`, `improve-clarity`, `make-concise`, `make-professional`), adapting the existing `assets/icons/*.svg` where one matches and tracing the current PNG where none does. Done when: each source renders at 80 px visually equal to its current PNG, captures committed under `docs/captures/icons/`.
-- [ ] `npm install -D @resvg/resvg-js` and add `scripts/render-icons.js` rendering `app.svg` to `assets/icon-{16,32,64,80,128}.png` and each tool SVG to `assets/tool-icons/<name>-{16,32,80}.png`. Done when: `node scripts/render-icons.js` writes every file and `git status` shows only PNG changes.
-- [ ] Add `--check`, which renders to a temp directory and fails when a manifest-referenced size is missing or differs from the committed PNG. Done when: deleting `icon-64.png` in a scratch copy makes `--check` exit 1 naming it.
-- [ ] Add a high-resolution `assets/icon-256.png` for listings, rendered from the same source. Done when: the file exists at 256 by 256.
+- [ ] Confirm the sources are complete: `assets/icons/src/app/`, `ribbon/`, and `menu/` hold the app icon (48 and 16 px drawings), AI Tools, and the four menu icons imported from the approved mockup on 2026-09-27, and `D03 T04 §5` points both manifests at their renders. Done when: `node tools/design/icons.mjs --check` exits 0 and every icon URL in `manifest.xml` names a file under `assets/icons/png/`. **Corrected 2026-09-27:** was "Add `assets/icons/source/app.svg` and one SVG per ribbon tool icon ... tracing the current PNG"; the sources were drawn in the design mockup and imported (`docs/design/icons.md`).
+- [ ] Run the icon check in CI: add `npm ci --prefix tools/design` and `node tools/design/icons.mjs --check` steps to `.github/workflows/build.yml`. Done when: the `build` run on the pushed commit shows the step passing (`gh run view --log` quoted). **Corrected 2026-09-27:** was "`npm install -D @resvg/resvg-js` and add `scripts/render-icons.js`"; the renderer is `tools/design/icons.mjs` with its own `package.json`, so the rasterizer never enters the add-in's dependencies.
+- [ ] Prove the check fails on a stale output: in a scratch copy delete `assets/icons/png/app/gemail-64.png`, and separately edit one byte of `assets/icons/src/menu/make-concise.svg`. Done when: `node tools/design/icons.mjs --check` and `python scripts/design-lint.py` each exit 1 naming the file in both cases. **Corrected 2026-09-27:** was "Add `--check`"; `--check` exists in `tools/design/icons.mjs`, and `scripts/design-lint.py` checks the same manifest without rendering.
+- [ ] Confirm the 256 px listing icon: `assets/icons/png/app/gemail-256.png` is rendered from the same source. Done when: `python -c "import struct;d=open('assets/icons/png/app/gemail-256.png','rb').read(24);print(struct.unpack('>II',d[16:24]))"` prints `(256, 256)`. **Corrected 2026-09-27:** was "Add a high-resolution `assets/icon-256.png`"; the icon build renders it at `assets/icons/png/app/gemail-256.png`.
 - [ ] Commit: `"icons: render every icon size from committed SVG sources"`
 
-**Test checkpoint:** `node scripts/render-icons.js --check` exits 0; the scratch deletion of `icon-64.png` makes it exit 1; `node scripts/check-manifest-assets.js` still exits 0 after `npm run build`. Cheaper substitute that fails: committing resized PNGs without sources, which `--check` cannot regenerate and fails.
+**Test checkpoint:** `node tools/design/icons.mjs --check` exits 0 locally and in the `build` workflow; the scratch deletion of `gemail-64.png` and the scratch source edit each make it and `python scripts/design-lint.py` exit 1; `node scripts/check-manifest-assets.js` still exits 0 after `npm run build`. Cheaper substitute that fails: committing resized PNGs without their sources, which the manifest hashes refuse.
 
 ## 4. The Release Process
 
@@ -119,7 +120,7 @@ Releases today depend on remembering that `npm version` syncs the manifests, pus
 A user who installs Gemail from a manifest file needs to know how in each supported client, an administrator needs the centralized deployment steps, and every feature needs a page that says what it sends to OpenRouter and what it writes into mail. The guide ships before the release so 2.0.0 is learnable.
 
 **Fidelity:** Gemail user guide pages under `docs/user/`, each with captures from docs/captures/taskpane/. Page structure per the guide spec: purpose, steps, what is sent, what is written, troubleshooting.
-**Design:** new surface: docs/design/user-guide.md -- states: all in spec -- themes: n/a (Markdown pages rendered by GitHub) -- density: n/a (Markdown pages rendered by GitHub)
+**Design:** docs/design/mockup.md#surfaces-the-mockup-does-not-draw, docs/design/mockup.md#pane-icons, new surface: docs/design/user-guide.md -- states: all in spec -- themes: n/a (Markdown pages rendered by GitHub) -- density: n/a (Markdown pages rendered by GitHub)
 **Job:** A user can install Gemail and learn every feature from the guide documents without asking anyone. Consumer: the README links and the Settings panel help link.
 **Treatment:** one page per feature plus Install (new Outlook, Outlook on the web), Administrator deployment, Privacy and your key, and Troubleshooting; each feature page states what data leaves the device. Cheaper substitute that fails the checkpoint: one long README section, which fails the page-per-feature link check.
 **Chrome:** consume the captures under `docs/captures/taskpane/` and the privacy wording of `PRIVACY.md`; do not restate the privacy policy in a second wording.
@@ -132,6 +133,7 @@ A user who installs Gemail from a manifest file needs to know how in each suppor
 - [ ] Write `docs/user/privacy-and-your-key.md` and `docs/user/troubleshooting.md` (one entry per error message the pane can show, from the error table of `D03 T03 §1`). Done when: every message in that table has an entry.
 - [ ] Add `docs/user/README.md` as the index and `scripts/check-docs-links.js` that fails on a dead relative link or image under `docs/user/`. Done when: the check exits 0 and exits 1 after renaming a capture in a scratch copy.
 - [ ] Link the guide from `README.md` and from the Settings panel footer. Done when: both links resolve on the deployed dev build.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 - [ ] Commit: `"docs: the Gemail user guide"`
 
 **Test checkpoint:** `node scripts/check-docs-links.js` exits 0; a person following `docs/user/install.md` on a test mailbox in each supported client installs the add-in (recorded with a capture per client); the troubleshooting page has an entry for every error message, checked by a test that compares the page's headings to the error table. Cheaper substitute that fails: a single README section, which fails the one-page-per-feature and error-coverage checks.

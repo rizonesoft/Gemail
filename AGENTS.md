@@ -21,7 +21,9 @@ Agent instructions for this repository. Human orientation lives in `README.md`. 
 | `todo/` | The live execution plan; read `todo/README.md` before authoring or implementing |
 | `todo/implementation-plan.md` | Ordered phase plan; its boxes are synchronized through `scripts/todo-graph.py` |
 | `todo/budget.json`, `todo/backlog.md` | The caps on campaign discovery and the backlog, with their history; the capped list of deferred ideas that are not sections |
-| `docs/design/` | The task pane design spec: tokens, layout, components, states; every surface section cites it |
+| `docs/design/` | The approved design: `mockup.md` and the imported artboards and renders under `mockup/` (layout), `tokens.json` (every value), `icons.md` (the icon catalog), `taskpane.md` (behavior), `EDITING.md` (how to change it); every surface section cites `mockup.md` |
+| `assets/icons/` | Icon sources (`src/`, canonical), rendered PNGs (`png/`), and the hash manifest; `src/ui/icons.ts` is the generated pane-icon registry |
+| `tools/design/` | Design tooling with its own `package.json`: `icons.mjs` (icon build and check), `render-mockup.mjs` (mockup renders); never an add-in dependency |
 | `docs/user/`, `docs/dev/` | The user guide and developer documentation |
 | `docs/reviews/` | Per-section review findings, attestations, the derived findings ledger, run records |
 | `docs/phase-runs/` | One findings file per phase run, written as the run goes |
@@ -41,6 +43,7 @@ Development happens on Windows (the repository moved from WSL to Windows on 2026
 - **Stack:** TypeScript (strict), Office.js with vanilla DOM (no UI framework), Tailwind CSS v4, webpack 5, Babel, Jest 30, office-addin-lint (ESLint and Prettier). **A dependency is a decision:** adding a package records the reason in the section that adds it.
 - **The user's mail first:** nothing is sent on the user's behalf; every write into a message is previewed and happens only on an explicit user action; replaced text stays recoverable. Model output is text until sanitized, never raw HTML.
 - **The key is the user's:** the OpenRouter key lives only on the user's device and travels only to OpenRouter; it never enters a log, a URL, telemetry, or a tracked file.
+- **The approved design is binding** (operator decisions 2026-09-27): the mockup imported from the operator's design artifact (`docs/design/mockup.md`) is the visual source of truth, `docs/design/tokens.json` holds every value, and the icons are the Fluent-style set in `assets/icons/src/` (Fluent color for the ribbon and app icon, Fluent 2 system for the pane). The font is Segoe UI Variable, the system font; no web font is loaded. Enforcement is a hard gate: `python scripts/design-lint.py` in the commit hook, check-all, and CI refuses a surface section that does not cite the mockup, a hand-edited artboard, a stale icon output, and any new color literal, font declaration, inline `<svg>`, or legacy icon path in `src/`. The design changes only in the artifact and reaches the repository only through the `design-sync` skill.
 - **Manifest:** stays the XML add-in manifest; the unified (JSON) manifest is a backlog entry, not planned work (operator decision 2026-09-27).
 - **Trunk and deploys** (operator decision 2026-09-27): runners push to `main`; every push to `main` deploys the development build to `/Gemail/dev/`; production deploys only through the `deploy` workflow's manual `deploy_prod` dispatch, which is the operator's.
 - **Plan-level calls** (operator decisions 2026-09-27): the brand blue and tertiary text tokens darken to the nearest shades that pass WCAG 4.5:1 (`D05 T02 §5`); the dev deploy runs only after the `build` workflow passes (`D00 T02 §4`); Reply's "Include original" decides whether the original message is sent to the model as context (`D05 T03 §2`).
@@ -58,7 +61,7 @@ Files are `todo/NN-domain/TODO-NN-short-name.md`. The **Implementation Order tab
 
 ## Choose the work contract
 
-For TODO work, read the target section, `todo/README.md`, its dependencies, and the applicable skill under `.claude/skills/`: capture through `add-todo`, author a file through `create-todo`, plan a new feature through `plan-new-feature`, build through `process-todo-section` (gate card: `.claude/skills/process-todo-section/gates.md`), stamp through `review-todo-section`, close a file through `process-todo-file`, run a phase or the plan through `process-phase` or `process-plan`, harden the tree through `groom-plan`.
+For TODO work, read the target section, `todo/README.md`, its dependencies, and the applicable skill under `.claude/skills/`: capture through `add-todo`, author a file through `create-todo`, change or import the design through `design-sync`, plan a new feature through `plan-new-feature`, build through `process-todo-section` (gate card: `.claude/skills/process-todo-section/gates.md`), stamp through `review-todo-section`, close a file through `process-todo-file`, run a phase or the plan through `process-phase` or `process-plan`, harden the tree through `groom-plan`.
 
 The lifecycle is: capture, author, validate the plan and source claims, record `Started:`, implement, run the section's gates, commit, independent review, panel review and stamp, then sync the plan. Each section must be executable with zero conversation context. **One section = one commit.** Preserve section addresses and bidirectional cross-references. A TODO Implementation Order row turns `[x]` only with its `Verified:` stamp through the review skill. Do not rewrite a stamped checklist or transfer evidence across changed candidates. File new work with its own owner and dependency.
 
@@ -85,7 +88,7 @@ A checkpoint citing a gate that does not exist yet is unfalsifiable and is not a
 - **Writes are serial:** one session owns the working tree. Check `git status` before building over unfamiliar work.
 - **Section atomicity is the candidate range:** one section ships as one logical change, and review fix-loop commits append to that range (never amend); the stamp names the whole range.
 - **Shared deliberately:** a behavior two features need moves into `src/services/` or `src/ui/` once, and is never reimplemented in a second feature module; nothing moves there speculatively.
-- **Every surface answers to the design spec under `docs/design/`,** with the captures under `docs/captures/taskpane/` as its visual reference. A surface never hardcodes a color, a size, or a spacing value the spec names.
+- **Every surface answers to the approved mockup** (`docs/design/mockup.md` and its renders), built from tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` in `src/ui/icons.ts`), and proven by a capture under `docs/captures/taskpane/` compared with the render it cites. A surface never hardcodes a color, font, size, spacing value, or icon.
 - **No em dashes** in authored prose; use `--`, a colon, or a new sentence. One line per paragraph and list item in Markdown.
 - **Source of truth:** OpenRouter behavior via its API reference (openrouter.ai/docs); Office.js and manifest behavior via Microsoft Learn; competitor behavior via a driven run with its version; plan state via `todo/`. Disagreements are recorded decisions, not silent reinterpretations.
 - **Completion-first, no partial ships:** a section is complete only when every micro-step is `[x]`, its checkpoint is quoted from a real run, and review stamped it. Anything genuinely unshippable now files through `add-todo` with an owner.
@@ -132,6 +135,9 @@ python scripts/todo-findings.py --check      # fail if docs/reviews/findings.md 
 python scripts/todo-runs.py --check          # run records agree with the review files
 python scripts/campaign_guard.py --self-test # the Stop hook and guard lifecycle
 python scripts/panel_slots.py validate       # the review panel wiring holds
+python scripts/design-lint.py                # the design gate: mockup citations, tokens, icons, baseline
+node tools/design/icons.mjs --check          # icon outputs match their sources (npm ci --prefix tools/design once)
+node tools/design/render-mockup.mjs          # re-render the mockup after a design-sync
 ```
 
 Run checks owed by the task. Report only commands actually run, and distinguish static evidence, test output, driven-run output, contract output, and review proof.

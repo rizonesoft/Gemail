@@ -2,13 +2,14 @@
 
 > **Phase 5, 6**
 
-The task pane split into modules, shared UI helpers, performance, and resilience.
+The task pane split into modules, shared UI helpers, the approved design in code, performance, and resilience.
 
 ## TODOs
 
 | TODO | Title | Status |
 | ---- | ----- | :----: |
 | [TODO-01](./TODO-01-taskpane-split.md) | Task Pane Split | draft |
+| [TODO-04](./TODO-04-design-adoption.md) | Design Adoption | draft |
 | [TODO-02](./TODO-02-performance.md) | Performance | draft |
 | [TODO-03](./TODO-03-resilience.md) | Resilience and Diagnostics | draft |
 
@@ -20,6 +21,7 @@ The task pane split into modules, shared UI helpers, performance, and resilience
 ## In scope
 
 - Splitting `src/taskpane/taskpane.ts`
+- The design tokens, icon registry, pane frame, and ribbon icons from the approved mockup
 - Bundle size, lazy loading, streaming output, caching, debouncing
 - Actionable errors, offline, draft recovery, context limits, the debug log, Office.js write callbacks
 

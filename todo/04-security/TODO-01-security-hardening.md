@@ -37,6 +37,7 @@ depends_on: []
 - -> XREF: D03 T02 §2 -- the production build hygiene §3 writes the policy against
 - -> XREF: D06 T01 §1 -- settings sync, which must never carry the device-only key §4 establishes
 - -> XREF: D07 T01 §6 -- the release that ships only once §7's documents are true
+- -> XREF: D03 T04 §1 -- the system font and the removed Google Fonts links come from there
 
 ## Outcome
 
@@ -58,7 +59,7 @@ depends_on: []
 | :---: | :-----: | ----------------------------------------- | ------------------- | :----: |
 |   1   |   §1    | Model output renders as text              | D03 T01 §6          |  [ ]   |
 |   2   |   §2    | Prompt-injection fencing                  | D02 T02 §2          |  [ ]   |
-|   3   |   §3    | Content Security Policy                   | D03 T02 §2          |  [ ]   |
+|   3   |   §3    | Content Security Policy                   | D03 T02 §2, D03 T04 §1 |  [ ]   |
 |   4   |   §4    | The API key stays on the device           | D02 T02 §3          |  [ ]   |
 |   5   |   §5    | Client-side rate limit and spend guard    | D02 T02 §1          |  [ ]   |
 |   6   |   §6    | First-run privacy notice                  | §4, D03 T01 §5      |  [ ]   |
@@ -99,12 +100,12 @@ A CSP is the second wall behind §1: if escaping ever fails, the browser still r
 
 **Requires:** display-session -- the policy is proven by loading the pane in Outlook on the web and new Outlook and reading the console for violations, which needs a window
 
-- [ ] Download the Poppins weights the CSS uses (check `src/styles/main.css` and `src/taskpane/taskpane.css` for `font-weight`) as `woff2` into `assets/fonts/` with `OFL.txt`, declare them with `@font-face` in `src/styles/main.css`, and remove the three Google Fonts `<link>` elements from `src/taskpane/taskpane.html`. Done when: `grep -c "fonts.googleapis.com\|fonts.gstatic.com" src/taskpane/taskpane.html` prints `0` and the built pane renders in Poppins.
+- [ ] Confirm the pane loads no web font: `D03 T04 §1` moved it to the system font stack (`font.family` in `docs/design/tokens.json`) and removed the Google Fonts links, so `font-src` needs no external host. Done when: `grep -c "fonts.googleapis.com\|fonts.gstatic.com\|Poppins" src/taskpane/taskpane.html src/styles/main.css` prints zeros and `python scripts/design-lint.py` exits 0. **Corrected 2026-09-27:** was "Download the Poppins weights ... as `woff2` into `assets/fonts/` with `OFL.txt` ... and remove the three Google Fonts `<link>` elements"; the operator chose Segoe UI Variable, the system font, on 2026-09-27 (`docs/design/tokens.json`), so no font is downloaded or hosted and the link removal moved to `D03 T04 §1`.
 - [ ] Decide whether Fabric Core CSS (`res-1.cdn.office.net`) is still used: `grep -rn "ms-" src/taskpane/taskpane.html src/taskpane/*.ts | head`. Done when: it is removed if nothing uses its classes, or kept and allowed in `style-src` with the classes that need it named in the commit body.
 - [ ] Add `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://appsforoffice.microsoft.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://openrouter.ai; object-src 'none'; base-uri 'self'; form-action 'none'">` to `src/taskpane/taskpane.html`, and the same policy to `src/commands/commands.html` (the ribbon commands call the facade, so they need the same `connect-src`). Done when: `grep -c "Content-Security-Policy" dist/taskpane.html dist/commands.html` prints `1` for each after `npm run build`. Source: MDN CSP and the OWASP cheat sheet in Inputs.
 - [ ] Record why `style-src` keeps `'unsafe-inline'`: `style-loader` injects `<style>` elements at runtime; if `D03 T02 §2` switched production CSS to an extracted file, drop `'unsafe-inline'` instead. Done when: the commit body names which case applies and the policy matches it.
 - [ ] Sideload the dev build into Outlook on the web and new Outlook, open the pane, run one feature, and run one ribbon command. Done when: the console shows zero `Content-Security-Policy` violation messages in each client; a directive that had to widen is named with the violation text in the commit body.
-- [ ] Commit: `"security: content security policy and self-hosted fonts"`
+- [ ] Commit: `"security: content security policy"`
 
 **Test checkpoint:** `npm run build` then `grep -o 'Content-Security-Policy' dist/taskpane.html dist/commands.html | wc -l` prints `2`; in both supported clients the pane and a ribbon command run with zero CSP violations in the console; a scratch `<script>alert(1)</script>` inserted into the built `dist/taskpane.html` is blocked with a CSP violation in the console. Cheaper substitute that fails: a policy with `script-src *`, which lets the scratch inline script run.
 
@@ -138,7 +139,7 @@ Users should know, before their first request, that the text of their email leav
 
 **Fidelity:** Gemail task pane privacy notice (title, one paragraph, Not now and Continue) -- docs/captures/taskpane/privacy-notice/. New build, no earlier notice exists; layout and wording follow the Dialogs rule of the design spec.
 
-**Design:** docs/design/taskpane.md#dialogs -- states: first open, accepted, dismissed, cleared -- themes: n/a (the notice uses the pane tokens and follows whatever theme the pane has) -- density: n/a (one density in a fixed-width task pane)
+**Design:** docs/design/mockup.md#surfaces-the-mockup-does-not-draw, docs/design/mockup.md#api-key, docs/design/taskpane.md#dialogs -- states: first open, accepted, dismissed, cleared -- themes: n/a (the notice uses the pane tokens and follows whatever theme the pane has) -- density: n/a (one density in a fixed-width task pane)
 
 **Job:** a first-time user can learn where their email text goes and choose to continue or not. Consumer: every feature action, which checks the stored consent version before calling the facade.
 
@@ -155,6 +156,7 @@ Users should know, before their first request, that the text of their email leav
 - [ ] Call `ensureConsent()` before every facade call a panel makes (one wrapper in the panel layer from `D03 T01 §5`, not one call per feature) and do nothing when it resolves `false`. Done when: a jsdom test clicks **Generate** with no consent, chooses **Not now**, and asserts `fetch` was never called.
 - [ ] Clear `gemail_consent` in **Clear all data** (it starts with `gemail_`, so §4's rule covers it; assert it). Done when: the §4 full-clear test lists `gemail_consent` among the seeded keys and it is gone after reset.
 - [ ] Sideload, open the pane for the first time on a fresh profile (clear site data), capture the notice, choose **Not now**, try a feature, then **Continue**. Done when: captures of the notice are committed under `docs/captures/taskpane/privacy-notice/` and the driven run is recorded in the commit body.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 - [ ] Commit: `"security: first-run privacy notice before any model call"`
 
 **Test checkpoint:** `npx jest src/taskpane/panels/privacy-notice.test.ts` passes, including the no-consent-no-fetch test; the sideloaded run shows the notice on first open, no request leaves the pane after **Not now** (the Network panel shows no call to `openrouter.ai`), and **Continue** lets the feature run. Cheaper substitute that fails: showing the notice only on first open without checking before calls, which the no-consent-no-fetch test catches when the user dismisses and then clicks Generate.

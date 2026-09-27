@@ -2,7 +2,7 @@
 
 The order to run every section in, from today (a dead published add-in on Google Gemini, freshly moved from WSL to Windows) to Gemail 2.0.0 on OpenRouter, proven on a clean Outlook profile.
 
-> **Progress:** **0 of 113 sections complete (0%).** 113 sections (0 discovered); backlog 10 of 500. Derived from the Implementation Order tables by `python scripts/todo-graph.py plan --sync` -- never edited by hand.
+> **Progress:** **0 of 118 sections complete (0%).** 118 sections (0 discovered); backlog 10 of 500. Derived from the Implementation Order tables by `python scripts/todo-graph.py plan --sync` -- never edited by hand.
 
 Seeded 2026-09-27 from the operator's decisions recorded in [`../AGENTS.md`](../AGENTS.md), the code inventory of the imported 1.3.2 tree, and every open item of the retired root `TODO.md`.
 
@@ -94,7 +94,7 @@ The name changes before the provider does, so the cutover writes the new names o
 | :-: | ------------ | ------------------------------------------------ | :---: |
 | [ ] | `D01 T01 §1` | Package identity                                 |   4   |
 | [ ] | `D01 T01 §2` | Manifest names and descriptions                  |   5   |
-| [ ] | `D01 T01 §3` | Task pane and ribbon strings                     |   6   |
+| [ ] | `D01 T01 §3` | Task pane and ribbon strings                     |   7   |
 | [ ] | `D01 T01 §4` | Source identifiers and file headers              |   5   |
 | [ ] | `D01 T01 §5` | Settings storage keys migrate to the Gemail keys |   6   |
 | [ ] | `D01 T01 §6` | Documentation rebrand                            |   5   |
@@ -122,16 +122,16 @@ Every caller moves to OpenRouter and Gemini leaves the tree.
 | [ ] | `D02 T02 §1` | A provider-neutral AI facade                     |   5   |
 | [ ] | `D02 T02 §2` | Repoint every caller                             |   6   |
 | [ ] | `D02 T02 §3` | OpenRouter settings and the Gemini key migration |   5   |
-| [ ] | `D02 T02 §4` | The model picker                                 |   7   |
-| [ ] | `D02 T02 §5` | Test Connection through the key endpoint         |   5   |
+| [ ] | `D02 T02 §4` | The model picker                                 |   8   |
+| [ ] | `D02 T02 §5` | Test Connection through the key endpoint         |   6   |
 | [ ] | `D02 T02 §6` | Remove Google Gemini                             |   5   |
-| [ ] | `D02 T02 §7` | Provider copy in the UI and docs                 |   7   |
+| [ ] | `D02 T02 §7` | Provider copy in the UI and docs                 |   8   |
 | [ ] | `D02 T02 §8` | Reasoning and token budgets                      |   5   |
-| [ ] | `D02 T02 §9` | Privacy routing setting                          |   5   |
+| [ ] | `D02 T02 §9` | Privacy routing setting                          |   6   |
 
-### Phase 5 -- Task Pane Architecture and Import Defects
+### Phase 5 -- Task Pane Architecture, Design Adoption, and Import Defects
 
-The split gives every later UI section a module to work in, and the defects are fixed in the modules rather than in the monolith.
+The split gives every later UI section a module to work in; the approved design (tokens, icons, the pane frame, the ribbon icons) lands on those modules before any feature builds on them; and the defects are fixed in the modules rather than in the monolith.
 
 |  ✔  | Section      | Deliverable                                              | Items |
 | :-: | ------------ | -------------------------------------------------------- | :---: |
@@ -139,10 +139,15 @@ The split gives every later UI section a module to work in, and the defects are 
 | [ ] | `D03 T01 §2` | The tab controller                                       |   5   |
 | [ ] | `D03 T01 §3` | Draft and Reply panel modules                            |   5   |
 | [ ] | `D03 T01 §4` | Summarize, Improve, Extract, and Translate panel modules |   4   |
-| [ ] | `D03 T01 §5` | Settings, Rules, and Templates panels; a thin bootstrap  |   5   |
+| [ ] | `D03 T01 §5` | Settings, Rules, and Templates panels; a thin bootstrap  |   6   |
 | [ ] | `D03 T01 §6` | One copy of every shared helper                          |   6   |
 | [ ] | `D03 T01 §7` | Remove dead code                                         |   4   |
-| [ ] | `D05 T03 §1` | Accept Changes replaces only what was improved           |   8   |
+| [ ] | `D03 T04 §1` | Tokens and the system font in the stylesheet             |   6   |
+| [ ] | `D03 T04 §2` | Every pane icon from the registry                        |   6   |
+| [ ] | `D03 T04 §3` | Header, tab bar, and footer from the mockup              |   7   |
+| [ ] | `D03 T04 §4` | No color literal left in the pane                        |   5   |
+| [ ] | `D03 T04 §5` | Ribbon and app icons from the icon set                   |   6   |
+| [ ] | `D05 T03 §1` | Accept Changes replaces only what was improved           |   9   |
 | [ ] | `D05 T03 §2` | Include original is honored                              |   4   |
 | [ ] | `D05 T03 §3` | Refine starts from the edited preview                    |   4   |
 | [ ] | `D05 T03 §4` | Rules reach refine prompts; Improve honors its focus     |   4   |
@@ -159,16 +164,16 @@ With modules in place, streaming, lazy loading, and error recovery each touch on
 | [ ] | `D03 T02 §1` | Bundle baseline and budget                  |   5   |
 | [ ] | `D03 T02 §2` | Production build hygiene                    |   6   |
 | [ ] | `D03 T02 §3` | Lazy-load feature panels                    |   4   |
-| [ ] | `D03 T02 §4` | Streaming output with Stop                  |   7   |
+| [ ] | `D03 T02 §4` | Streaming output with Stop                  |   8   |
 | [ ] | `D03 T02 §5` | One request at a time per action            |   4   |
 | [ ] | `D03 T02 §6` | Email context cache per item                |   4   |
 | [ ] | `D03 T02 §7` | Pre-warm the connection                     |   4   |
-| [ ] | `D03 T02 §8` | Score on demand                             |   5   |
-| [ ] | `D03 T03 §1` | Actionable errors with Retry                |   6   |
-| [ ] | `D03 T03 §2` | Offline banner                              |   4   |
-| [ ] | `D03 T03 §3` | Draft recovery after a reload               |   6   |
+| [ ] | `D03 T02 §8` | Score on demand                             |   6   |
+| [ ] | `D03 T03 §1` | Actionable errors with Retry                |   7   |
+| [ ] | `D03 T03 §2` | Offline banner                              |   5   |
+| [ ] | `D03 T03 §3` | Draft recovery after a reload               |   7   |
 | [ ] | `D03 T03 §4` | Context-length handling                     |   5   |
-| [ ] | `D03 T03 §5` | The debug log and response timing           |   6   |
+| [ ] | `D03 T03 §5` | The debug log and response timing           |   7   |
 | [ ] | `D03 T03 §6` | Office.js write callbacks and safe start-up |   5   |
 
 ### Phase 7 -- Security and Privacy
@@ -182,7 +187,7 @@ Hardening runs after the architecture settles so the CSP, the escaper, and the k
 | [ ] | `D04 T01 §3` | Content Security Policy                |   6   |
 | [ ] | `D04 T01 §4` | The API key stays on the device        |   5   |
 | [ ] | `D04 T01 §5` | Client-side rate limit and spend guard |   5   |
-| [ ] | `D04 T01 §6` | First-run privacy notice               |   6   |
+| [ ] | `D04 T01 §6` | First-run privacy notice               |   7   |
 | [ ] | `D04 T01 §7` | Truthful privacy and security docs     |   5   |
 | [ ] | `D04 T01 §8` | Dependency hygiene                     |   4   |
 
@@ -193,10 +198,10 @@ Coverage is ratcheted and the pane meets WCAG 2.1 AA before new features add sur
 |  ✔  | Section      | Deliverable                       | Items |
 | :-: | ------------ | --------------------------------- | :---: |
 | [ ] | `D05 T01 §6` | Coverage ratchet in CI            |   4   |
-| [ ] | `D05 T02 §1` | A name for every control          |   6   |
-| [ ] | `D05 T02 §2` | Tab bar semantics and arrow keys  |   6   |
-| [ ] | `D05 T02 §3` | Live regions and focus management |   6   |
-| [ ] | `D05 T02 §4` | Reduced motion and a skip link    |   5   |
+| [ ] | `D05 T02 §1` | A name for every control          |   7   |
+| [ ] | `D05 T02 §2` | Tab bar semantics and arrow keys  |   7   |
+| [ ] | `D05 T02 §3` | Live regions and focus management |   7   |
+| [ ] | `D05 T02 §4` | Reduced motion and a skip link    |   6   |
 | [ ] | `D05 T02 §5` | Contrast check for the tokens     |   5   |
 
 ### Phase 9 -- Features
@@ -206,20 +211,20 @@ The operator-selected features build on the hardened, accessible pane.
 |  ✔  | Section      | Deliverable                                     | Items |
 | :-: | ------------ | ----------------------------------------------- | :---: |
 | [ ] | `D06 T01 §1` | Settings sync through roamingSettings           |   6   |
-| [ ] | `D06 T01 §2` | Creativity and length controls                  |   5   |
-| [ ] | `D06 T01 §3` | Output language everywhere                      |   5   |
-| [ ] | `D06 T01 §4` | Export and import settings                      |   5   |
-| [ ] | `D06 T01 §5` | Model info and cost per request                 |   5   |
-| [ ] | `D06 T02 §1` | A custom prompt library                         |   6   |
-| [ ] | `D06 T02 §2` | Run a custom prompt on the message or selection |   5   |
-| [ ] | `D06 T02 §3` | Keyboard shortcuts in the task pane             |   5   |
+| [ ] | `D06 T01 §2` | Creativity and length controls                  |   6   |
+| [ ] | `D06 T01 §3` | Output language everywhere                      |   6   |
+| [ ] | `D06 T01 §4` | Export and import settings                      |   6   |
+| [ ] | `D06 T01 §5` | Model info and cost per request                 |   6   |
+| [ ] | `D06 T02 §1` | A custom prompt library                         |   7   |
+| [ ] | `D06 T02 §2` | Run a custom prompt on the message or selection |   6   |
+| [ ] | `D06 T02 §3` | Keyboard shortcuts in the task pane             |   6   |
 | [ ] | `D06 T03 §1` | Read attachments                                |   5   |
-| [ ] | `D06 T03 §2` | Attachment-aware summaries and replies          |   5   |
-| [ ] | `D06 T03 §3` | Thread timeline                                 |   5   |
-| [ ] | `D06 T03 §4` | Smart CC suggestions                            |   6   |
-| [ ] | `D06 T04 §1` | Follow the Office theme live                    |   6   |
+| [ ] | `D06 T03 §2` | Attachment-aware summaries and replies          |   6   |
+| [ ] | `D06 T03 §3` | Thread timeline                                 |   6   |
+| [ ] | `D06 T03 §4` | Smart CC suggestions                            |   7   |
+| [ ] | `D06 T04 §1` | Follow the Office theme live                    |   7   |
 | [ ] | `D06 T04 §2` | Dark theme contrast                             |   4   |
-| [ ] | `D06 T04 §3` | Local usage stats                               |   5   |
+| [ ] | `D06 T04 §3` | Local usage stats                               |   6   |
 
 ### Phase 10 -- Release 2.0.0
 
@@ -231,7 +236,7 @@ Manifests, icons, the user guide, the tag, and the clean-install acceptance.
 | [ ] | `D07 T01 §2` | One manifest source and validation in CI     |   5   |
 | [ ] | `D07 T01 §3` | Icons at every size from the SVG sources     |   5   |
 | [ ] | `D07 T01 §4` | The release process                          |   4   |
-| [ ] | `D07 T01 §5` | The user guide                               |   7   |
+| [ ] | `D07 T01 §5` | The user guide                               |   8   |
 | [ ] | `D07 T01 §6` | Ship v2.0.0                                  |   7   |
 | [ ] | `D07 T01 §7` | Clean-install acceptance                     |   5   |
 

@@ -279,6 +279,8 @@ Every section that builds or changes a user-facing surface also carries one `**D
 **Design:** docs/design/taskpane.md#result-card -- states: all in spec -- themes: n/a (the task pane has one light theme until D06 T04 §1 ships dark mode) -- density: n/a (one density in a fixed-width task pane)
 ```
 
+**The approved design is binding** (operator decision 2026-09-27: "make sure each todo item and the plan is forced to follow it"). The Design line of every surface section cites at least one anchor of [`docs/design/mockup.md`](../docs/design/mockup.md), the imported mockup, and the section carries the mockup conformance item from `.claude/skills/create-todo/todo-template.md` (render the built surface, compare it with the cited renders, tokens and registry icons only, a capture under `docs/captures/taskpane/`, `python scripts/design-lint.py` green). `python scripts/design-lint.py` makes either one missing FATAL in the commit hook and CI, and holds the code to the same design: no color literal, font declaration, inline `<svg>`, or pre-2.0 icon path in `src/` beyond the shrink-only baseline in `docs/design/.lint-baseline.json`. The design system itself is described in [`docs/design/README.md`](../docs/design/README.md).
+
 Refs are `docs/design/<file>[#anchor]`, anchors are GitHub heading slugs, and a spec that does not exist yet is named `new surface: docs/design/<file>.md` beside the item that writes it. `themes:` reads `all four` or `n/a (<reason>)`, and `density:` reads `both` or `n/a (<reason>)`: the grammar is shared with the Photon system this was ported from, and Gemail states its reasons.
 
 Every section that builds or changes a user-facing surface carries three blocks next to `Fidelity:`:

@@ -50,6 +50,8 @@ Pay special attention to:
 - Deferrals whose descriptions drifted while their owners stayed open.
 - XREFs whose targets moved or shipped (reciprocity still holds, or the line is corrected).
 
+Run `python scripts/design-lint.py` in the drift sweep: a surface section without its mockup citation or conformance item, an anchor the design no longer has, or a section describing a surface the approved mockup has since changed is drift, corrected in place like any other (`**Corrected YYYY-MM-DD:**`).
+
 ### 3. Gap scan
 
 Read the plan as the user will use each finished app, domain by domain, and ask what has no owner: surfaces, commands, handoffs between features (Summarize to Reply, Draft to Improve), error paths, settings without consumers, writes without readback. File each gap with `add-todo` (evidence, owner, dependency), which applies the admission test and stamps the Origin line: a gap becomes a section only when it is a defect in shipped or in-flight work, something an acceptance-bar aim requires, or a prerequisite of a planned row, and the groom's cap has room. Nice-to-haves go to the backlog by default. Past the per-run cap, admission-test passes merge into existing sections as items or go to the backlog, and the groom record lists each overflow. Place any new rows in their phases and sync the plan.

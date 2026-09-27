@@ -2,7 +2,7 @@ name: plan-gates
 
 # Plan tooling gates (carried from Photon's plan.yml, which adapted Resolute's): the TODO graph tool
 # self-tests, the TODO tree validates, the plan projection is current, the
-# commit hook is intact (mode 100755, LF). The campaign guard self-test drives
+# commit hook is intact (mode 100755, LF), and the design gate holds. The campaign guard self-test drives
 # the real Stop hook through powershell.exe, so it runs in a Windows job.
 
 on:
@@ -16,6 +16,11 @@ on:
       - '.conclave/**'
       - 'tools/githooks/**'
       - 'docs/design/**'
+      - 'assets/icons/**'
+      - 'src/**'
+      - 'manifest.xml'
+      - 'manifest.dev.xml'
+      - 'tools/design/**'
       - '.gitattributes'
       - 'AGENTS.md'
       - '.github/workflows/plan.yml'
@@ -29,6 +34,11 @@ on:
       - '.conclave/**'
       - 'tools/githooks/**'
       - 'docs/design/**'
+      - 'assets/icons/**'
+      - 'src/**'
+      - 'manifest.xml'
+      - 'manifest.dev.xml'
+      - 'tools/design/**'
       - '.gitattributes'
       - 'AGENTS.md'
       - '.github/workflows/plan.yml'
@@ -51,6 +61,10 @@ jobs:
         run: python3 scripts/todo-graph.py self-test
       - name: Validate the TODO tree
         run: python3 scripts/todo-graph.py validate
+      - name: Self-test the design gate
+        run: python3 scripts/design-lint.py --self-test
+      - name: Design gate (mockup citations, tokens, icons, baseline)
+        run: python3 scripts/design-lint.py
       - name: Check plan projection is current
         run: |
           python3 scripts/todo-graph.py plan --sync

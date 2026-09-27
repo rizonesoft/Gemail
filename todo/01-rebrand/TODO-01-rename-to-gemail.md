@@ -37,6 +37,7 @@ depends_on: []
 - -> XREF: D00 T01 §1 -- the Pages path this file renames around and the redirect in §7 targets
 - -> XREF: D02 T02 §3 -- the OpenRouter settings migration builds on the `gemail_settings` key §5 writes, and D02 T02 §7 rewrites the provider copy in the documents §6 renames
 - -> XREF: D99 T01 §3 -- the operator publishes the redirect stub §7 writes
+- -> XREF: D03 T04 §5 -- swaps the manifest icon URLs after the names settle here
 
 ## Outcome
 
@@ -91,7 +92,7 @@ The manifest strings are what Outlook shows in the Add-ins dialog and on the rib
 The strings the user reads inside Outlook: the page title, two hints, the footer, the four loading messages, and the ribbon notification key. Loading messages stop naming a provider or model now (the Loading and streaming rule in `docs/design/taskpane.md`), so the provider change in D02 T02 needs no copy edit here.
 
 **Fidelity:** Gemail task pane footer, hints, and loading overlay, and the compose ribbon group -- docs/captures/taskpane/rename/. Terminology matches the Ribbon and Loading and streaming rules; layout unchanged.
-**Design:** docs/design/taskpane.md#loading-and-streaming, docs/design/taskpane.md#ribbon -- states: loading, idle, notification -- themes: n/a (string changes only; the theme work is owned by the appearance TODO in todo/06-features) -- density: n/a (one density in a fixed-width task pane)
+**Design:** docs/design/mockup.md#header, docs/design/mockup.md#footer, docs/design/mockup.md#streaming-and-stop, docs/design/mockup.md#ribbon, docs/design/mockup.md#ai-tools-menu, docs/design/taskpane.md#loading-and-streaming, docs/design/taskpane.md#ribbon -- states: loading, idle, notification -- themes: n/a (string changes only; the theme work is owned by the appearance TODO in todo/06-features) -- density: n/a (one density in a fixed-width task pane)
 **Job:** An Outlook user can see which add-in is working for them: the pane, the ribbon, and every progress message say Gemail. Consumer: none: this surface is the consumer.
 **Treatment:** product name "Gemail" in the title and footer, action-named loading messages ("Writing your draft...", "Writing your reply...", "Summarizing...", "Improving your text..."). Cheaper substitute that fails the checkpoint: replacing "AI Compose" with "Gemail" but leaving "with Gemini" in the loading messages.
 **Chrome:** consume the existing `showLoading()` helper and `#app-version` footer span. Do not invent a second loading message mechanism.
@@ -103,6 +104,7 @@ The strings the user reads inside Outlook: the page title, two hints, the footer
 - [ ] In `src/commands/commands.ts`, rename the notification key `AIComposeNotification` to `GemailNotification` in `showNotification()`. Done when: `grep -c GemailNotification src/commands/commands.ts` prints `1`. Source: `notificationMessages.replaceAsync` replaces by key (Microsoft Learn, Office.NotificationMessages).
 - [ ] Confirm `scripts/sync-manifest-version.js` still finds the footer span after the edit by running it in a scratch copy. Done when: it rewrites `<span id="app-version">` and exits `0`.
 - [ ] Sideload the dev build into Outlook on the web, open the pane, trigger one Summarize, and run one ribbon command in compose. Commit captures of the footer, the loading overlay, and the ribbon notification to `docs/captures/taskpane/rename/`. Done when: three PNG files exist there and show "Gemail" and a provider-free loading message.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 - [ ] Commit: `"rebrand: task pane and ribbon say Gemail"`
 
 **Test checkpoint:** `grep -rc "AI Compose\|AI Email Writer\|with Gemini" src/taskpane/taskpane.html src/taskpane/taskpane.ts src/commands/commands.ts` shows no "AI Compose", "AI Email Writer", or "with Gemini" match outside file header comments (which §4 owns); `npm run build` exits `0`; the three captures under `docs/captures/taskpane/rename/` show the new strings. Cheaper substitute that fails: changing only `<title>`, which leaves the footer and the loading overlay saying AI Compose and fails the grep.

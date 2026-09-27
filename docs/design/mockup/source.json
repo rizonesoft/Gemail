@@ -1,0 +1,11 @@
+{
+  "artifact": "https://claude.ai/artifact/GHuFwncPVxchLZaPLQvURu",
+  "version": "1790526473-c417",
+  "files": {
+    "canvas.json": "76c3612d1799116797e450917ff5e1a0ca2ee9681974939490375cf316dd858c",
+    "Icons.dc.html": "f4a1fe0966568b83f51d10dca5a1067b20543ed4498e23a593843fc553b28314",
+    "Improve.dc.html": "3a3037b00bb260eed3ddad6be8b1af497194db371abec04cd02218d1833f676a",
+    "Main.dc.html": "bfa2db2437c727aeb3d16910cd0db9de17bacf32207f01295407827d222c73ed",
+    "Settings.dc.html": "db34fe67750cdc2acec047c51113d5515f07ac95245ecf88b3e088a54efbc33f"
+  }
+}

@@ -20,4 +20,8 @@ WORK="$(mktemp -d "$GITDIR/hookgate.XXXXXX" 2>/dev/null)" || { echo "pre-commit:
 trap 'rm -rf "$WORK"' EXIT INT TERM
 git checkout-index -a --prefix="$WORK/" || { echo "pre-commit: cannot stage the index for validation" >&2; exit 1; }
 (cd "$WORK" && "$PY" scripts/todo-graph.py validate) || { echo "pre-commit: todo-graph validate is red on the staged tree; fix the findings above and retry" >&2; exit 1; }
+# Design gate (docs/design/README.md): mockup citations on surface sections, pinned artboards, fresh renders and icons, no new color, font, inline-svg, or legacy-icon violation.
+if [ -f "$WORK/scripts/design-lint.py" ]; then
+  (cd "$WORK" && "$PY" scripts/design-lint.py) || { echo "pre-commit: design-lint is red on the staged tree; follow docs/design/EDITING.md, and never raise the baseline" >&2; exit 1; }
+fi
 git diff --quiet -- scripts todo docs || { "$PY" scripts/todo-graph.py validate >/dev/null 2>&1 || echo "pre-commit: warning: unstaged changes carry findings; this gate validated only the staged tree" >&2; }

@@ -1,40 +1,38 @@
 # Gemail Task Pane -- Design Spec
 
-The binding spec for every surface of the Gemail task pane and ribbon. Surface sections in `todo/` cite it by heading (`docs/design/taskpane.md#<anchor>`) on their `**Design:**` line; `validate` refuses an anchor that does not exist. Where a capture under `docs/captures/taskpane/` and this spec disagree, **this spec wins** and the capture is restaked.
+The behavior and rules for every surface of the Gemail task pane and ribbon. The approved look is [`mockup.md`](./mockup.md) (layout and composition, with renders) and [`tokens.json`](./tokens.json) (every value); where this file and they disagree on a visual point, they win and this file is corrected. Surface sections in `todo/` cite it by heading (`docs/design/taskpane.md#<anchor>`) on their `**Design:**` line; `validate` refuses an anchor that does not exist. Where a capture under `docs/captures/taskpane/` and this spec disagree, **this spec wins** and the capture is restaked.
 
-Written 2026-09-27 from the shipped 1.3.2 task pane (`src/taskpane/taskpane.html`, `src/taskpane/taskpane.css`, `src/styles/main.css`). It records what exists and names the gaps the plan closes; a rule marked *(target)* is not true of the code yet, and the section that makes it true is named beside it.
+Written 2026-09-27 from the shipped 1.3.2 task pane and revised the same day for the approved mockup (`src/taskpane/taskpane.html`, `src/taskpane/taskpane.css`, `src/styles/main.css`). It records what exists and names the gaps the plan closes; a rule marked *(target)* is not true of the code yet, and the section that makes it true is named beside it.
 
 ## Tokens
 
-Every color, spacing, radius, font, and duration a surface uses comes from the `@theme` block in `src/styles/main.css`, consumed through Tailwind utilities or `var(--...)` in `src/taskpane/taskpane.css`. A literal color in a `.ts`, `.html`, or `.css` file outside that block is a defect.
+Every color, font, size, spacing, radius, and duration comes from [`tokens.json`](./tokens.json), which defines a light and a dark set with the same keys. `D03 T04 §1` generates `src/styles/tokens.css` from it (`--gm-color-<key>`, `--gm-<group>-<key>`) and points the existing `--color-aic-*` names at those properties; surfaces consume Tailwind utilities or `var(--gm-...)`. A literal color, font declaration, or inline SVG in `src/` fails `python scripts/design-lint.py` (the pre-existing ones sit on a shrink-only baseline that `D03 T04` empties).
 
-| Token group | Tokens (1.3.2 values) |
+| Group | Values (light / dark, from `tokens.json`) |
 | --- | --- |
-| Brand | `--color-aic-blue` `#3b9eff`, `--color-aic-blue-hover` `#2188ed`, `--color-aic-blue-light` `#e8f3ff`, `--color-aic-purple` `#7b61db`, `--color-aic-purple-hover` `#6b51c8` |
-| Accents | `--color-aic-green` `#22c55e`, `--color-aic-amber` `#f59e0b`, `--color-aic-teal` `#14b8a6` |
-| Text | `--color-aic-text` `#1a1d23`, `--color-aic-text-secondary` `#5e6470`, `--color-aic-text-tertiary` `#8e95a2` |
-| Status | `--color-aic-error-text` `#d1242f`, `--color-aic-success` `#1a7f37` |
-| Spacing | xs 4px, sm 8px, md 12px, lg 22px, xl 24px |
-| Motion | `--duration-aic` 150ms |
-| Font | Poppins, then the system UI stack *(target: self-hosted or system-only, owned by the CSP section of `todo/04-security/`)* |
+| Brand | `brand` `#1668c9` / `#4ba3ff`, `brandHover`, `brandTint`, `brandSelected`, `onBrand` `#ffffff` / `#0d1117` |
+| AI | `ai`, `aiStrong`, `aiTint`, `aiIcon` (the spark only) |
+| Text | `text` `#1b1d22` / `#eceef2`, `textSecondary` `#5e6470` / `#b3b9c4`, `textTertiary` `#686e7a` / `#9aa3b2` |
+| Surfaces | `bg`, `surface`, `surfaceSunken`, `border`, `borderSubtle`, `borderInput`, `borderChip` |
+| Status | `success`, `successTint`, `successBorder`, `danger`, `dangerTint`, `dangerBorder`, the four `diff*` colors |
+| Type | Segoe UI Variable Text over the system stack (`font.family`); 12, 13, 14, and 16 px; regular and semibold |
+| Space, radius, motion | space 4 to 24 px, radius 6 to 16 px, duration 150ms |
 
-The `aic-` prefix on CSS classes and tokens is kept after the rename to Gemail: it is internal, never user-visible, and renaming roughly two thousand class references buys nothing (operator-visible decision recorded by the rename TODO in `todo/01-rebrand/`).
-
-Known literal colors that violate this rule in 1.3.2: the loading overlay `rgba(255,255,255,0.85)` (`taskpane.css`), the diff colors `#ffeef0`, `#b31d28`, `#e6ffec`, `#22863a` (`taskpane.css`), and the score colors `#22c55e`, `#eab308`, `#ef4444` (`taskpane.ts`). The dark theme section of `todo/06-features/` moves them to tokens.
+Every text pair passes WCAG 2.1 AA in both themes (operator decision 2026-09-27: darken rather than deviate): white on `brand` is 5.44:1 and `textTertiary` is at least 4.57:1 on every light background. The `aic-` prefix on existing CSS class names is kept: it is internal, never user-visible, and renaming roughly two thousand references buys nothing (recorded by the rename TODO in `todo/01-rebrand/`).
 
 ## Layout
 
-The task pane is a single column at the width Outlook gives it (320 to 450 px in new Outlook and Outlook on the web), scrolling vertically. From top to bottom: the header, the tab bar, the active feature panel, its result card, and the footer with the version. Horizontal scrolling is a defect at 320 px.
+A single column at the width Outlook gives the pane (320 to 450 px in new Outlook and Outlook on the web), scrolling vertically: the header, the tab bar, the active feature panel, its result card, and the footer. Horizontal scrolling is a defect at 320 px. The composition is [`mockup.md#reply-read-mode`](./mockup.md#reply-read-mode).
 
 ## Header
 
-The product name **Gemail** and the logo mark, left aligned; nothing else. The header never shows a model name or a provider name.
+The app mark, the product name **Gemail**, and one icon button on the right: **Settings**. The header never shows a model or provider name (the footer does). Picture: [`mockup.md#header`](./mockup.md#header).
 
 ## Tab bar
 
-Two primary tabs (**Reply**, **Draft**) as text buttons, then three icon-only buttons (**Settings**, **Rules**, **More features**). **More features** opens a dropdown listing **Summarize**, **Improve Writing**, **Extract Action Items**, and **Translate**. The active tab carries `.aic-tab--active`.
+Five equal tabs, each a 20 px icon over a 12 px label: **Reply**, **Draft**, **Summarize**, **Improve**, **More**. The active tab shows the filled icon, the `brand` color, a semibold label, and a 2 px underline; **More** opens Actions, Translate, and later features. Settings is the header button and Rules lives inside Settings, so neither is a tab (the 1.3.2 bar with two text tabs, three icon-only buttons, and a "More features" dropdown is replaced by `D03 T04 §3`). Picture: [`mockup.md#tab-bar`](./mockup.md#tab-bar).
 
-*(target, owned by the accessibility TODO in `todo/05-quality/`)*: the bar is a `role="tablist"` with `role="tab"` children, `aria-selected`, roving `tabindex`, Left and Right arrow navigation, and the dropdown button carries `aria-expanded` and `aria-controls`. Every icon-only button has an `aria-label` equal to its tooltip.
+*(target, owned by the accessibility TODO in `todo/05-quality/`)*: the bar is a `role="tablist"` with `role="tab"` children, `aria-selected`, roving `tabindex`, and Left and Right arrow navigation; **More** carries `aria-expanded` and `aria-controls`; every icon-only control has an `aria-label` equal to its tooltip.
 
 ## Feature panel
 
@@ -66,7 +64,7 @@ One error banner (`#error-banner`) above the panel, with a message that names th
 
 ## Settings panel
 
-Top to bottom: **OpenRouter API key** (password field with a show and hide toggle, a link to get a key, and **Test Connection**), **Model** (picker populated from the OpenRouter catalogue), default tone, default summary style, default language, then **Save** and, separated below, **Clear all data** (a destructive action with a confirmation). The key never appears in plain text unless the user toggles it visible.
+Top to bottom (picture: [`mockup.md#settings`](./mockup.md#settings)): **OpenRouter** (the key field with a show toggle and **Test**, the connection status, the device-only note, and a link to get a key), **Model** (search plus recommended models from the live catalogue, and the full catalogue grouped by provider), **Writing** (Creativity, default tone, output language), **Privacy** (the data-collection switch, off by default), **Rules** (the preset rules and custom rules, moved here from their own tab), then **Save settings** and, separated below, **Clear all Gemail data...**, which opens a confirmation dialog. The key never appears in plain text unless the user toggles it visible.
 
 ## Rules panel
 
@@ -86,7 +84,7 @@ Transitions last `--duration-aic` (150ms). *(target, owned by `todo/05-quality/`
 
 ## Ribbon
 
-Read mode: one group **Gemail** with **Open Gemail**. Compose mode: the same button plus an **AI Tools** menu (Fix Grammar & Spelling, Improve Clarity, Make Concise, Make Professional). Ribbon results are reported through an Outlook notification message of at most 150 characters.
+Read mode: one group **Gemail** with **Open Gemail**. Compose mode: the same button plus an **AI Tools** menu (Fix grammar & spelling, Improve clarity, Make concise, Make professional, and My prompts once `D06 T02 §2` ships). Icons are the Fluent color set in [`icons.md`](./icons.md); results are reported through an Outlook notification message of at most 150 characters. Picture: [`mockup.md#ribbon`](./mockup.md#ribbon).
 
 ## Accessibility
 

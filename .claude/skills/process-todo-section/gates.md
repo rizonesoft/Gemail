@@ -14,6 +14,14 @@ It runs the webpack production build, `tsc --noEmit`, `npm run lint` (office-add
 
 Until `D00 T02` ships, the typecheck and lint gates are red on the imported tree. A section that ships before them quotes both as known-red with their error counts, and must not raise either count.
 
+## Every section: the design gate
+
+```powershell
+python scripts/design-lint.py
+```
+
+It is part of `check-all.ps1`, the commit hook, and CI, and it never baselines a plan defect: a surface section missing its `docs/design/mockup.md` citation or conformance item is FATAL, as is a stale icon output, a hand-edited artboard, or a stale render. The code rules (color literals, font declarations, inline `<svg>`, pre-2.0 icon paths) are ratcheted by `docs/design/.lint-baseline.json`: a section that removes a violation shrinks it in the same commit (`--update-baseline`), and nothing may raise it. A section that touches `assets/icons/src/` runs `node tools/design/icons.mjs` and commits the outputs; one that touches `docs/design/mockup/` goes through the `design-sync` skill.
+
 ## Every code section: the whole suite
 
 ```powershell
@@ -31,6 +39,10 @@ The filtered run is iteration only. The commit-time quote comes from the unfilte
 ## OpenRouter sections: API contract proof
 
 A section that changes the request or response shape of the OpenRouter client re-runs its contract tests unfiltered: committed fixtures of real OpenRouter responses (JSON bodies and SSE streams, recorded with the key and any personal content redacted) replayed through the client with `fetch` mocked, and quotes the per-fixture result. A live smoke against the real endpoint (`npm run test:live`, `**Needs:** OpenRouter API key (live test)`) is a supplement, never the proof: a live model's output cannot be asserted.
+
+## Surface sections: the mockup comparison
+
+Every surface section captures what it built under `docs/captures/taskpane/` and compares it with the `docs/design/mockup/renders/` image of each anchor its `**Design:**` line cites: order, spacing, labels, icons, colors, and states. The comparison is quoted in the commit body (match, or each difference with the `**Design deviation:**` that records it).
 
 ## Surface sections: sideload smoke
 

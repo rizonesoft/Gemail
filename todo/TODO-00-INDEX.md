@@ -22,7 +22,7 @@ Domains are numbered in **allocation order**. `DNN TNN §N` cross-references enc
 | 00 | [Workspace](./00-workspace/INDEX.md) | 0, 1 | Toolchain, the move from WSL to Windows, green gates, CI, the TODO runner, and the agent skills. |
 | 01 | [Rebrand](./01-rebrand/INDEX.md) | 2 | The rename from AI Compose / AI Email Writer to Gemail, and the transition off the old Pages path. |
 | 02 | [OpenRouter](./02-openrouter/INDEX.md) | 3, 4 | The provider migration from Google Gemini to OpenRouter: the fetch client, streaming, structured output, the model catalogue, and the cutover. |
-| 03 | [Architecture](./03-architecture/INDEX.md) | 5, 6 | The task pane split into modules, shared UI helpers, performance, and resilience. |
+| 03 | [Architecture](./03-architecture/INDEX.md) | 5, 6 | The task pane split into modules, shared UI helpers, the approved design in code, performance, and resilience. |
 | 04 | [Security](./04-security/INDEX.md) | 7 | Output rendering, prompt injection, CSP, the API key, rate limiting, consent, and privacy documentation. |
 | 05 | [Quality](./05-quality/INDEX.md) | 1, 5, 8 | The test backbone, accessibility, and the behavior defects found in the imported code. |
 | 06 | [Features](./06-features/INDEX.md) | 9 | New user-facing features: settings upgrades, custom prompts and shortcuts, message context, dark mode and local stats. |

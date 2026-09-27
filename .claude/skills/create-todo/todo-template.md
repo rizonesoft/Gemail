@@ -52,7 +52,10 @@ CHANGEME: one paragraph of context: why this section exists and what it must not
 
 CHANGEME: one paragraph of context.
 
-(UI sections also carry `**Fidelity:**`, `**Design:**`, `**Job:**`, `**Treatment:**`, and `**Chrome:**` blocks. Host-bound sections carry a `**Needs:**` line from the closed list in `todo/README.md`, e.g. `**Needs:** Outlook client (sideload)`.)
+(UI sections also carry `**Fidelity:**`, `**Design:**`, `**Job:**`, `**Treatment:**`, and `**Chrome:**` blocks. The Design line cites at least one anchor of the approved mockup first, for example `**Design:** docs/design/mockup.md#result-card, docs/design/taskpane.md#result-card -- states: all in spec -- themes: n/a (both token sets apply through tokens.css) -- density: n/a (one density in a fixed-width task pane)`, and the section carries the mockup conformance item below, word for word, before its `Commit:` item; `python scripts/design-lint.py` refuses a UI section missing either. Host-bound sections carry a `**Needs:**` line from the closed list in `todo/README.md`, e.g. `**Needs:** Outlook client (sideload)`.)
+
+(The mockup conformance item for UI sections:)
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 
 - [ ] CHANGEME micro-step in `backtick/path`. Done when: CHANGEME observable end state.
 - [ ] Commit: `"CHANGEME: one-line commit message"`
@@ -63,5 +66,6 @@ CHANGEME: one paragraph of context.
 
 - [ ] `pwsh scripts/check-all.ps1` -- exits 0: production build, typecheck, lint, tests, manifest, TODO gates green
 - [ ] `npx jest --ci` exits 0 with this file's test files reporting
-- [ ] CHANGEME: file-level checks this file owes as a whole (API contract fixtures, captures refreshed, sideload smoke in both supported clients)
+- [ ] `python scripts/design-lint.py` exits 0 (the design gate: mockup citations, tokens, icons, and no new baseline entry)
+- [ ] CHANGEME: file-level checks this file owes as a whole (API contract fixtures, captures refreshed and compared with `docs/design/mockup/renders/`, sideload smoke in both supported clients)
 - [ ] `python scripts/todo-graph.py validate` clean

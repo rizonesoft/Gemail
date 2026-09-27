@@ -31,6 +31,7 @@ depends_on: []
 - -> XREF: D06 T04 §2 -- the dark theme contrast check, which runs the §5 script over the dark tokens
 - -> XREF: D07 T01 §6 -- the release, which ships only with §1 to §4 done
 - -> XREF: D99 T01 §7 -- the operator's screen-reader pass, which runs on what §3 ships
+- -> XREF: D03 T04 §1 -- the token values the contrast check reads are wired into the stylesheet there
 
 ## Outcome
 
@@ -52,7 +53,7 @@ depends_on: []
 |   2   |   §2    | Tab bar semantics and arrow keys       | §1         |  [ ]   |
 |   3   |   §3    | Live regions and focus management      | §1         |  [ ]   |
 |   4   |   §4    | Reduced motion and a skip link         | §1         |  [ ]   |
-|   5   |   §5    | Contrast check for the tokens          | §1         |  [ ]   |
+|   5   |   §5    | Contrast check for the tokens          | §1, D03 T04 §1 |  [ ]   |
 
 ---
 
@@ -62,7 +63,7 @@ A control with no accessible name is announced as "button" and nothing else. The
 
 **Fidelity:** Gemail task pane controls (tab bar icons, copy buttons, scroll-to-top, error dismiss, form fields) -- docs/captures/taskpane/controls/. No visual change: names are added without moving or restyling any control.
 
-**Design:** docs/design/taskpane.md#accessibility -- states: all in spec -- themes: n/a (names are not themed) -- density: n/a (one density in a fixed-width task pane)
+**Design:** docs/design/mockup.md#header, docs/design/mockup.md#tab-bar, docs/design/mockup.md#pane-icons, docs/design/taskpane.md#accessibility -- states: all in spec -- themes: n/a (names are not themed) -- density: n/a (one density in a fixed-width task pane)
 
 **Job:** a screen-reader or voice-control user can identify and operate every control in the pane by its name. Consumer: assistive technology reading the accessibility tree.
 
@@ -79,6 +80,7 @@ A control with no accessible name is announced as "button" and nothing else. The
 - [ ] Give every `input`, `select`, and `textarea` a `<label for>` or an `aria-labelledby`. Done when: the test in the next item passes.
 - [ ] Add `src/taskpane/a11y-names.test.ts` (jsdom project) that loads `src/taskpane/taskpane.html` and asserts every `button` has non-empty text or `aria-label`, every form control has a label, and every `input[type=radio]` is inside a `fieldset` with a `legend`. Done when: the test passes, and deleting one `aria-label` makes it fail naming the button id.
 - [ ] Sideload the dev build into Outlook on the web and read the accessibility tree in the Edge DevTools Accessibility pane for each icon-only button. Done when: each shows the name above, captured in `docs/captures/taskpane/controls/`.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 - [ ] Commit: `"a11y: an accessible name for every control"`
 
 **Test checkpoint:** `npx jest src/taskpane/a11y-names.test.ts` passes; removing `aria-label` from `#tab-more` fails it naming `tab-more`; the sideloaded pane's accessibility tree names every icon-only button. Cheaper substitute that fails: adding `aria-label` to the tab icons only, which the test fails on the copy and clear buttons.
@@ -89,7 +91,7 @@ The tab bar looks like tabs but is announced as a row of unrelated buttons, and 
 
 **Fidelity:** Gemail task pane tab bar (Reply, Draft, Settings, Rules, More features, and its menu) -- docs/captures/taskpane/tab-bar/. The tab bar looks exactly as before; only roles, states, and keyboard behavior change.
 
-**Design:** docs/design/taskpane.md#tab-bar -- states: active, inactive, focused, menu open, menu closed -- themes: n/a (roles and focus follow the pane theme) -- density: n/a (one density in a fixed-width task pane)
+**Design:** docs/design/mockup.md#tab-bar, docs/design/taskpane.md#tab-bar -- states: active, inactive, focused, menu open, menu closed -- themes: n/a (roles and focus follow the pane theme) -- density: n/a (one density in a fixed-width task pane)
 
 **Job:** a keyboard user can move between features with the arrow keys and open the extra features menu without a mouse. Consumer: `switchTab` in the tab controller, which the keyboard handlers call.
 
@@ -106,6 +108,7 @@ The tab bar looks like tabs but is announced as a row of unrelated buttons, and 
 - [ ] Add the menu button behavior: Enter, Space, and Down open the menu and focus its first item, Up and Down move, Enter activates, Escape and Tab close it; `aria-expanded` tracks the state. Done when: a jsdom test opens with Enter, moves with Down, closes with Escape, and asserts focus returned to `#tab-more` with `aria-expanded="false"`.
 - [ ] Keep `switchTab` the only function that changes the active tab, and update `aria-selected` and `tabindex` inside it so mouse and keyboard stay in step. Done when: a test clicks **Draft** with the mouse event and asserts the same attribute state as the keyboard test.
 - [ ] Drive the pane in Outlook on the web with the keyboard only: reach the tab bar, move through every tab, open the menu, choose **Translate**, and close it with Escape. Done when: the run is recorded in the commit body and a capture of the open menu with focus is committed under `docs/captures/taskpane/tab-bar/`.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 - [ ] Commit: `"a11y: tab bar and features menu follow the ARIA tabs and menu button patterns"`
 
 **Test checkpoint:** `npx jest src/taskpane/tabs.test.ts` passes the arrow, wrap, Home, End, menu open, move, and Escape cases; removing the `keydown` handler fails the arrow cases; the keyboard-only drive in Outlook on the web reaches every feature. Cheaper substitute that fails: `tabindex="0"` on every tab, which lets Tab walk the bar but fails the roving-tabindex assertion.
@@ -116,7 +119,7 @@ A sighted user sees the error banner appear or the result card fill; a screen-re
 
 **Fidelity:** Gemail task pane status surfaces (error banner, saved confirmations, loading overlay, result card heading) -- docs/captures/taskpane/status/. No visual change beyond a visible focus ring on the result heading when focus moves there.
 
-**Design:** docs/design/taskpane.md#status-and-errors -- states: error shown, error dismissed, saved, loading, result ready -- themes: n/a (announcements are not themed) -- density: n/a (one density in a fixed-width task pane)
+**Design:** docs/design/mockup.md#streaming-and-stop, docs/design/mockup.md#error-banner, docs/design/mockup.md#undo-confirmation, docs/design/taskpane.md#status-and-errors -- states: error shown, error dismissed, saved, loading, result ready -- themes: n/a (announcements are not themed) -- density: n/a (one density in a fixed-width task pane)
 
 **Job:** a screen-reader user can hear alerts and status notifications that a request failed, a setting saved, or a result is ready, and continues from the result without hunting for it. Consumer: assistive technology through the live regions and the focus moves.
 
@@ -133,6 +136,7 @@ A sighted user sees the error banner appear or the result card fill; a screen-re
 - [ ] Make each result card heading focusable with `tabindex="-1"` and move focus to it from the shared result helper when a result renders. Done when: a jsdom test renders a draft result and asserts `document.activeElement` is the draft result heading.
 - [ ] Record the element that had focus when `showError` ran, and restore focus to it in `hideError` (the dismiss button path). Done when: a jsdom test focuses `#btn-generate`, shows and dismisses an error, and asserts focus is back on `#btn-generate`.
 - [ ] Check the live regions with the accessibility tree instead of a screen reader: in Edge DevTools on the sideloaded pane, trigger a failure (an invalid key) and a save, and read the `alert` and `status` nodes and their text in the Accessibility pane. Done when: both nodes and their text are quoted in the commit body; the audible pass with Narrator and NVDA is the operator's (`D99 T01 §7`).
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 - [ ] Commit: `"a11y: announced status and errors, and focus that follows the work"`
 
 **Test checkpoint:** `npx jest src/ui src/taskpane` passes the role, re-announcement, result-focus, and focus-restore tests; removing the focus move from the result helper fails the result-focus test; the Narrator run announces both the error and the finished result. Cheaper substitute that fails: `aria-live="polite"` on the error banner without re-setting its text, which the re-announcement test fails.
@@ -143,7 +147,7 @@ Some users get motion sickness from animation, and operating systems expose that
 
 **Fidelity:** Gemail task pane motion (spinner, focus pulse, slide-in) and the top of the pane -- docs/captures/taskpane/motion/. The skip link is invisible until focused, then appears at the top left in the focus style.
 
-**Design:** docs/design/taskpane.md#motion -- states: motion allowed, motion reduced, skip link focused -- themes: n/a (the skip link uses the pane focus tokens) -- density: n/a (one density in a fixed-width task pane)
+**Design:** docs/design/mockup.md#streaming-and-stop, docs/design/mockup.md#surfaces-the-mockup-does-not-draw, docs/design/taskpane.md#motion -- states: motion allowed, motion reduced, skip link focused -- themes: n/a (the skip link uses the pane focus tokens) -- density: n/a (one density in a fixed-width task pane)
 
 **Job:** a user who asked the operating system for less motion sees no animation, and a keyboard user skips straight to the active panel. Consumer: the CSS engine for the media query; the active feature section for the skip target.
 
@@ -159,6 +163,7 @@ Some users get motion sickness from animation, and operating systems expose that
 - [ ] Add an `<a class="aic-skip-link" href="#app-body">Skip to feature</a>` as the first child of `<body>` in `src/taskpane/taskpane.html`, styled visually hidden until `:focus`, and make its click move focus to the active feature section (via the tab controller). Done when: a jsdom test tabs to the link, activates it, and asserts focus is inside the active `role="tabpanel"`.
 - [ ] Add a jsdom test that loads the stylesheet text and asserts the reduced-motion block names every keyframe used in the file (`spin`, `focusPulse`, `slideIn`). Done when: the test passes and fails if a new `@keyframes` is added without being listed.
 - [ ] Turn off Windows animation effects, open the pane in new Outlook, and start a generation. Done when: no spinner rotation is visible, recorded with a capture under `docs/captures/taskpane/motion/`.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
 - [ ] Commit: `"a11y: honor reduced motion and add a skip link"`
 
 **Test checkpoint:** `npx jest src/taskpane` passes the skip-link and keyframe-coverage tests; adding a new `@keyframes pulse2` used by a class fails the coverage test; with animation effects off the sideloaded pane shows a static indicator. Cheaper substitute that fails: disabling only `spin`, which the keyframe-coverage test fails on `focusPulse` and `slideIn`.
@@ -167,13 +172,13 @@ Some users get motion sickness from animation, and operating systems expose that
 
 Contrast is arithmetic, so it is checked by a script, not by eye. Three pairs already fail (see Current state), including white on the brand blue of every primary button. This section writes the check, fixes the failing tokens, and makes the check a gate so the dark theme (`D06 T04 §2`) and every later color change run through it. Sources: WCAG 2.1 SC 1.4.3 Contrast (Minimum) and SC 1.4.11 Non-text Contrast.
 
-- [ ] Add `scripts/contrast-check.js` (Node, no dependencies) that parses the `@theme` custom properties in `src/styles/main.css`, reads the foreground and background pairs from `docs/design/contrast-pairs.json` (each with a minimum of `4.5`, or `3` for large text and UI boundaries, and a theme name), computes the WCAG ratio, prints one line per pair, and exits `1` on any failure. Done when: run on today's tokens it prints the three failing pairs named in Current state and exits `1`.
-- [ ] Write `docs/design/contrast-pairs.json` for the light theme: every text token on `--color-aic-bg` and `--color-aic-bg-panel`, white on each button background, the error and success text on their backgrounds, and the focus ring and input border against the background at `3`. Done when: every text token in `main.css` appears in at least one pair.
-- [ ] Darken `--color-aic-text-tertiary` and the primary button background (or its text color) to the nearest values that pass, keeping the hue, and record the before and after ratios. Done when: `node scripts/contrast-check.js` exits `0` and the commit body lists each changed token with both ratios.
+- [ ] Add `scripts/contrast-check.js` (Node, no dependencies) that reads the color tokens of both themes from `docs/design/tokens.json`, reads the foreground and background pairs from `docs/design/contrast-pairs.json` (each with a minimum of `4.5`, or `3` for large text and UI boundaries, and a theme name), computes the WCAG ratio, prints one line per pair, and exits `1` on any failure. Done when: it prints one line per pair and exits 0. **Corrected 2026-09-27:** was "parses the `@theme` custom properties in `src/styles/main.css`"; `docs/design/tokens.json` is the canonical source since the design import, and `main.css` only references it.
+- [ ] Write `docs/design/contrast-pairs.json` for both themes: every text token on `bg`, `surface`, and `surfaceSunken`, `onBrand` on `brand`, `aiStrong` on `aiTint`, `success` on `successTint`, `danger` on `dangerTint`, both diff pairs, and the focus ring and input border against the background at `3`. Done when: every text color token in `docs/design/tokens.json` appears in at least one pair per theme. **Corrected 2026-09-27:** was light-theme pairs over `--color-aic-*`; the token names and the dark set come from `docs/design/tokens.json`.
+- [ ] Run the check over the imported tokens and record the ratios: the design import already set `brand` to `#1668c9` (white on it 5.44:1) and `textTertiary` to `#686e7a` (4.57:1 on `surfaceSunken`, the lowest background it sits on). Done when: `node scripts/contrast-check.js` exits `0` and the commit body quotes each pair's ratio; a failing pair is fixed in `docs/design/tokens.json` and the mockup together through the `design-sync` skill. **Corrected 2026-09-27:** was "Darken `--color-aic-text-tertiary` and the primary button background"; the operator's contrast decision (2026-09-27) was applied in `docs/design/tokens.json` at the design import, so this item verifies rather than invents the values.
 - [ ] Add the check to `scripts/check-all.ps1` as a gate (`node scripts/contrast-check.js`) and add the new token values to the Tokens table of `docs/design/taskpane.md`. Done when: `pwsh scripts/check-all.ps1` lists a `contrast` gate with `PASS`.
 - [ ] Commit: `"a11y: contrast check for every token pair, and the failing tokens fixed"`
 
-**Test checkpoint:** `node scripts/contrast-check.js` exits `0` after the token fix and exits `1` naming the pair when `--color-aic-text-tertiary` is set back to `#8e95a2` in a scratch copy; `pwsh scripts/check-all.ps1` shows the `contrast` gate. Cheaper substitute that fails: checking only body text on white, which misses the button pair and exits `0` with the brand blue unchanged.
+**Test checkpoint:** `node scripts/contrast-check.js` exits `0` over both themes and exits `1` naming the pair when `color.light.textTertiary` is set back to `#8e95a2` in a scratch copy of `docs/design/tokens.json`; `pwsh scripts/check-all.ps1` shows the `contrast` gate. Cheaper substitute that fails: checking only body text on white, which misses the button pair and the dark theme.
 
 ## Verification
 

@@ -61,9 +61,10 @@ Look specifically for the failure modes this codebase is prone to:
 - A hardcoded color, size, or spacing value on a surface the design tokens in `docs/design/` already name.
 - A frozen behavior that moved.
 - A checkpoint that passes by being unfalsifiable (a build of a project the section did not touch, a screenshot of the wrong window, a round trip over a fixture the change cannot affect).
-- A surface compared against memory instead of the capture under `docs/captures/taskpane/`.
+- A surface compared against memory instead of the capture under `docs/captures/taskpane/`, or a capture that does not match the `docs/design/mockup/renders/` image its `**Design:**` anchors name (order, spacing, labels, icons, states), with no `**Design deviation:**` recording the difference.
+- A color, font, or icon that bypasses the design system: a literal color or font in `src/`, an inline `<svg>` outside `src/ui/icons.ts`, a PNG not built from `assets/icons/src/`, or a raised `docs/design/.lint-baseline.json`. `python scripts/design-lint.py` must exit 0 at the candidate.
 
-The `source-defect` and `design` lenses run here, in-session: the panel prompt below mandates the four core lenses (the output checker enforces exactly those), so source reading and rendered-surface judgment stay with the session that can see the sources and the pixels. Judge a rendered surface against the capture or contract, never source alone, and record those verdicts in the findings file beside the panel's.
+The `source-defect` and `design` lenses run here, in-session: the panel prompt below mandates the four core lenses (the output checker enforces exactly those), so source reading and rendered-surface judgment stay with the session that can see the sources and the pixels. Judge a rendered surface against the capture and the approved mockup render its `**Design:**` line cites (`docs/design/mockup.md`), never source alone; the `design` verdict is `approve` only when they match or every difference is a recorded deviation with a follow-up, and record those verdicts in the findings file beside the panel's.
 
 Cheap defects caught here cost nothing; the same defect caught by a lens costs a whole round.
 

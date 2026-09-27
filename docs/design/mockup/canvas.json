@@ -1,0 +1,20 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-09-27T16:30:00Z" },
+  "title": "Gemail Interface Mockup",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 400, "h": 1160, "title": "Reply -- read mode, streaming" },
+    "Settings.dc.html": { "x": 480, "y": 0, "w": 400, "h": 1160, "title": "Settings -- OpenRouter" },
+    "Improve.dc.html": { "x": 960, "y": 0, "w": 400, "h": 1160, "title": "Improve -- compose mode, dark" },
+    "Icons.dc.html": { "x": 0, "y": 1680, "w": 1360, "h": 860, "title": "Icons -- app, ribbon, and pane" }
+  },
+  "order": ["Main.dc.html", "Settings.dc.html", "Improve.dc.html", "Icons.dc.html"],
+  "notes": {
+    "panes": { "x": 0, "y": -300, "w": 240, "text": "Gemail task pane", "kind": "title1", "maxW": 1360 },
+    "icons": { "x": 0, "y": 1380, "w": 240, "text": "Icons", "kind": "title1", "maxW": 1360 }
+  },
+  "attachments": {},
+  "designSystems": []
+}

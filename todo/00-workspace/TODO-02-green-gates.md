@@ -39,6 +39,7 @@ depends_on: []
 - -> XREF: D04 T01 §8 -- the dependency audit step joins the workflow §4 creates
 - -> XREF: D05 T01 §1 -- the Jest configuration builds on the compiler options §1 sets; D05 T01 §6 adds coverage to the workflow §4 creates
 - -> XREF: D07 T01 §2 -- manifest validation of both manifests extends the workflow §4 creates
+- -> XREF: D03 T04 §1 -- the token stylesheet is written after lint is green here
 
 ## Outcome
 

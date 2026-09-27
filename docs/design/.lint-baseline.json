@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "note": "Violations of the design gate that predate it (2026-09-27). Counts may only shrink; scripts/design-lint.py refuses growth. See docs/design/README.md.",
+  "rules": {
+    "color-literal": {
+      "src/styles/main.css": 33,
+      "src/taskpane/taskpane.css": 18,
+      "src/taskpane/taskpane.ts": 3
+    },
+    "inline-svg": {
+      "src/taskpane/taskpane.html": 45,
+      "src/taskpane/taskpane.ts": 2
+    },
+    "font-family": {
+      "src/styles/main.css": 1,
+      "src/taskpane/taskpane.html": 5
+    },
+    "legacy-icon": {
+      "manifest.dev.xml": 44,
+      "manifest.xml": 44
+    }
+  }
+}

@@ -72,7 +72,7 @@ Shared or app-local: work lands in the core domain only when a second app needs 
 
 ### 6. New sections are born complete
 
-A new section carries everything the format requires from birth: context paragraph, micro-step checklist with a `Commit:` item, `Test checkpoint:` citing one of the five proofs in `todo/README.md`, Fidelity/Job/Treatment/Chrome when it builds a surface, `Needs:` when it needs a host, `Requires:` when it needs an environment capability, and its Implementation Order row with a real `Depends On`. A section filed as a one-line stub is a plan defect, not a head start.
+A new section carries everything the format requires from birth: context paragraph, micro-step checklist with a `Commit:` item, `Test checkpoint:` citing one of the five proofs in `todo/README.md`, Fidelity/Design/Job/Treatment/Chrome when it builds a surface (Design cites the `docs/design/mockup.md` anchors it builds to, plus the mockup conformance item from `.claude/skills/create-todo/todo-template.md`), `Needs:` when it needs a host, `Requires:` when it needs an environment capability, and its Implementation Order row with a real `Depends On`. A section filed as a one-line stub is a plan defect, not a head start.
 
 Give it a dependency edge, not a wish. If it must wait on another section, say so in `Depends On`; if it truly stands alone, `--`.
 

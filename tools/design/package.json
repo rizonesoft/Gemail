@@ -1,0 +1,15 @@
+{
+  "name": "gemail-design-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Design tooling kept out of the add-in's dependencies: renders the imported mockup and the icon set. See docs/design/EDITING.md.",
+  "type": "module",
+  "scripts": {
+    "icons": "node icons.mjs",
+    "icons:check": "node icons.mjs --check",
+    "mockup": "node render-mockup.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}

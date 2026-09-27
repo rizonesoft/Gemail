@@ -16,6 +16,9 @@
   10. python scripts/todo-findings.py --check
   11. python scripts/todo-runs.py --check
   12. python scripts/campaign_guard.py --self-test
+  13. python scripts/design-lint.py --self-test
+  14. python scripts/design-lint.py   (mockup citations, tokens, icons, the shrink-only baseline)
+  15. node tools/design/icons.mjs --check   (icon outputs rebuild identically; installs tools/design once)
   A python gate whose script is absent is skipped with a warning. Every gate
   runs even after an earlier failure; the exit code is 1 when any gate failed.
 .EXAMPLE
@@ -82,9 +85,15 @@ try {
     Invoke-PythonGate 'todo-findings --check' 'todo-findings.py' @('--check')
     Invoke-PythonGate 'todo-runs --check' 'todo-runs.py' @('--check')
     Invoke-PythonGate 'campaign_guard self-test' 'campaign_guard.py' @('--self-test')
+    Invoke-PythonGate 'design-lint self-test' 'design-lint.py' @('--self-test')
+    Invoke-PythonGate 'design-lint' 'design-lint.py' @()
   } else {
     Write-Warning 'check-all: python not found on PATH; skipping plan gates'
     $results.Add([pscustomobject]@{ Gate = 'python gates'; Status = 'SKIP (no python)'; Seconds = 0 })
+  }
+  Invoke-Gate 'icons --check' {
+    if (-not (Test-Path (Join-Path $RepoRoot 'tools/design/node_modules'))) { npm ci --prefix tools/design --silent }
+    node tools/design/icons.mjs --check
   }
 } finally {
   Pop-Location
