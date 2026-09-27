@@ -1,0 +1,54 @@
+name: build
+
+# Every gate a commit to main must pass before the dev build deploys
+# (D00 T02 §4; deploy.yml runs only after this workflow succeeds on main).
+# scripts/review_prompt.py ci-wait reads it back with --workflow build.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (webpack production)
+        run: npm run build
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npx jest --ci
+
+      - name: Validate the manifest
+        run: npm run validate
+
+      # D07 T01 §3: re-render every icon from assets/icons/src and require
+      # byte-identical PNGs and registry (resvg is deterministic across
+      # platforms; verified Windows and Linux on 2026-09-27).
+      - name: Install the design tools
+        run: npm ci --prefix tools/design
+
+      - name: Icons re-render check
+        run: node tools/design/icons.mjs --check

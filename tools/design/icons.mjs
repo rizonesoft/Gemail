@@ -1,7 +1,7 @@
 // Build every icon output from the canonical SVG sources in assets/icons/src/.
 //
 //   node tools/design/icons.mjs          render PNGs, regenerate src/ui/icons.ts, write assets/icons/manifest.json
-//   node tools/design/icons.mjs --check  exit 1 when any output is missing or stale against its source
+//   node tools/design/icons.mjs --check  re-render every output and exit 1 unless each committed file is byte-identical
 //   node tools/design/icons.mjs --sheet  also write build/icons-sheet.png, every icon at 5x and 1x, for review
 //
 // Sources (docs/design/icons.md is the catalog and the rules):
@@ -132,6 +132,10 @@ async function build({ check, sheet }) {
       const abs = path.join(ROOT, p);
       if (!fs.existsSync(abs)) { problems.push(`${p} is missing`); continue; }
       if (p.endsWith('.ts') && fs.readFileSync(abs, 'utf8').replace(/\r\n/g, '\n') !== buf.toString('utf8').replace(/\r\n/g, '\n')) problems.push(`${p} is stale`);
+      // The re-render check: every PNG rendered now from its source must be
+      // byte-identical to the committed file (resvg is deterministic: no system
+      // fonts, no GPU), so a hand-edited or stale PNG cannot pass on any platform.
+      if (p.endsWith('.png') && !fs.readFileSync(abs).equals(buf)) problems.push(`${p} differs from a fresh render of its source`);
       if (recorded.outputs[p] !== sha(fs.readFileSync(abs), p)) problems.push(`${p} does not match the manifest`);
     }
     for (const p of Object.keys(recorded.outputs)) if (!(p in outputs)) problems.push(`${p} is recorded but no longer produced`);

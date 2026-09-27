@@ -1,7 +1,11 @@
 name: Deploy
 
 on:
-  push:
+  # The dev build deploys only after the build workflow (every gate) succeeds
+  # on main (D00 T02 §4; operator decision 2026-09-27: "Gate on build").
+  workflow_run:
+    workflows: [build]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
     inputs:
@@ -15,15 +19,20 @@ permissions:
 
 jobs:
   build:
+    # A workflow_run fires on every completion; deploy only a green build of a push.
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          # workflow_run checks out the default branch head by default; build the commit that passed.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: .nvmrc
           cache: "npm"
 
       - name: Install dependencies

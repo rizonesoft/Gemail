@@ -21,7 +21,7 @@ When two of them disagree, the authority column decides, and the losing file is 
 | `python scripts/design-lint.py` | `pwsh scripts/check-all.ps1`, the commit hook (`tools/githooks/pre-commit`), and CI (`.github/workflows/plan.yml`) | A surface section in `todo/` without a `docs/design/mockup.md#` citation or without its mockup conformance item; a hand-edited artboard; a stale render; a mockup color that is not a token; a malformed token file; an icon output that does not match its source; any new color literal, font declaration, inline `<svg>`, or pre-2.0 icon path in `src/` or the manifests |
 | `python scripts/design-lint.py --self-test` | check-all and CI | A gate that no longer catches what it claims to |
 | `python scripts/todo-graph.py validate` | the same three places | A `**Design:**` line whose anchor or file does not exist, a surface section without its Design, Job, Treatment, or Chrome lines |
-| `node tools/design/icons.mjs --check` | check-all when `tools/design/node_modules` exists; CI after `D07 T01 §3` | A PNG or registry that no longer renders identically from its source |
+| `node tools/design/icons.mjs --check` | check-all and CI (`.github/workflows/build.yml`) | A PNG that is not byte-identical to a fresh render of its source, or a stale registry (resvg is deterministic; verified identical on Windows and Linux) |
 | `review-todo-section` | every stamp | A surface whose capture does not match the mockup render it cites |
 
 ## The plan side
