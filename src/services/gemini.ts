@@ -10,8 +10,8 @@
  * © Rizonetech (Pty) Ltd. — https://rizonesoft.com
  */
 
-import { GoogleGenAI, Type } from '@google/genai';
-import { getSetting } from '../features/settings';
+import { GoogleGenAI, Type } from "@google/genai";
+import { getSetting } from "../features/settings";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -51,13 +51,13 @@ export interface GenerateJsonOptions {
 
 /** Error codes surfaced by the Gemini service. */
 export enum GeminiErrorCode {
-  INVALID_API_KEY = 'INVALID_API_KEY',
-  QUOTA_EXCEEDED = 'QUOTA_EXCEEDED',
-  RATE_LIMITED = 'RATE_LIMITED',
-  NETWORK_ERROR = 'NETWORK_ERROR',
-  TIMEOUT = 'TIMEOUT',
-  CONTENT_FILTERED = 'CONTENT_FILTERED',
-  UNKNOWN = 'UNKNOWN',
+  INVALID_API_KEY = "INVALID_API_KEY",
+  QUOTA_EXCEEDED = "QUOTA_EXCEEDED",
+  RATE_LIMITED = "RATE_LIMITED",
+  NETWORK_ERROR = "NETWORK_ERROR",
+  TIMEOUT = "TIMEOUT",
+  CONTENT_FILTERED = "CONTENT_FILTERED",
+  UNKNOWN = "UNKNOWN",
 }
 
 /** Typed error thrown by the Gemini service. */
@@ -68,7 +68,7 @@ export class GeminiError extends Error {
 
   constructor(message: string, code: GeminiErrorCode, retryable = false, statusCode?: number) {
     super(message);
-    this.name = 'GeminiError';
+    this.name = "GeminiError";
     this.code = code;
     this.retryable = retryable;
     this.statusCode = statusCode;
@@ -84,14 +84,14 @@ export { Type };
 // Constants
 // ---------------------------------------------------------------------------
 
-const FALLBACK_MODEL = 'gemini-3-flash-preview';
+const FALLBACK_MODEL = "gemini-3-flash-preview";
 
 /**
  * Fast, non-thinking model for simple extraction/utility tasks
  * (translation, action items, summarization, language detection).
  * These tasks don't benefit from deep reasoning and need low latency.
  */
-export const FAST_MODEL = 'gemini-3-flash-preview';
+export const FAST_MODEL = "gemini-3-flash-preview";
 
 const DEFAULT_TEMPERATURE = 1.0;
 const DEFAULT_MAX_OUTPUT_TOKENS = 2048;
@@ -119,8 +119,8 @@ let clientInstance: GoogleGenAI | null = null;
 export function initGeminiClient(apiKey: string): GoogleGenAI {
   if (!apiKey || apiKey.trim().length === 0) {
     throw new GeminiError(
-      'API key is required. Please set GEMINI_API_KEY in your .env file.',
-      GeminiErrorCode.INVALID_API_KEY,
+      "API key is required. Please set GEMINI_API_KEY in your .env file.",
+      GeminiErrorCode.INVALID_API_KEY
     );
   }
   clientInstance = new GoogleGenAI({ apiKey });
@@ -134,8 +134,8 @@ export function initGeminiClient(apiKey: string): GoogleGenAI {
 function getClient(): GoogleGenAI {
   if (!clientInstance) {
     throw new GeminiError(
-      'Gemini client not initialised. Call initGeminiClient(apiKey) first.',
-      GeminiErrorCode.INVALID_API_KEY,
+      "Gemini client not initialised. Call initGeminiClient(apiKey) first.",
+      GeminiErrorCode.INVALID_API_KEY
     );
   }
   return clientInstance;
@@ -154,12 +154,9 @@ function getClient(): GoogleGenAI {
  *
  * @throws {GeminiError} with a typed `code` for every failure scenario.
  */
-export async function generateText(
-  prompt: string,
-  options: GenerateOptions = {},
-): Promise<string> {
+export async function generateText(prompt: string, options: GenerateOptions = {}): Promise<string> {
   const client = getClient();
-  const modelName = options.model ?? getSetting('defaultModel') ?? FALLBACK_MODEL;
+  const modelName = options.model ?? getSetting("defaultModel") ?? FALLBACK_MODEL;
 
   const timeoutMs = calcTimeout(prompt.length, options.timeoutMs);
 
@@ -176,15 +173,15 @@ export async function generateText(
             topK: options.topK ?? DEFAULT_TOP_K,
           },
         }),
-        timeoutMs,
+        timeoutMs
       );
 
       const text = response.text;
 
       if (!text || text.trim().length === 0) {
         throw new GeminiError(
-          'The model returned an empty response. The content may have been filtered.',
-          GeminiErrorCode.CONTENT_FILTERED,
+          "The model returned an empty response. The content may have been filtered.",
+          GeminiErrorCode.CONTENT_FILTERED
         );
       }
 
@@ -211,10 +208,10 @@ export async function generateText(
  */
 export async function generateJson<T = Record<string, unknown>>(
   prompt: string,
-  options: GenerateJsonOptions = {},
+  options: GenerateJsonOptions = {}
 ): Promise<T> {
   const client = getClient();
-  const modelName = options.model ?? getSetting('defaultModel') ?? FALLBACK_MODEL;
+  const modelName = options.model ?? getSetting("defaultModel") ?? FALLBACK_MODEL;
 
   const timeoutMs = calcTimeout(prompt.length, options.timeoutMs);
 
@@ -227,7 +224,7 @@ export async function generateJson<T = Record<string, unknown>>(
           config: {
             temperature: options.temperature ?? 0.1,
             maxOutputTokens: options.maxOutputTokens ?? 1024,
-            responseMimeType: 'application/json',
+            responseMimeType: "application/json",
             responseSchema: options.responseSchema,
             systemInstruction: options.systemInstruction,
             // Disable thinking for structured JSON — thinking models burn
@@ -236,15 +233,15 @@ export async function generateJson<T = Record<string, unknown>>(
             thinkingConfig: { thinkingBudget: 0 },
           },
         }),
-        timeoutMs,
+        timeoutMs
       );
 
       const text = response.text;
 
       if (!text || text.trim().length === 0) {
         throw new GeminiError(
-          'The model returned an empty response.',
-          GeminiErrorCode.CONTENT_FILTERED,
+          "The model returned an empty response.",
+          GeminiErrorCode.CONTENT_FILTERED
         );
       }
 
@@ -259,7 +256,7 @@ export async function generateJson<T = Record<string, unknown>>(
         }
         throw new GeminiError(
           `Model returned invalid JSON: ${text.slice(0, 100)}`,
-          GeminiErrorCode.UNKNOWN,
+          GeminiErrorCode.UNKNOWN
         );
       }
     } catch (error) {
@@ -290,8 +287,8 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
         new GeminiError(
           `Request timed out after ${ms / 1000}s. The email may be too long — try a shorter selection.`,
           GeminiErrorCode.TIMEOUT,
-          false, // Timeouts on large prompts are not transient — don't retry
-        ),
+          false // Timeouts on large prompts are not transient — don't retry
+        )
       );
     }, ms);
 
@@ -349,30 +346,30 @@ function classifyError(error: unknown): GeminiError {
   // Invalid / expired API key
   if (statusCode === 401 || statusCode === 403 || /api.?key/i.test(message)) {
     return new GeminiError(
-      'Invalid or expired API key. Please check your GEMINI_API_KEY.',
+      "Invalid or expired API key. Please check your GEMINI_API_KEY.",
       GeminiErrorCode.INVALID_API_KEY,
       false,
-      statusCode,
+      statusCode
     );
   }
 
   // Rate limited
   if (statusCode === 429 || /rate.?limit/i.test(message) || /too many requests/i.test(message)) {
     return new GeminiError(
-      'Rate limited by the Gemini API. Retrying with backoff…',
+      "Rate limited by the Gemini API. Retrying with backoff…",
       GeminiErrorCode.RATE_LIMITED,
       true,
-      429,
+      429
     );
   }
 
   // Quota exceeded
   if (statusCode === 429 && /quota/i.test(message)) {
     return new GeminiError(
-      'API quota exceeded. Check your billing and quota settings in the Google Cloud Console.',
+      "API quota exceeded. Check your billing and quota settings in the Google Cloud Console.",
       GeminiErrorCode.QUOTA_EXCEEDED,
       false,
-      429,
+      429
     );
   }
 
@@ -385,18 +382,18 @@ function classifyError(error: unknown): GeminiError {
     /offline/i.test(message)
   ) {
     return new GeminiError(
-      'Network error — please check your internet connection.',
+      "Network error — please check your internet connection.",
       GeminiErrorCode.NETWORK_ERROR,
-      true,
+      true
     );
   }
 
   // Content safety filter
   if (/safety/i.test(message) || /blocked/i.test(message) || /filter/i.test(message)) {
     return new GeminiError(
-      'The response was blocked by content safety filters.',
+      "The response was blocked by content safety filters.",
       GeminiErrorCode.CONTENT_FILTERED,
-      false,
+      false
     );
   }
 
@@ -406,7 +403,7 @@ function classifyError(error: unknown): GeminiError {
       `Server error (${statusCode}). Retrying…`,
       GeminiErrorCode.UNKNOWN,
       true,
-      statusCode,
+      statusCode
     );
   }
 
@@ -415,21 +412,21 @@ function classifyError(error: unknown): GeminiError {
     `Unexpected error: ${message}`,
     GeminiErrorCode.UNKNOWN,
     false,
-    statusCode,
+    statusCode
   );
 }
 
 /** Try to extract an HTTP status code from an error object. */
 function extractStatusCode(error: unknown): number | undefined {
-  if (error && typeof error === 'object') {
+  if (error && typeof error === "object") {
     const obj = error as Record<string, unknown>;
-    if (typeof obj.status === 'number') return obj.status;
-    if (typeof obj.statusCode === 'number') return obj.statusCode;
-    if (typeof obj.code === 'number') return obj.code;
+    if (typeof obj.status === "number") return obj.status;
+    if (typeof obj.statusCode === "number") return obj.statusCode;
+    if (typeof obj.code === "number") return obj.code;
     // Google GenAI SDK sometimes nests it
-    if (obj.response && typeof obj.response === 'object') {
+    if (obj.response && typeof obj.response === "object") {
       const resp = obj.response as Record<string, unknown>;
-      if (typeof resp.status === 'number') return resp.status;
+      if (typeof resp.status === "number") return resp.status;
     }
   }
   return undefined;

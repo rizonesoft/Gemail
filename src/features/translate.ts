@@ -7,10 +7,10 @@
  * © Rizonetech (Pty) Ltd. — https://rizonesoft.com
  */
 
-import { generateText, FAST_MODEL } from '../services/gemini';
-import { buildPrompt } from '../prompts/builder';
-import { TRANSLATE_PROMPT } from '../prompts/templates';
-import { getCurrentEmailBody } from '../services/outlook';
+import { generateText, FAST_MODEL } from "../services/gemini";
+import { buildPrompt } from "../prompts/builder";
+import { TRANSLATE_PROMPT } from "../prompts/templates";
+import { getCurrentEmailBody } from "../services/outlook";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -27,26 +27,26 @@ export interface TranslateResult {
 // ---------------------------------------------------------------------------
 
 export const LANGUAGES = [
-  { code: 'af', name: 'Afrikaans' },
-  { code: 'ar', name: 'Arabic' },
-  { code: 'zh', name: 'Chinese (Simplified)' },
-  { code: 'zh-TW', name: 'Chinese (Traditional)' },
-  { code: 'nl', name: 'Dutch' },
-  { code: 'en', name: 'English' },
-  { code: 'fr', name: 'French' },
-  { code: 'de', name: 'German' },
-  { code: 'hi', name: 'Hindi' },
-  { code: 'it', name: 'Italian' },
-  { code: 'ja', name: 'Japanese' },
-  { code: 'ko', name: 'Korean' },
-  { code: 'pl', name: 'Polish' },
-  { code: 'pt', name: 'Portuguese' },
-  { code: 'ru', name: 'Russian' },
-  { code: 'es', name: 'Spanish' },
-  { code: 'sw', name: 'Swahili' },
-  { code: 'tr', name: 'Turkish' },
-  { code: 'uk', name: 'Ukrainian' },
-  { code: 'zu', name: 'Zulu' },
+  { code: "af", name: "Afrikaans" },
+  { code: "ar", name: "Arabic" },
+  { code: "zh", name: "Chinese (Simplified)" },
+  { code: "zh-TW", name: "Chinese (Traditional)" },
+  { code: "nl", name: "Dutch" },
+  { code: "en", name: "English" },
+  { code: "fr", name: "French" },
+  { code: "de", name: "German" },
+  { code: "hi", name: "Hindi" },
+  { code: "it", name: "Italian" },
+  { code: "ja", name: "Japanese" },
+  { code: "ko", name: "Korean" },
+  { code: "pl", name: "Polish" },
+  { code: "pt", name: "Portuguese" },
+  { code: "ru", name: "Russian" },
+  { code: "es", name: "Spanish" },
+  { code: "sw", name: "Swahili" },
+  { code: "tr", name: "Turkish" },
+  { code: "uk", name: "Ukrainian" },
+  { code: "zu", name: "Zulu" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ export async function translateEmail(targetLanguage: string): Promise<TranslateR
   const body = await getCurrentEmailBody();
 
   if (!body.trim()) {
-    throw new Error('No email content found. Please open an email first.');
+    throw new Error("No email content found. Please open an email first.");
   }
 
   const prompt = buildPrompt(TRANSLATE_PROMPT, {
@@ -129,13 +129,13 @@ export async function copyToClipboard(text: string): Promise<void> {
     return;
   }
 
-  const textarea = document.createElement('textarea');
+  const textarea = document.createElement("textarea");
   textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
   document.body.appendChild(textarea);
   textarea.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   document.body.removeChild(textarea);
 }
 
@@ -145,8 +145,8 @@ export async function copyToClipboard(text: string): Promise<void> {
 
 function escapeHtml(text: string): string {
   return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\n/g, '<br>');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br>");
 }

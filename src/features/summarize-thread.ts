@@ -10,23 +10,23 @@
  * © Rizonetech (Pty) Ltd. — https://rizonesoft.com
  */
 
-import { generateText, FAST_MODEL } from '../services/gemini';
-import { buildPrompt, truncateContext } from '../prompts/builder';
-import { SUMMARIZE_THREAD_PROMPT } from '../prompts/templates';
+import { generateText, FAST_MODEL } from "../services/gemini";
+import { buildPrompt, truncateContext } from "../prompts/builder";
+import { SUMMARIZE_THREAD_PROMPT } from "../prompts/templates";
 import {
   getCurrentEmailBody,
   getCurrentEmailSubject,
   getEmailSender,
   getConversationMessages,
   EmailMessage,
-} from '../services/outlook';
+} from "../services/outlook";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-export type SummaryStyle = 'bullets' | 'paragraph' | 'tldr';
-export type SummaryLength = 'brief' | 'standard' | 'detailed';
+export type SummaryStyle = "bullets" | "paragraph" | "tldr";
+export type SummaryLength = "brief" | "standard" | "detailed";
 
 export interface SummarizeOptions {
   style: SummaryStyle;
@@ -44,7 +44,7 @@ const MAX_CONTENT_TOKENS = 8000;
 // State
 // ---------------------------------------------------------------------------
 
-let lastSummary: string = '';
+let lastSummary: string = "";
 let lastOptions: SummarizeOptions | null = null;
 
 // ---------------------------------------------------------------------------
@@ -73,7 +73,7 @@ export async function summarizeThread(options: SummarizeOptions): Promise<string
   }
 
   if (!rawThread.trim()) {
-    throw new Error('No email content to summarize. Please make sure an email is open.');
+    throw new Error("No email content to summarize. Please make sure an email is open.");
   }
 
   const emailThread = truncateContext(rawThread, MAX_CONTENT_TOKENS);
@@ -103,7 +103,7 @@ export async function summarizeThread(options: SummarizeOptions): Promise<string
  */
 export async function regenerateSummary(): Promise<string> {
   if (!lastOptions) {
-    throw new Error('No previous summary to regenerate. Please summarize first.');
+    throw new Error("No previous summary to regenerate. Please summarize first.");
   }
   return summarizeThread(lastOptions);
 }
@@ -119,13 +119,13 @@ export async function copyToClipboard(text: string): Promise<void> {
   }
 
   // Fallback: use a temporary textarea
-  const textarea = document.createElement('textarea');
+  const textarea = document.createElement("textarea");
   textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
   document.body.appendChild(textarea);
   textarea.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   document.body.removeChild(textarea);
 }
 
@@ -152,20 +152,20 @@ function formatThread(messages: EmailMessage[]): string {
       header += `\n${msg.body}`;
       return header;
     })
-    .join('\n\n');
+    .join("\n\n");
 }
 
 function buildLengthStyleHint(length: SummaryLength, style: SummaryStyle): string {
   const lengthHint = {
-    brief: 'brief (2-3 sentences)',
-    standard: 'standard (1 paragraph)',
-    detailed: 'detailed (multiple paragraphs)',
+    brief: "brief (2-3 sentences)",
+    standard: "standard (1 paragraph)",
+    detailed: "detailed (multiple paragraphs)",
   }[length];
 
   const styleHint = {
-    bullets: 'Format the summary as bullet points.',
-    paragraph: 'Format the summary as flowing prose paragraphs.',
-    tldr: 'Provide a single TL;DR sentence first, followed by key points.',
+    bullets: "Format the summary as bullet points.",
+    paragraph: "Format the summary as flowing prose paragraphs.",
+    tldr: "Provide a single TL;DR sentence first, followed by key points.",
   }[style];
 
   return `${lengthHint}. ${styleHint}`;
@@ -173,11 +173,11 @@ function buildLengthStyleHint(length: SummaryLength, style: SummaryStyle): strin
 
 function getMaxTokensForLength(length: SummaryLength): number {
   switch (length) {
-    case 'brief':
+    case "brief":
       return 256;
-    case 'detailed':
+    case "detailed":
       return 2048;
-    case 'standard':
+    case "standard":
     default:
       return 1024;
   }

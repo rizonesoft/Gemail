@@ -13,16 +13,17 @@
 
 /* global Office */
 
-import { generateText } from '../services/gemini';
-import { buildPrompt, truncateContext } from '../prompts/builder';
-import { REPLY_PROMPT } from '../prompts/templates';
+import { generateText } from "../services/gemini";
+import { buildPrompt, truncateContext } from "../prompts/builder";
+import { buildRulesText } from "./settings";
+import { REPLY_PROMPT } from "../prompts/templates";
 import {
   getCurrentEmailBody,
   getCurrentEmailSubject,
   getOriginalSender,
   getItemMode,
   EmailContact,
-} from '../services/outlook';
+} from "../services/outlook";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -53,7 +54,7 @@ const MAX_CONTENT_TOKENS = 6000;
 // ---------------------------------------------------------------------------
 
 let lastReplyOptions: DraftReplyOptions | null = null;
-let lastReply: string = '';
+let lastReply: string = "";
 let cachedContext: EmailContext | null = null;
 
 // ---------------------------------------------------------------------------
@@ -95,7 +96,7 @@ export function clearEmailContext(): void {
  */
 export async function generateReply(options: DraftReplyOptions): Promise<string> {
   if (!options.instructions || !options.instructions.trim()) {
-    throw new Error('Please enter your reply instructions.');
+    throw new Error("Please enter your reply instructions.");
   }
 
   const context = await getEmailContext();
@@ -107,17 +108,22 @@ export async function generateReply(options: DraftReplyOptions): Promise<string>
   originalEmail = truncateContext(originalEmail, MAX_CONTENT_TOKENS);
 
   // Resolve language: 'auto' means match the original email's language
-  const language = (!options.language || options.language === 'auto')
-    ? 'Reply in the same language as the original email'
-    : options.language;
+  const language =
+    !options.language || options.language === "auto"
+      ? "Reply in the same language as the original email"
+      : options.language;
 
-  const prompt = buildPrompt(REPLY_PROMPT, {
-    ORIGINAL_EMAIL: originalEmail,
-    REPLY_INSTRUCTIONS: options.instructions,
-    TONE: options.tone || 'professional',
-    LANGUAGE: language,
-    REPLY_TO_NAME: context.sender.name || context.sender.email || 'the sender',
-  }, true);
+  const prompt = buildPrompt(
+    REPLY_PROMPT,
+    {
+      ORIGINAL_EMAIL: originalEmail,
+      REPLY_INSTRUCTIONS: options.instructions,
+      TONE: options.tone || "professional",
+      LANGUAGE: language,
+      REPLY_TO_NAME: context.sender.name || context.sender.email || "the sender",
+    },
+    buildRulesText()
+  );
 
   const reply = await generateText(prompt, {
     temperature: 0.7,
@@ -135,7 +141,7 @@ export async function generateReply(options: DraftReplyOptions): Promise<string>
  */
 export async function regenerateReply(): Promise<string> {
   if (!lastReplyOptions) {
-    throw new Error('No previous reply to regenerate. Please generate a reply first.');
+    throw new Error("No previous reply to regenerate. Please generate a reply first.");
   }
   return generateReply(lastReplyOptions);
 }
@@ -145,11 +151,11 @@ export async function regenerateReply(): Promise<string> {
  */
 export async function refineReply(refinement: string): Promise<string> {
   if (!lastReply) {
-    throw new Error('No reply to refine. Please generate a reply first.');
+    throw new Error("No reply to refine. Please generate a reply first.");
   }
 
   if (!refinement || !refinement.trim()) {
-    throw new Error('Please enter your refinement instructions.');
+    throw new Error("Please enter your refinement instructions.");
   }
 
   const prompt = `You are a professional email assistant.
@@ -184,22 +190,24 @@ export function insertIntoReply(replyText: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const mode = getItemMode();
 
-    if (mode !== 'compose') {
+    if (mode !== "compose") {
       // Not in compose mode — open a reply window instead
       // We'll use displayReplyForm which opens a reply compose
       const item = Office.context.mailbox.item as any;
-      if (item && typeof item.displayReplyForm === 'function') {
+      if (item && typeof item.displayReplyForm === "function") {
         item.displayReplyForm(bodyToHtml(replyText));
         resolve();
         return;
       }
-      reject(new Error('Cannot insert reply — no compose window is open. Please click Reply first.'));
+      reject(
+        new Error("Cannot insert reply — no compose window is open. Please click Reply first.")
+      );
       return;
     }
 
     // In compose mode — insert into the body
     const item = Office.context.mailbox.item as any;
-    if (item && item.body && typeof item.body.setAsync === 'function') {
+    if (item && item.body && typeof item.body.setAsync === "function") {
       item.body.setAsync(
         bodyToHtml(replyText),
         { coercionType: Office.CoercionType.Html },
@@ -207,12 +215,14 @@ export function insertIntoReply(replyText: string): Promise<void> {
           if (result.status === Office.AsyncResultStatus.Succeeded) {
             resolve();
           } else {
-            reject(new Error(`Failed to insert reply: ${result.error?.message || 'Unknown error'}`));
+            reject(
+              new Error(`Failed to insert reply: ${result.error?.message || "Unknown error"}`)
+            );
           }
-        },
+        }
       );
     } else {
-      reject(new Error('Cannot insert reply — compose body is not accessible.'));
+      reject(new Error("Cannot insert reply — compose body is not accessible."));
     }
   });
 }
@@ -226,22 +236,19 @@ export function openReply(replyText: string): void {
   const mode = getItemMode();
   const item = Office.context.mailbox.item as any;
 
-  if (mode === 'compose') {
+  if (mode === "compose") {
     // Insert directly into the active compose body
-    if (item && item.body && typeof item.body.prependAsync === 'function') {
-      item.body.prependAsync(
-        bodyToHtml(replyText),
-        { coercionType: Office.CoercionType.Html },
-      );
+    if (item && item.body && typeof item.body.prependAsync === "function") {
+      item.body.prependAsync(bodyToHtml(replyText), { coercionType: Office.CoercionType.Html });
     } else {
-      throw new Error('Cannot insert reply — compose body is not accessible.');
+      throw new Error("Cannot insert reply — compose body is not accessible.");
     }
   } else {
     // Read mode — open a reply window
-    if (item && typeof item.displayReplyForm === 'function') {
+    if (item && typeof item.displayReplyForm === "function") {
       item.displayReplyForm(bodyToHtml(replyText));
     } else {
-      throw new Error('Cannot open reply window. Please make sure an email is selected.');
+      throw new Error("Cannot open reply window. Please make sure an email is selected.");
     }
   }
 }
@@ -255,22 +262,19 @@ export function openReplyAll(replyText: string): void {
   const mode = getItemMode();
   const item = Office.context.mailbox.item as any;
 
-  if (mode === 'compose') {
+  if (mode === "compose") {
     // In compose mode, Reply All is the same as Reply — prepend inline
-    if (item && item.body && typeof item.body.prependAsync === 'function') {
-      item.body.prependAsync(
-        bodyToHtml(replyText),
-        { coercionType: Office.CoercionType.Html },
-      );
+    if (item && item.body && typeof item.body.prependAsync === "function") {
+      item.body.prependAsync(bodyToHtml(replyText), { coercionType: Office.CoercionType.Html });
     } else {
-      throw new Error('Cannot insert reply — compose body is not accessible.');
+      throw new Error("Cannot insert reply — compose body is not accessible.");
     }
   } else {
     // Read mode — open a Reply All window
-    if (item && typeof item.displayReplyAllForm === 'function') {
+    if (item && typeof item.displayReplyAllForm === "function") {
       item.displayReplyAllForm(bodyToHtml(replyText));
     } else {
-      throw new Error('Cannot open Reply All window. Please make sure an email is selected.');
+      throw new Error("Cannot open Reply All window. Please make sure an email is selected.");
     }
   }
 }
@@ -295,15 +299,15 @@ export function hasPreviousReply(): boolean {
 
 function bodyToHtml(text: string): string {
   return text
-    .split('\n\n')
-    .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
-    .join('');
+    .split("\n\n")
+    .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br>")}</p>`)
+    .join("");
 }
 
 function escapeHtml(text: string): string {
   return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }

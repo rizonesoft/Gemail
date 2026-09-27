@@ -10,20 +10,20 @@
 
 /* global Office */
 
-import { generateText } from '../services/gemini';
-import { buildPrompt } from '../prompts/builder';
-import { IMPROVE_WRITING_PROMPT } from '../prompts/templates';
-import { getCurrentEmailBody, getItemMode } from '../services/outlook';
+import { generateText } from "../services/gemini";
+import { buildPrompt } from "../prompts/builder";
+import { IMPROVE_WRITING_PROMPT } from "../prompts/templates";
+import { getCurrentEmailBody, getItemMode } from "../services/outlook";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 export type ImprovementFocus =
-  | 'fix_grammar'
-  | 'improve_clarity'
-  | 'make_concise'
-  | 'make_professional';
+  | "fix_grammar"
+  | "improve_clarity"
+  | "make_concise"
+  | "make_professional";
 
 export interface ImproveOptions {
   focus: ImprovementFocus;
@@ -33,8 +33,8 @@ export interface ImproveOptions {
 // State
 // ---------------------------------------------------------------------------
 
-let originalText: string = '';
-let improvedText: string = '';
+let originalText: string = "";
+let improvedText: string = "";
 let lastOptions: ImproveOptions | null = null;
 
 // ---------------------------------------------------------------------------
@@ -42,10 +42,10 @@ let lastOptions: ImproveOptions | null = null;
 // ---------------------------------------------------------------------------
 
 const FOCUS_LABELS: Record<ImprovementFocus, string> = {
-  fix_grammar: 'Fix grammar, spelling, and punctuation errors',
-  improve_clarity: 'Improve clarity and readability',
-  make_concise: 'Make the text more concise — remove unnecessary words',
-  make_professional: 'Make the tone more professional and polished',
+  fix_grammar: "Fix grammar, spelling, and punctuation errors",
+  improve_clarity: "Improve clarity and readability",
+  make_concise: "Make the text more concise — remove unnecessary words",
+  make_professional: "Make the tone more professional and polished",
 };
 
 // ---------------------------------------------------------------------------
@@ -63,9 +63,7 @@ export async function improveWriting(options: ImproveOptions): Promise<{
   const text = await readSourceText();
 
   if (!text.trim()) {
-    throw new Error(
-      'No text to improve. Select some text or open an email in compose mode.',
-    );
+    throw new Error("No text to improve. Select some text or open an email in compose mode.");
   }
 
   const focusLabel = FOCUS_LABELS[options.focus] || options.focus;
@@ -95,7 +93,7 @@ export async function regenerateImprovement(): Promise<{
   improved: string;
 }> {
   if (!lastOptions) {
-    throw new Error('No previous improvement to regenerate.');
+    throw new Error("No previous improvement to regenerate.");
   }
   return improveWriting(lastOptions);
 }
@@ -104,20 +102,20 @@ export async function regenerateImprovement(): Promise<{
  * Accept the improved text — replace the body in compose mode.
  * In read mode, copies to clipboard instead.
  */
-export async function acceptChanges(): Promise<'replaced' | 'copied'> {
+export async function acceptChanges(): Promise<"replaced" | "copied"> {
   if (!improvedText) {
-    throw new Error('No improved text to accept.');
+    throw new Error("No improved text to accept.");
   }
 
   const mode = getItemMode();
 
-  if (mode === 'compose') {
+  if (mode === "compose") {
     await replaceComposeBody(improvedText);
-    return 'replaced';
+    return "replaced";
   } else {
     // Read mode — copy to clipboard
     await copyToClipboard(improvedText);
-    return 'copied';
+    return "copied";
   }
 }
 
@@ -136,7 +134,7 @@ async function readSourceText(): Promise<string> {
   // Try to get selected text in compose mode first
   const mode = getItemMode();
 
-  if (mode === 'compose') {
+  if (mode === "compose") {
     try {
       const selected = await getSelectedText();
       if (selected.trim()) return selected;
@@ -153,24 +151,24 @@ function getSelectedText(): Promise<string> {
   return new Promise((resolve, reject) => {
     const item = Office.context.mailbox.item;
     if (!item) {
-      reject(new Error('No mailbox item'));
+      reject(new Error("No mailbox item"));
       return;
     }
 
     // getSelectedDataAsync is available in compose mode
-    if (typeof (item as any).getSelectedDataAsync === 'function') {
+    if (typeof (item as any).getSelectedDataAsync === "function") {
       (item as any).getSelectedDataAsync(
         Office.CoercionType.Text,
         (result: Office.AsyncResult<any>) => {
           if (result.status === Office.AsyncResultStatus.Succeeded) {
-            resolve(result.value.data || '');
+            resolve(result.value.data || "");
           } else {
-            reject(new Error(result.error?.message || 'Failed to get selected text'));
+            reject(new Error(result.error?.message || "Failed to get selected text"));
           }
-        },
+        }
       );
     } else {
-      resolve('');
+      resolve("");
     }
   });
 }
@@ -182,8 +180,8 @@ function getSelectedText(): Promise<string> {
 function replaceComposeBody(text: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const item = Office.context.mailbox.item;
-    if (!item || !('body' in item)) {
-      reject(new Error('Cannot access compose body'));
+    if (!item || !("body" in item)) {
+      reject(new Error("Cannot access compose body"));
       return;
     }
 
@@ -194,9 +192,9 @@ function replaceComposeBody(text: string): Promise<void> {
         if (result.status === Office.AsyncResultStatus.Succeeded) {
           resolve();
         } else {
-          reject(new Error(result.error?.message || 'Failed to replace body'));
+          reject(new Error(result.error?.message || "Failed to replace body"));
         }
-      },
+      }
     );
   });
 }
@@ -211,13 +209,13 @@ async function copyToClipboard(text: string): Promise<void> {
     return;
   }
 
-  const textarea = document.createElement('textarea');
+  const textarea = document.createElement("textarea");
   textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
   document.body.appendChild(textarea);
   textarea.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   document.body.removeChild(textarea);
 }
 
@@ -233,11 +231,11 @@ export function generateDiffHtml(original: string, improved: string): string {
   const origWords = tokenize(original);
   const impWords = tokenize(improved);
 
-  const { added, removed, unchanged } = diffWords(origWords, impWords);
+  const { added, removed } = diffWords(origWords, impWords);
 
   // Build original side (with removed highlights)
-  const origHtml = buildSideHtml(origWords, removed, 'aic-diff__del');
-  const impHtml = buildSideHtml(impWords, added, 'aic-diff__ins');
+  const origHtml = buildSideHtml(origWords, removed, "aic-diff__del");
+  const impHtml = buildSideHtml(impWords, added, "aic-diff__ins");
 
   return `
     <div class="aic-diff">
@@ -285,9 +283,7 @@ function diffWords(origTokens: string[], impTokens: string[]): DiffResult {
     };
   }
 
-  const dp: number[][] = Array.from({ length: m + 1 }, () =>
-    new Array(n + 1).fill(0),
-  );
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
 
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
@@ -339,11 +335,7 @@ function diffWords(origTokens: string[], impTokens: string[]): DiffResult {
   return { added, removed, unchanged };
 }
 
-function buildSideHtml(
-  tokens: string[],
-  highlighted: Set<number>,
-  cls: string,
-): string {
+function buildSideHtml(tokens: string[], highlighted: Set<number>, cls: string): string {
   return tokens
     .map((token, i) => {
       const escaped = escapeHtml(token);
@@ -352,12 +344,9 @@ function buildSideHtml(
       }
       return escaped;
     })
-    .join('');
+    .join("");
 }
 
 function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }

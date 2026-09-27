@@ -169,15 +169,12 @@ export function resetSettings(): void {
 /** Human-readable labels for each preset rule. */
 const PRESET_RULE_LABELS: Record<string, string> = {
   noPlaceholders:
-    'Do not include placeholder tokens like [Your Name], [Company], or [Recipient]. Use real names from context or omit the sign-off entirely instead of using placeholders',
+    "Do not include placeholder tokens like [Your Name], [Company], or [Recipient]. Use real names from context or omit the sign-off entirely instead of using placeholders",
   noSignature:
     'Do not add a sign-off or signature (e.g. "Best regards", "Kind regards", "Sincerely") — the email client will add the signature automatically',
-  noSubjectLine:
-    "Do not include a subject line in the output",
-  keepShort:
-    "Keep the output concise — no more than 5 sentences",
-  useSimpleLanguage:
-    "Use simple, easy-to-understand language (avoid jargon)",
+  noSubjectLine: "Do not include a subject line in the output",
+  keepShort: "Keep the output concise — no more than 5 sentences",
+  useSimpleLanguage: "Use simple, easy-to-understand language (avoid jargon)",
 };
 
 export { PRESET_RULE_LABELS };
@@ -209,18 +206,18 @@ export function buildRulesText(): string {
 
 /** Strategic prompt instructions for each email goal. */
 export const GOAL_PROMPTS: Record<string, string> = {
-  'close-deal':
-    'Write with the strategic goal of CLOSING A DEAL. Create appropriate urgency, reinforce value and benefits, proactively address potential objections, and end with a clear, specific call to action. Use confident but not pushy language.',
-  'get-approval':
-    'Write with the strategic goal of GETTING A QUOTE OR PROPOSAL APPROVED. Summarize key value propositions concisely, address any likely concerns preemptively, create a sense of momentum, and make it easy to say yes with a clear next step.',
-  'schedule-meeting':
-    'Write with the strategic goal of SCHEDULING A MEETING. Propose specific times (if context allows), emphasize the value of the meeting, keep it brief and action-oriented, and make it effortless to confirm.',
-  'follow-up':
-    'Write with the strategic goal of FOLLOWING UP ON AN OVERDUE ITEM. Be firm but professional, reference the original timeline, express understanding while maintaining urgency, and request a specific response or action by a clear date.',
-  'request-intro':
-    'Write with the strategic goal of REQUESTING A FAVOR OR INTRODUCTION. Be respectful of the recipient\'s time, clearly explain the mutual benefit, make it easy to say yes by providing context they can forward, and express genuine appreciation.',
-  'resolve-complaint':
-    'Write with the strategic goal of RESOLVING A COMPLAINT. Acknowledge the issue with empathy, take ownership where appropriate, propose a concrete resolution, and aim to turn a negative experience into a positive one.',
+  "close-deal":
+    "Write with the strategic goal of CLOSING A DEAL. Create appropriate urgency, reinforce value and benefits, proactively address potential objections, and end with a clear, specific call to action. Use confident but not pushy language.",
+  "get-approval":
+    "Write with the strategic goal of GETTING A QUOTE OR PROPOSAL APPROVED. Summarize key value propositions concisely, address any likely concerns preemptively, create a sense of momentum, and make it easy to say yes with a clear next step.",
+  "schedule-meeting":
+    "Write with the strategic goal of SCHEDULING A MEETING. Propose specific times (if context allows), emphasize the value of the meeting, keep it brief and action-oriented, and make it effortless to confirm.",
+  "follow-up":
+    "Write with the strategic goal of FOLLOWING UP ON AN OVERDUE ITEM. Be firm but professional, reference the original timeline, express understanding while maintaining urgency, and request a specific response or action by a clear date.",
+  "request-intro":
+    "Write with the strategic goal of REQUESTING A FAVOR OR INTRODUCTION. Be respectful of the recipient's time, clearly explain the mutual benefit, make it easy to say yes by providing context they can forward, and express genuine appreciation.",
+  "resolve-complaint":
+    "Write with the strategic goal of RESOLVING A COMPLAINT. Acknowledge the issue with empathy, take ownership where appropriate, propose a concrete resolution, and aim to turn a negative experience into a positive one.",
 };
 
 /**
@@ -228,27 +225,27 @@ export const GOAL_PROMPTS: Record<string, string> = {
  * Returns empty string if goal is 'none' or not recognized.
  */
 export function buildGoalText(goal: string, customGoalText?: string): string {
-  if (!goal || goal === 'none') return '';
+  if (!goal || goal === "none") return "";
 
-  if (goal === 'custom' && customGoalText?.trim()) {
+  if (goal === "custom" && customGoalText?.trim()) {
     return `\n\nStrategic goal: ${customGoalText.trim()}. Write the email with this specific outcome in mind — use appropriate persuasion, structure, and a clear call to action.`;
   }
 
   const prompt = GOAL_PROMPTS[goal];
-  return prompt ? `\n\n${prompt}` : '';
+  return prompt ? `\n\n${prompt}` : "";
 }
 
 // ---------------------------------------------------------------------------
 // Email Templates
 // ---------------------------------------------------------------------------
 
-const TEMPLATES_KEY = 'aic_templates';
+const TEMPLATES_KEY = "aic_templates";
 
 export interface EmailTemplate {
   id: string;
   name: string;
   instructions: string;
-  type: 'draft' | 'reply' | 'both';
+  type: "draft" | "reply" | "both";
 }
 
 export function getTemplates(): EmailTemplate[] {
@@ -260,7 +257,7 @@ export function getTemplates(): EmailTemplate[] {
   }
 }
 
-export function saveTemplate(template: Omit<EmailTemplate, 'id'>): EmailTemplate {
+export function saveTemplate(template: Omit<EmailTemplate, "id">): EmailTemplate {
   const templates = getTemplates();
   const newTemplate: EmailTemplate = {
     ...template,

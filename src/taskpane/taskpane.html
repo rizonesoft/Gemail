@@ -103,42 +103,7 @@
         </button>
         <!-- Icon-only utility buttons -->
         <div class="flex items-center ml-auto">
-        <button id="tab-settings" class="aic-tab aic-tab--icon" title="Settings">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
-            />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-        </button>
-        <button id="tab-rules" class="aic-tab aic-tab--icon" title="Rules">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-            <path d="m9 12 2 2 4-4" />
-          </svg>
-        </button>
-        <div class="aic-split relative">
-          <button id="tab-more" class="aic-tab aic-tab--icon" data-tab="more" title="More features">
+          <button id="tab-settings" class="aic-tab aic-tab--icon" title="Settings">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -150,14 +115,37 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <circle cx="12" cy="12" r="1" />
-              <circle cx="12" cy="5" r="1" />
-              <circle cx="12" cy="19" r="1" />
+              <path
+                d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+              />
+              <circle cx="12" cy="12" r="3" />
             </svg>
           </button>
-          <!-- More dropdown menu -->
-          <div id="more-dropdown" class="aic-dropdown hidden">
-            <button class="aic-dropdown__item" data-tab="summarize">
+          <button id="tab-rules" class="aic-tab aic-tab--icon" title="Rules">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+              />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+          </button>
+          <div class="aic-split relative">
+            <button
+              id="tab-more"
+              class="aic-tab aic-tab--icon"
+              data-tab="more"
+              title="More features"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -169,76 +157,96 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <path d="M15 18h-5" />
-                <path d="M18 14h-8" />
-                <path
-                  d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"
-                />
-                <rect width="8" height="4" x="10" y="6" rx="1" />
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" />
               </svg>
-              <span>Summarize</span>
             </button>
-            <button class="aic-dropdown__item" data-tab="improve">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
-                />
-                <path d="M14 2v5a1 1 0 0 0 1 1h5" />
-                <path d="m9 15 2 2 4-4" />
-              </svg>
-              <span>Improve Writing</span>
-            </button>
-            <button class="aic-dropdown__item" data-tab="extract">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M13 5h8" />
-                <path d="M13 12h8" />
-                <path d="M13 19h8" />
-                <path d="m3 17 2 2 4-4" />
-                <rect x="3" y="4" width="6" height="6" rx="1" />
-              </svg>
-              <span>Extract Action Items</span>
-            </button>
-            <button class="aic-dropdown__item" data-tab="translate">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="m5 8 6 6" />
-                <path d="m4 14 6-6 2-3" />
-                <path d="M2 5h12" />
-                <path d="M7 2h1" />
-                <path d="m22 22-5-10-5 10" />
-                <path d="M14 18h6" />
-              </svg>
-              <span>Translate</span>
-            </button>
+            <!-- More dropdown menu -->
+            <div id="more-dropdown" class="aic-dropdown hidden">
+              <button class="aic-dropdown__item" data-tab="summarize">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M15 18h-5" />
+                  <path d="M18 14h-8" />
+                  <path
+                    d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"
+                  />
+                  <rect width="8" height="4" x="10" y="6" rx="1" />
+                </svg>
+                <span>Summarize</span>
+              </button>
+              <button class="aic-dropdown__item" data-tab="improve">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                  />
+                  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                  <path d="m9 15 2 2 4-4" />
+                </svg>
+                <span>Improve Writing</span>
+              </button>
+              <button class="aic-dropdown__item" data-tab="extract">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M13 5h8" />
+                  <path d="M13 12h8" />
+                  <path d="M13 19h8" />
+                  <path d="m3 17 2 2 4-4" />
+                  <rect x="3" y="4" width="6" height="6" rx="1" />
+                </svg>
+                <span>Extract Action Items</span>
+              </button>
+              <button class="aic-dropdown__item" data-tab="translate">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m5 8 6 6" />
+                  <path d="m4 14 6-6 2-3" />
+                  <path d="M2 5h12" />
+                  <path d="M7 2h1" />
+                  <path d="m22 22-5-10-5 10" />
+                  <path d="M14 18h6" />
+                </svg>
+                <span>Translate</span>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -272,7 +280,9 @@
 
         <!-- Goal -->
         <div class="mb-lg">
-          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="draft-goal">Goal <span class="text-aic-text-tertiary font-normal">(optional)</span></label>
+          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="draft-goal"
+            >Goal <span class="text-aic-text-tertiary font-normal">(optional)</span></label
+          >
           <select id="draft-goal" class="aic-select">
             <option value="none" selected>General purpose</option>
             <option value="close-deal">Close a deal</option>
@@ -283,20 +293,72 @@
             <option value="resolve-complaint">Resolve a complaint</option>
             <option value="custom">Custom goal...</option>
           </select>
-          <input id="draft-goal-custom" class="w-full p-sm border border-aic-border rounded-sm bg-aic-bg text-md text-aic-text font-aic focus:border-aic-blue focus:shadow-[0_0_0_2px_var(--color-aic-blue-glow)] outline-none transition-[border-color,box-shadow] duration-[var(--duration-aic)] mt-xs hidden" type="text" placeholder="Describe your goal..." maxlength="200" />
+          <input
+            id="draft-goal-custom"
+            class="w-full p-sm border border-aic-border rounded-sm bg-aic-bg text-md text-aic-text font-aic focus:border-aic-blue focus:shadow-[0_0_0_2px_var(--color-aic-blue-glow)] outline-none transition-[border-color,box-shadow] duration-[var(--duration-aic)] mt-xs hidden"
+            type="text"
+            placeholder="Describe your goal..."
+            maxlength="200"
+          />
         </div>
 
         <div class="mb-lg">
-          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="draft-instructions">Instructions / bullet points</label>
+          <label
+            class="block text-sm font-medium text-aic-text-secondary mb-xs"
+            for="draft-instructions"
+            >Instructions / bullet points</label
+          >
           <div class="flex items-center gap-xs mb-xs">
-            <select id="draft-template" class="aic-select aic-template-select flex-1" title="Load a saved template">
+            <select
+              id="draft-template"
+              class="aic-select aic-template-select flex-1"
+              title="Load a saved template"
+            >
               <option value="" selected>Templates...</option>
             </select>
-            <button id="btn-save-draft-template" class="aic-btn aic-template-btn" title="Save as template">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+            <button
+              id="btn-save-draft-template"
+              class="aic-btn aic-template-btn"
+              title="Save as template"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+                />
+                <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+                <path d="M7 3v4a1 1 0 0 0 1 1h7" />
+              </svg>
             </button>
-            <button id="btn-delete-draft-template" class="aic-btn aic-template-btn aic-template-btn--delete hidden" title="Delete template">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            <button
+              id="btn-delete-draft-template"
+              class="aic-btn aic-template-btn aic-template-btn--delete hidden"
+              title="Delete template"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 6h18" />
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              </svg>
             </button>
           </div>
           <div class="relative">
@@ -307,9 +369,20 @@
               placeholder="What should the email say? e.g. Thank client, confirm next steps, mention Friday deadline"
               maxlength="1000"
             ></textarea>
-            <button type="button" class="aic-btn-clear hidden" data-clear="draft-instructions" title="Clear">×</button>
+            <button
+              type="button"
+              class="aic-btn-clear hidden"
+              data-clear="draft-instructions"
+              title="Clear"
+            >
+              ×
+            </button>
           </div>
-          <span class="aic-char-count text-xs text-aic-text-tertiary mt-xs block text-right" data-for="draft-instructions">0 / 1000</span>
+          <span
+            class="aic-char-count text-xs text-aic-text-tertiary mt-xs block text-right"
+            data-for="draft-instructions"
+            >0 / 1000</span
+          >
         </div>
 
         <!-- Tone & Length row -->
@@ -341,7 +414,11 @@
 
         <!-- Language -->
         <div class="mb-lg">
-          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="draft-language">Language</label>
+          <label
+            class="block text-sm font-medium text-aic-text-secondary mb-xs"
+            for="draft-language"
+            >Language</label
+          >
           <select id="draft-language" class="aic-select">
             <option value="English" selected>English</option>
             <option value="Afrikaans">Afrikaans</option>
@@ -387,10 +464,7 @@
       </section>
 
       <!-- Draft result ------------------------------------------------ -->
-      <section
-        id="result-section"
-        class="aic-section aic-section--result p-lg hidden"
-      >
+      <section id="result-section" class="aic-section aic-section--result p-lg hidden">
         <h2 class="flex items-center gap-sm text-lg font-semibold text-aic-text mb-lg">
           <svg
             class="text-aic-blue shrink-0"
@@ -416,7 +490,17 @@
         <div class="relative">
           <div id="draft-preview" class="aic-preview" contenteditable="true"></div>
           <button class="aic-copy-btn" data-copy-target="draft-preview" title="Copy to clipboard">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
               <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
             </svg>
@@ -431,10 +515,26 @@
             <span class="aic-score-card__label">Email Score</span>
           </div>
           <div class="aic-score-card__bars">
-            <div class="aic-score-bar" data-dim="clarity"><span class="aic-score-bar__label">Clarity</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
-            <div class="aic-score-bar" data-dim="tone"><span class="aic-score-bar__label">Tone</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
-            <div class="aic-score-bar" data-dim="conciseness"><span class="aic-score-bar__label">Concise</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
-            <div class="aic-score-bar" data-dim="cta"><span class="aic-score-bar__label">CTA</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
+            <div class="aic-score-bar" data-dim="clarity">
+              <span class="aic-score-bar__label">Clarity</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
+            <div class="aic-score-bar" data-dim="tone">
+              <span class="aic-score-bar__label">Tone</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
+            <div class="aic-score-bar" data-dim="conciseness">
+              <span class="aic-score-bar__label">Concise</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
+            <div class="aic-score-bar" data-dim="cta">
+              <span class="aic-score-bar__label">CTA</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
           </div>
         </div>
 
@@ -519,7 +619,9 @@
 
         <!-- Goal -->
         <div class="mb-lg">
-          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="reply-goal">Goal <span class="text-aic-text-tertiary font-normal">(optional)</span></label>
+          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="reply-goal"
+            >Goal <span class="text-aic-text-tertiary font-normal">(optional)</span></label
+          >
           <select id="reply-goal" class="aic-select">
             <option value="none" selected>General purpose</option>
             <option value="close-deal">Close a deal</option>
@@ -530,16 +632,38 @@
             <option value="resolve-complaint">Resolve a complaint</option>
             <option value="custom">Custom goal...</option>
           </select>
-          <input id="reply-goal-custom" class="w-full p-sm border border-aic-border rounded-sm bg-aic-bg text-md text-aic-text font-aic focus:border-aic-blue focus:shadow-[0_0_0_2px_var(--color-aic-blue-glow)] outline-none transition-[border-color,box-shadow] duration-[var(--duration-aic)] mt-xs hidden" type="text" placeholder="Describe your goal..." maxlength="200" />
+          <input
+            id="reply-goal-custom"
+            class="w-full p-sm border border-aic-border rounded-sm bg-aic-bg text-md text-aic-text font-aic focus:border-aic-blue focus:shadow-[0_0_0_2px_var(--color-aic-blue-glow)] outline-none transition-[border-color,box-shadow] duration-[var(--duration-aic)] mt-xs hidden"
+            type="text"
+            placeholder="Describe your goal..."
+            maxlength="200"
+          />
         </div>
 
         <!-- Smart Reply Suggestions -->
         <div class="mb-lg">
-          <button id="btn-suggest-replies" class="aic-btn aic-btn--ghost w-full text-sm" title="Get AI-suggested replies based on the email">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
-              <path d="M20 3v4"/>
-              <path d="M22 5h-4"/>
+          <button
+            id="btn-suggest-replies"
+            class="aic-btn aic-btn--ghost w-full text-sm"
+            title="Get AI-suggested replies based on the email"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+              />
+              <path d="M20 3v4" />
+              <path d="M22 5h-4" />
             </svg>
             <span id="suggest-replies-text">Suggest replies</span>
           </button>
@@ -547,16 +671,62 @@
         </div>
 
         <div class="mb-lg">
-          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="reply-instructions">Reply instructions</label>
+          <label
+            class="block text-sm font-medium text-aic-text-secondary mb-xs"
+            for="reply-instructions"
+            >Reply instructions</label
+          >
           <div class="flex items-center gap-xs mb-xs">
-            <select id="reply-template" class="aic-select aic-template-select flex-1" title="Load a saved template">
+            <select
+              id="reply-template"
+              class="aic-select aic-template-select flex-1"
+              title="Load a saved template"
+            >
               <option value="" selected>Templates...</option>
             </select>
-            <button id="btn-save-reply-template" class="aic-btn aic-template-btn" title="Save as template">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+            <button
+              id="btn-save-reply-template"
+              class="aic-btn aic-template-btn"
+              title="Save as template"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+                />
+                <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+                <path d="M7 3v4a1 1 0 0 0 1 1h7" />
+              </svg>
             </button>
-            <button id="btn-delete-reply-template" class="aic-btn aic-template-btn aic-template-btn--delete hidden" title="Delete template">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            <button
+              id="btn-delete-reply-template"
+              class="aic-btn aic-template-btn aic-template-btn--delete hidden"
+              title="Delete template"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 6h18" />
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              </svg>
             </button>
           </div>
           <div class="relative">
@@ -567,9 +737,20 @@
               placeholder="What should the reply say? e.g. Accept but suggest Thursday 2pm instead"
               maxlength="1000"
             ></textarea>
-            <button type="button" class="aic-btn-clear hidden" data-clear="reply-instructions" title="Clear">×</button>
+            <button
+              type="button"
+              class="aic-btn-clear hidden"
+              data-clear="reply-instructions"
+              title="Clear"
+            >
+              ×
+            </button>
           </div>
-          <span class="aic-char-count text-xs text-aic-text-tertiary mt-xs block text-right" data-for="reply-instructions">0 / 1000</span>
+          <span
+            class="aic-char-count text-xs text-aic-text-tertiary mt-xs block text-right"
+            data-for="reply-instructions"
+            >0 / 1000</span
+          >
         </div>
 
         <!-- Tone & options row -->
@@ -595,7 +776,11 @@
 
         <!-- Reply language -->
         <div class="mb-lg">
-          <label class="block text-sm font-medium text-aic-text-secondary mb-xs" for="reply-language">Reply language</label>
+          <label
+            class="block text-sm font-medium text-aic-text-secondary mb-xs"
+            for="reply-language"
+            >Reply language</label
+          >
           <select id="reply-language" class="aic-select">
             <option value="auto" selected>Auto-detect (match email)</option>
             <option value="English">English</option>
@@ -642,10 +827,7 @@
       </section>
 
       <!-- Reply result ------------------------------------------------ -->
-      <section
-        id="reply-result-section"
-        class="aic-section aic-section--result p-lg hidden"
-      >
+      <section id="reply-result-section" class="aic-section aic-section--result p-lg hidden">
         <h2 class="flex items-center gap-sm text-lg font-semibold text-aic-text mb-lg">
           <svg
             class="text-aic-blue shrink-0"
@@ -671,7 +853,17 @@
         <div class="relative">
           <div id="reply-preview" class="aic-preview" contenteditable="true"></div>
           <button class="aic-copy-btn" data-copy-target="reply-preview" title="Copy to clipboard">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
               <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
             </svg>
@@ -686,10 +878,26 @@
             <span class="aic-score-card__label">Email Score</span>
           </div>
           <div class="aic-score-card__bars">
-            <div class="aic-score-bar" data-dim="clarity"><span class="aic-score-bar__label">Clarity</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
-            <div class="aic-score-bar" data-dim="tone"><span class="aic-score-bar__label">Tone</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
-            <div class="aic-score-bar" data-dim="conciseness"><span class="aic-score-bar__label">Concise</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
-            <div class="aic-score-bar" data-dim="cta"><span class="aic-score-bar__label">CTA</span><div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div><span class="aic-score-bar__val"></span></div>
+            <div class="aic-score-bar" data-dim="clarity">
+              <span class="aic-score-bar__label">Clarity</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
+            <div class="aic-score-bar" data-dim="tone">
+              <span class="aic-score-bar__label">Tone</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
+            <div class="aic-score-bar" data-dim="conciseness">
+              <span class="aic-score-bar__label">Concise</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
+            <div class="aic-score-bar" data-dim="cta">
+              <span class="aic-score-bar__label">CTA</span>
+              <div class="aic-score-bar__track"><div class="aic-score-bar__fill"></div></div>
+              <span class="aic-score-bar__val"></span>
+            </div>
           </div>
         </div>
 
@@ -851,10 +1059,7 @@
       </section>
 
       <!-- Summarize result -------------------------------------------- -->
-      <section
-        id="summarize-result-section"
-        class="aic-section aic-section--result p-lg hidden"
-      >
+      <section id="summarize-result-section" class="aic-section aic-section--result p-lg hidden">
         <h2 class="flex items-center gap-sm text-lg font-semibold text-aic-text mb-lg">
           <svg
             class="text-aic-amber shrink-0"
@@ -973,10 +1178,7 @@
       </section>
 
       <!-- Improve result ---------------------------------------------- -->
-      <section
-        id="improve-result-section"
-        class="aic-section aic-section--result p-lg hidden"
-      >
+      <section id="improve-result-section" class="aic-section aic-section--result p-lg hidden">
         <h2 class="flex items-center gap-sm text-lg font-semibold text-aic-text mb-lg">
           <svg
             class="text-aic-green shrink-0"
@@ -1074,10 +1276,7 @@
       </section>
 
       <!-- Extract result ---------------------------------------------- -->
-      <section
-        id="extract-result-section"
-        class="aic-section aic-section--result p-lg hidden"
-      >
+      <section id="extract-result-section" class="aic-section aic-section--result p-lg hidden">
         <h2 class="flex items-center gap-sm text-lg font-semibold text-aic-text mb-lg">
           <svg
             class="text-aic-amber shrink-0"
@@ -1205,10 +1404,7 @@
       </section>
 
       <!-- Translate result -------------------------------------------- -->
-      <section
-        id="translate-result-section"
-        class="aic-section aic-section--result p-lg hidden"
-      >
+      <section id="translate-result-section" class="aic-section aic-section--result p-lg hidden">
         <h2 class="flex items-center gap-sm text-lg font-semibold text-aic-text mb-lg">
           <svg
             class="text-aic-teal shrink-0"
@@ -1271,7 +1467,9 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            />
             <path d="m9 12 2 2 4-4" />
           </svg>
           Generation Rules
@@ -1283,16 +1481,33 @@
 
         <!-- Preset rules -->
         <div class="mb-lg">
-          <label class="block text-sm font-medium text-aic-text-secondary mb-sm">Preset Rules</label>
+          <label class="block text-sm font-medium text-aic-text-secondary mb-sm"
+            >Preset Rules</label
+          >
 
           <label class="flex items-start gap-sm mb-sm cursor-pointer">
-            <input type="checkbox" id="rule-noPlaceholders" class="mt-[2px] accent-aic-purple" checked />
-            <span class="text-sm text-aic-text">Don't use placeholder tokens like [Your Name] or [Company] — use real names or omit</span>
+            <input
+              type="checkbox"
+              id="rule-noPlaceholders"
+              class="mt-[2px] accent-aic-purple"
+              checked
+            />
+            <span class="text-sm text-aic-text"
+              >Don't use placeholder tokens like [Your Name] or [Company] — use real names or
+              omit</span
+            >
           </label>
 
           <label class="flex items-start gap-sm mb-sm cursor-pointer">
-            <input type="checkbox" id="rule-noSignature" class="mt-[2px] accent-aic-purple" checked />
-            <span class="text-sm text-aic-text">Don't add a sign-off or signature — let the email client handle it</span>
+            <input
+              type="checkbox"
+              id="rule-noSignature"
+              class="mt-[2px] accent-aic-purple"
+              checked
+            />
+            <span class="text-sm text-aic-text"
+              >Don't add a sign-off or signature — let the email client handle it</span
+            >
           </label>
 
           <label class="flex items-start gap-sm mb-sm cursor-pointer">
@@ -1302,7 +1517,9 @@
 
           <label class="flex items-start gap-sm mb-sm cursor-pointer">
             <input type="checkbox" id="rule-keepShort" class="mt-[2px] accent-aic-purple" />
-            <span class="text-sm text-aic-text">Keep output concise — no more than 5 sentences</span>
+            <span class="text-sm text-aic-text"
+              >Keep output concise — no more than 5 sentences</span
+            >
           </label>
 
           <label class="flex items-start gap-sm mb-sm cursor-pointer">
@@ -1324,9 +1541,20 @@
               placeholder="e.g. Always sign off as 'Alex', use British English spelling"
               maxlength="1000"
             ></textarea>
-            <button type="button" class="aic-btn-clear hidden" data-clear="custom-rules" title="Clear">×</button>
+            <button
+              type="button"
+              class="aic-btn-clear hidden"
+              data-clear="custom-rules"
+              title="Clear"
+            >
+              ×
+            </button>
           </div>
-          <span class="aic-char-count text-xs text-aic-text-tertiary mt-xs block text-right" data-for="custom-rules">0 / 1000</span>
+          <span
+            class="aic-char-count text-xs text-aic-text-tertiary mt-xs block text-right"
+            data-for="custom-rules"
+            >0 / 1000</span
+          >
         </div>
 
         <!-- Save button -->
@@ -1342,7 +1570,9 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+            <path
+              d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+            />
             <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
             <path d="M7 3v4a1 1 0 0 0 1 1h7" />
           </svg>
@@ -1350,7 +1580,10 @@
         </button>
 
         <!-- Confirmation message -->
-        <p id="rules-saved-msg" class="text-sm text-aic-success font-medium mt-sm text-center hidden">
+        <p
+          id="rules-saved-msg"
+          class="text-sm text-aic-success font-medium mt-sm text-center hidden"
+        >
           ✓ Rules saved successfully
         </p>
       </section>
@@ -1456,10 +1689,7 @@
               >Google AI Studio</a
             >
           </p>
-          <p
-            id="api-key-error"
-            class="text-xs mt-xs hidden aic-text-error"
-          ></p>
+          <p id="api-key-error" class="text-xs mt-xs hidden aic-text-error"></p>
           <button
             id="btn-test-connection"
             class="aic-btn aic-btn--secondary mt-sm w-full"
@@ -1650,15 +1880,27 @@
 
       <!-- Scroll to top ------------------------------------------------ -->
       <button id="btn-scroll-top" class="aic-scroll-top hidden" title="Scroll to top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m18 15-6-6-6 6"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m18 15-6-6-6 6" />
         </svg>
       </button>
 
       <!-- Loading overlay --------------------------------------------- -->
       <div id="loading-overlay" class="aic-loading hidden">
         <div class="aic-loading__spinner"></div>
-        <p class="aic-loading__text text-sm text-aic-text-secondary font-medium">Generating with Gemini...</p>
+        <p class="aic-loading__text text-sm text-aic-text-secondary font-medium">
+          Generating with Gemini...
+        </p>
         <p class="aic-loading__estimate text-xs text-aic-text-tertiary mt-xs hidden"></p>
       </div>
 

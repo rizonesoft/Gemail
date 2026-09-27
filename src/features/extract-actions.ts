@@ -7,16 +7,16 @@
  * © Rizonetech (Pty) Ltd. — https://rizonesoft.com
  */
 
-import { generateText, FAST_MODEL } from '../services/gemini';
-import { buildPrompt, truncateContext } from '../prompts/builder';
-import { EXTRACT_ACTION_ITEMS_PROMPT } from '../prompts/templates';
+import { generateText, FAST_MODEL } from "../services/gemini";
+import { buildPrompt, truncateContext } from "../prompts/builder";
+import { EXTRACT_ACTION_ITEMS_PROMPT } from "../prompts/templates";
 import {
   getCurrentEmailBody,
   getCurrentEmailSubject,
   getEmailSender,
   getConversationMessages,
   EmailMessage,
-} from '../services/outlook';
+} from "../services/outlook";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -40,7 +40,6 @@ const MAX_CONTENT_TOKENS = 6000;
 // ---------------------------------------------------------------------------
 
 let lastItems: ActionItem[] = [];
-let lastRawResponse: string = '';
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -53,7 +52,7 @@ export async function extractActionItems(): Promise<ActionItem[]> {
   const rawContent = await readEmailContent();
 
   if (!rawContent.trim()) {
-    throw new Error('No email content found. Please open an email first.');
+    throw new Error("No email content found. Please open an email first.");
   }
 
   const emailContent = truncateContext(rawContent, MAX_CONTENT_TOKENS);
@@ -68,7 +67,6 @@ export async function extractActionItems(): Promise<ActionItem[]> {
     model: FAST_MODEL,
   });
 
-  lastRawResponse = raw;
   lastItems = parseActionItems(raw);
   return lastItems;
 }
@@ -91,16 +89,16 @@ export function getLastItems(): ActionItem[] {
  * Format action items as a plain-text task list for clipboard.
  */
 export function formatAsTaskList(items: ActionItem[]): string {
-  if (items.length === 0) return 'No action items found.';
+  if (items.length === 0) return "No action items found.";
 
   return items
     .map((item, i) => {
       let line = `${i + 1}. ${item.task}`;
-      if (item.owner && item.owner !== '—') line += ` (Owner: ${item.owner})`;
-      if (item.deadline && item.deadline !== '—') line += ` [Due: ${item.deadline}]`;
+      if (item.owner && item.owner !== "—") line += ` (Owner: ${item.owner})`;
+      if (item.deadline && item.deadline !== "—") line += ` [Due: ${item.deadline}]`;
       return line;
     })
-    .join('\n');
+    .join("\n");
 }
 
 /**
@@ -112,13 +110,13 @@ export async function copyToClipboard(text: string): Promise<void> {
     return;
   }
 
-  const textarea = document.createElement('textarea');
+  const textarea = document.createElement("textarea");
   textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
   document.body.appendChild(textarea);
   textarea.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   document.body.removeChild(textarea);
 }
 
@@ -141,13 +139,13 @@ export function renderChecklistHtml(items: ActionItem[]): string {
         <div class="aic-task-item__body">
           <div class="aic-task-item__text">${escapeHtml(item.task)}</div>
           <div class="aic-task-item__meta">
-            ${item.owner && item.owner !== '—' ? `<span class="aic-task-item__owner"><strong>Owner:</strong> ${escapeHtml(item.owner)}</span>` : ''}
-            ${item.deadline && item.deadline !== '—' ? `<span class="aic-task-item__deadline"><strong>Due:</strong> ${escapeHtml(item.deadline)}</span>` : ''}
+            ${item.owner && item.owner !== "—" ? `<span class="aic-task-item__owner"><strong>Owner:</strong> ${escapeHtml(item.owner)}</span>` : ""}
+            ${item.deadline && item.deadline !== "—" ? `<span class="aic-task-item__deadline"><strong>Due:</strong> ${escapeHtml(item.deadline)}</span>` : ""}
           </div>
         </div>
-      </div>`,
+      </div>`
     )
-    .join('');
+    .join("");
 
   return `<div class="aic-task-list">${rows}</div>`;
 }
@@ -183,7 +181,7 @@ function formatThread(messages: EmailMessage[]): string {
       header += `\n${msg.body}`;
       return header;
     })
-    .join('\n\n');
+    .join("\n\n");
 }
 
 // ---------------------------------------------------------------------------
@@ -208,9 +206,9 @@ function parseActionItems(raw: string): ActionItem[] {
     if (!trimmed) continue;
 
     const item: ActionItem = {
-      task: '',
-      owner: '—',
-      deadline: '—',
+      task: "",
+      owner: "—",
+      deadline: "—",
     };
 
     // Try to extract structured fields
@@ -224,10 +222,7 @@ function parseActionItems(raw: string): ActionItem[] {
       if (deadlineMatch) item.deadline = deadlineMatch[1].trim();
     } else {
       // Fallback: treat the whole block as the task
-      item.task = trimmed
-        .replace(/\*\*/g, '')
-        .replace(/\n/g, ' ')
-        .trim();
+      item.task = trimmed.replace(/\*\*/g, "").replace(/\n/g, " ").trim();
     }
 
     // Skip items that are just labels or empty
@@ -244,8 +239,5 @@ function parseActionItems(raw: string): ActionItem[] {
 // ---------------------------------------------------------------------------
 
 function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }

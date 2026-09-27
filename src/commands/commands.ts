@@ -13,25 +13,21 @@
 
 /* global Office */
 
-import { generateText } from '../services/gemini';
-import { buildPrompt } from '../prompts/builder';
-import { IMPROVE_WRITING_PROMPT } from '../prompts/templates';
+import { generateText } from "../services/gemini";
+import { buildPrompt } from "../prompts/builder";
+import { IMPROVE_WRITING_PROMPT } from "../prompts/templates";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-type ImprovementFocus =
-  | 'fix_grammar'
-  | 'improve_clarity'
-  | 'make_concise'
-  | 'make_professional';
+type ImprovementFocus = "fix_grammar" | "improve_clarity" | "make_concise" | "make_professional";
 
 const FOCUS_LABELS: Record<ImprovementFocus, string> = {
-  fix_grammar: 'Fix grammar, spelling, and punctuation errors',
-  improve_clarity: 'Improve clarity and readability',
-  make_concise: 'Make the text more concise — remove unnecessary words',
-  make_professional: 'Make the tone more professional and polished',
+  fix_grammar: "Fix grammar, spelling, and punctuation errors",
+  improve_clarity: "Improve clarity and readability",
+  make_concise: "Make the text more concise — remove unnecessary words",
+  make_professional: "Make the tone more professional and polished",
 };
 
 // ---------------------------------------------------------------------------
@@ -44,12 +40,12 @@ const FOCUS_LABELS: Record<ImprovementFocus, string> = {
  */
 async function improveSelectedText(
   focus: ImprovementFocus,
-  event: Office.AddinCommands.Event,
+  event: Office.AddinCommands.Event
 ): Promise<void> {
   const item = Office.context.mailbox.item;
 
   if (!item) {
-    showNotification('No email is open.', event);
+    showNotification("No email is open.", event);
     return;
   }
 
@@ -58,7 +54,7 @@ async function improveSelectedText(
     const selectedText = await getSelectedText(item);
 
     if (!selectedText.trim()) {
-      showNotification('Please select some text first.', event);
+      showNotification("Please select some text first.", event);
       return;
     }
 
@@ -77,9 +73,9 @@ async function improveSelectedText(
     // 3. Replace the selected text with the improved version
     await setSelectedText(item, improved);
 
-    showNotification('✓ Text improved', event);
+    showNotification("✓ Text improved", event);
   } catch (err: any) {
-    const message = err?.message || 'Failed to improve text.';
+    const message = err?.message || "Failed to improve text.";
     showNotification(`Error: ${message}`, event);
   }
 }
@@ -90,28 +86,25 @@ async function improveSelectedText(
 
 function getSelectedText(item: any): Promise<string> {
   return new Promise((resolve, reject) => {
-    if (typeof item.getSelectedDataAsync !== 'function') {
-      reject(new Error('Selection API not available. Ensure you are in compose mode.'));
+    if (typeof item.getSelectedDataAsync !== "function") {
+      reject(new Error("Selection API not available. Ensure you are in compose mode."));
       return;
     }
 
-    item.getSelectedDataAsync(
-      Office.CoercionType.Text,
-      (result: Office.AsyncResult<any>) => {
-        if (result.status === Office.AsyncResultStatus.Succeeded) {
-          resolve(result.value?.data || '');
-        } else {
-          reject(new Error(result.error?.message || 'Failed to read selected text'));
-        }
-      },
-    );
+    item.getSelectedDataAsync(Office.CoercionType.Text, (result: Office.AsyncResult<any>) => {
+      if (result.status === Office.AsyncResultStatus.Succeeded) {
+        resolve(result.value?.data || "");
+      } else {
+        reject(new Error(result.error?.message || "Failed to read selected text"));
+      }
+    });
   });
 }
 
 function setSelectedText(item: any, text: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!item.body || typeof item.body.setSelectedDataAsync !== 'function') {
-      reject(new Error('Cannot write to compose body.'));
+    if (!item.body || typeof item.body.setSelectedDataAsync !== "function") {
+      reject(new Error("Cannot write to compose body."));
       return;
     }
 
@@ -122,9 +115,9 @@ function setSelectedText(item: any, text: string): Promise<void> {
         if (result.status === Office.AsyncResultStatus.Succeeded) {
           resolve();
         } else {
-          reject(new Error(result.error?.message || 'Failed to replace text'));
+          reject(new Error(result.error?.message || "Failed to replace text"));
         }
-      },
+      }
     );
   });
 }
@@ -133,10 +126,10 @@ function showNotification(message: string, event: Office.AddinCommands.Event): v
   const item = Office.context.mailbox.item;
 
   if (item) {
-    item.notificationMessages.replaceAsync('AIComposeNotification', {
+    item.notificationMessages.replaceAsync("AIComposeNotification", {
       type: Office.MailboxEnums.ItemNotificationMessageType.InformationalMessage,
       message,
-      icon: 'Icon.16x16',
+      icon: "Icon.16x16",
       persistent: false,
     } as Office.NotificationMessageDetails);
   }
@@ -149,19 +142,19 @@ function showNotification(message: string, event: Office.AddinCommands.Event): v
 // ---------------------------------------------------------------------------
 
 function fixGrammar(event: Office.AddinCommands.Event): void {
-  improveSelectedText('fix_grammar', event);
+  improveSelectedText("fix_grammar", event);
 }
 
 function improveClarity(event: Office.AddinCommands.Event): void {
-  improveSelectedText('improve_clarity', event);
+  improveSelectedText("improve_clarity", event);
 }
 
 function makeConcise(event: Office.AddinCommands.Event): void {
-  improveSelectedText('make_concise', event);
+  improveSelectedText("make_concise", event);
 }
 
 function makeProfessional(event: Office.AddinCommands.Event): void {
-  improveSelectedText('make_professional', event);
+  improveSelectedText("make_professional", event);
 }
 
 // ---------------------------------------------------------------------------
@@ -170,8 +163,8 @@ function makeProfessional(event: Office.AddinCommands.Event): void {
 
 Office.onReady(() => {
   // Register all function commands with Office
-  Office.actions.associate('fixGrammar', fixGrammar);
-  Office.actions.associate('improveClarity', improveClarity);
-  Office.actions.associate('makeConcise', makeConcise);
-  Office.actions.associate('makeProfessional', makeProfessional);
+  Office.actions.associate("fixGrammar", fixGrammar);
+  Office.actions.associate("improveClarity", improveClarity);
+  Office.actions.associate("makeConcise", makeConcise);
+  Office.actions.associate("makeProfessional", makeProfessional);
 });

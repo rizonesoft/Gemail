@@ -202,9 +202,15 @@
 }
 
 /* Restore visible colour for the pseudo-element */
-.aic-btn--primary.aic-btn--loading::after { color: var(--color-aic-text-inverse); }
-.aic-btn--secondary.aic-btn--loading::after { color: var(--color-aic-text-secondary); }
-.aic-btn--accent.aic-btn--loading::after { color: var(--color-aic-text-inverse); }
+.aic-btn--primary.aic-btn--loading::after {
+  color: var(--color-aic-text-inverse);
+}
+.aic-btn--secondary.aic-btn--loading::after {
+  color: var(--color-aic-text-secondary);
+}
+.aic-btn--accent.aic-btn--loading::after {
+  color: var(--color-aic-text-inverse);
+}
 
 /* Primary — blue filled */
 .aic-btn--primary {
@@ -744,7 +750,8 @@
 .aic-preview[contenteditable="true"] {
   cursor: text;
   outline: none;
-  transition: border-color var(--duration-aic) ease,
+  transition:
+    border-color var(--duration-aic) ease,
     box-shadow var(--duration-aic) ease;
 }
 
@@ -768,7 +775,8 @@
   color: var(--color-aic-text-tertiary);
   cursor: pointer;
   opacity: 0.5;
-  transition: opacity var(--duration-aic) ease,
+  transition:
+    opacity var(--duration-aic) ease,
     color var(--duration-aic) ease,
     background var(--duration-aic) ease;
 }
@@ -1073,7 +1081,8 @@
 }
 
 @keyframes focusPulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 2px var(--color-aic-blue-glow);
   }
   50% {

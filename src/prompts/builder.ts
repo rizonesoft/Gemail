@@ -25,7 +25,7 @@ export type PromptVariables = Record<string, string>;
 const CHARS_PER_TOKEN = 4;
 
 /** Suffix appended when text is truncated. */
-const TRUNCATION_SUFFIX = '\n\n[Content truncated due to length…]';
+const TRUNCATION_SUFFIX = "\n\n[Content truncated due to length…]";
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -40,6 +40,7 @@ const TRUNCATION_SUFFIX = '\n\n[Content truncated due to length…]';
  *
  * @param template  - The prompt template string with `{{VAR}}` placeholders.
  * @param variables - A key-value map of placeholder names to replacement values.
+ * @param rulesText - Optional user rules appended after interpolation (from `buildRulesText()`).
  * @returns The fully interpolated prompt string.
  *
  * @example
@@ -51,9 +52,9 @@ const TRUNCATION_SUFFIX = '\n\n[Content truncated due to length…]';
  * // → 'Hello Alice, your order 12345 is ready.'
  * ```
  */
-export function buildPrompt(template: string, variables: PromptVariables, appendRules = false): string {
+export function buildPrompt(template: string, variables: PromptVariables, rulesText = ""): string {
   if (!template) {
-    throw new Error('Prompt template cannot be empty.');
+    throw new Error("Prompt template cannot be empty.");
   }
 
   let result = template;
@@ -63,14 +64,11 @@ export function buildPrompt(template: string, variables: PromptVariables, append
     result = result.split(placeholder).join(value);
   }
 
-  // Append user-defined rules only for composition features (draft/reply)
-  if (appendRules) {
-    try {
-      const { buildRulesText } = require('../features/settings');
-      result += buildRulesText();
-    } catch {
-      // Settings module not available — skip rules injection
-    }
+  // Append user-defined rules. The composition features (draft/reply) pass
+  // buildRulesText() from the settings module; the builder stays free of it,
+  // so it has no import cycle and no runtime require().
+  if (rulesText) {
+    result += rulesText;
   }
 
   return result;
@@ -96,7 +94,7 @@ export function buildPrompt(template: string, variables: PromptVariables, append
 export function truncateContext(text: string, maxTokens: number): string {
   if (!text) return text;
   if (maxTokens <= 0) {
-    throw new Error('maxTokens must be a positive number.');
+    throw new Error("maxTokens must be a positive number.");
   }
 
   const maxChars = maxTokens * CHARS_PER_TOKEN;
@@ -155,7 +153,7 @@ function findLastSentenceBoundary(text: string): number {
   // Match period, exclamation, or question mark followed by space or end-of-string
   for (let i = text.length - 1; i >= 0; i--) {
     const char = text[i];
-    if (char === '.' || char === '!' || char === '?') {
+    if (char === "." || char === "!" || char === "?") {
       return i + 1;
     }
   }

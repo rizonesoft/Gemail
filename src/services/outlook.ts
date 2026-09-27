@@ -37,7 +37,7 @@ export interface EmailMessage {
 }
 
 /** The mode in which the add-in is operating. */
-export type ItemMode = 'read' | 'compose' | 'unknown';
+export type ItemMode = "read" | "compose" | "unknown";
 
 // ---------------------------------------------------------------------------
 // Mode detection
@@ -48,30 +48,30 @@ export type ItemMode = 'read' | 'compose' | 'unknown';
  */
 export function getItemMode(): ItemMode {
   const item = Office.context.mailbox.item;
-  if (!item) return 'unknown';
+  if (!item) return "unknown";
 
   // In compose mode, item.itemType is still defined but
   // subject/body are async setters rather than direct properties.
   // The best indicator is checking for the "getAsync" pattern on body.
-  if (typeof (item as any).body?.getAsync === 'function') {
+  if (typeof (item as any).body?.getAsync === "function") {
     // Both modes have body.getAsync since Office 1.3,
     // but compose mode also has body.setAsync
-    if (typeof (item as any).body?.setAsync === 'function') {
-      return 'compose';
+    if (typeof (item as any).body?.setAsync === "function") {
+      return "compose";
     }
   }
 
   // Also check: in read mode, subject is a direct string property.
   // In compose mode, subject is an object with getAsync/setAsync.
-  if (typeof item.subject === 'string') {
-    return 'read';
+  if (typeof item.subject === "string") {
+    return "read";
   }
 
-  if (typeof (item.subject as any)?.getAsync === 'function') {
-    return 'compose';
+  if (typeof (item.subject as any)?.getAsync === "function") {
+    return "compose";
   }
 
-  return 'unknown';
+  return "unknown";
 }
 
 // ---------------------------------------------------------------------------
@@ -86,16 +86,13 @@ export function getCurrentEmailBody(): Promise<string> {
   return new Promise((resolve, reject) => {
     const item = getItemOrThrow();
 
-    item.body.getAsync(
-      Office.CoercionType.Text,
-      (result: Office.AsyncResult<string>) => {
-        if (result.status === Office.AsyncResultStatus.Succeeded) {
-          resolve(result.value || '');
-        } else {
-          reject(new Error(`Failed to read email body: ${result.error?.message || 'Unknown error'}`));
-        }
-      },
-    );
+    item.body.getAsync(Office.CoercionType.Text, (result: Office.AsyncResult<string>) => {
+      if (result.status === Office.AsyncResultStatus.Succeeded) {
+        resolve(result.value || "");
+      } else {
+        reject(new Error(`Failed to read email body: ${result.error?.message || "Unknown error"}`));
+      }
+    });
   });
 }
 
@@ -107,18 +104,15 @@ export function getCurrentEmailBodyHtml(): Promise<string> {
   return new Promise((resolve, reject) => {
     const item = getItemOrThrow();
 
-    item.body.getAsync(
-      Office.CoercionType.Html,
-      (result: Office.AsyncResult<string>) => {
-        if (result.status === Office.AsyncResultStatus.Succeeded) {
-          resolve(result.value || '');
-        } else {
-          reject(
-            new Error(`Failed to read email body (HTML): ${result.error?.message || 'Unknown error'}`),
-          );
-        }
-      },
-    );
+    item.body.getAsync(Office.CoercionType.Html, (result: Office.AsyncResult<string>) => {
+      if (result.status === Office.AsyncResultStatus.Succeeded) {
+        resolve(result.value || "");
+      } else {
+        reject(
+          new Error(`Failed to read email body (HTML): ${result.error?.message || "Unknown error"}`)
+        );
+      }
+    });
   });
 }
 
@@ -135,27 +129,27 @@ export function getCurrentEmailSubject(): Promise<string> {
     const item = getItemOrThrow();
 
     // Read mode: subject is a direct string property
-    if (typeof item.subject === 'string') {
+    if (typeof item.subject === "string") {
       resolve(item.subject);
       return;
     }
 
     // Compose mode: subject is an object with getAsync
     const subjectObj = item.subject as any;
-    if (typeof subjectObj?.getAsync === 'function') {
+    if (typeof subjectObj?.getAsync === "function") {
       subjectObj.getAsync((result: Office.AsyncResult<string>) => {
         if (result.status === Office.AsyncResultStatus.Succeeded) {
-          resolve(result.value || '');
+          resolve(result.value || "");
         } else {
           reject(
-            new Error(`Failed to read email subject: ${result.error?.message || 'Unknown error'}`),
+            new Error(`Failed to read email subject: ${result.error?.message || "Unknown error"}`)
           );
         }
       });
       return;
     }
 
-    resolve('');
+    resolve("");
   });
 }
 
@@ -170,15 +164,15 @@ export function getCurrentEmailSubject(): Promise<string> {
  * - Compose mode: Returns the current user's account info (they are the sender).
  */
 export function getEmailSender(): Promise<EmailContact> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const item = getItemOrThrow();
 
     // Read mode: item.from is a direct EmailAddressDetails object
     if ((item as Office.MessageRead).from) {
       const from = (item as Office.MessageRead).from;
       resolve({
-        name: from.displayName || '',
-        email: from.emailAddress || '',
+        name: from.displayName || "",
+        email: from.emailAddress || "",
       });
       return;
     }
@@ -186,12 +180,12 @@ export function getEmailSender(): Promise<EmailContact> {
     // Compose mode: the sender is the current user
     // Use item.from.getAsync if available (Requirement set 1.7+)
     const fromObj = (item as any).from;
-    if (fromObj && typeof fromObj.getAsync === 'function') {
+    if (fromObj && typeof fromObj.getAsync === "function") {
       fromObj.getAsync((result: Office.AsyncResult<Office.EmailAddressDetails>) => {
         if (result.status === Office.AsyncResultStatus.Succeeded && result.value) {
           resolve({
-            name: result.value.displayName || '',
-            email: result.value.emailAddress || '',
+            name: result.value.displayName || "",
+            email: result.value.emailAddress || "",
           });
         } else {
           // Fallback: use the mailbox user profile
@@ -217,7 +211,7 @@ export function getEmailSender(): Promise<EmailContact> {
 export async function getOriginalSender(): Promise<EmailContact> {
   const mode = getItemMode();
 
-  if (mode === 'read') {
+  if (mode === "read") {
     return getEmailSender();
   }
 
@@ -237,14 +231,14 @@ export async function getOriginalSender(): Promise<EmailContact> {
 function getComposeToRecipients(item: any): Promise<EmailContact[]> {
   return new Promise((resolve) => {
     const toObj = item.to;
-    if (toObj && typeof toObj.getAsync === 'function') {
+    if (toObj && typeof toObj.getAsync === "function") {
       toObj.getAsync((result: Office.AsyncResult<Office.EmailAddressDetails[]>) => {
         if (result.status === Office.AsyncResultStatus.Succeeded && result.value) {
           resolve(
             result.value.map((r) => ({
-              name: r.displayName || '',
-              email: r.emailAddress || '',
-            })),
+              name: r.displayName || "",
+              email: r.emailAddress || "",
+            }))
           );
         } else {
           resolve([]);
@@ -268,7 +262,7 @@ export function getEmailRecipients(): Promise<EmailContact[]> {
   const item = getItemOrThrow();
   const mode = getItemMode();
 
-  if (mode === 'read') {
+  if (mode === "read") {
     return getReadModeRecipients(item as Office.MessageRead);
   } else {
     return getComposeModeRecipients(item);
@@ -281,13 +275,13 @@ function getReadModeRecipients(item: Office.MessageRead): Promise<EmailContact[]
 
   if (item.to) {
     for (const r of item.to) {
-      contacts.push({ name: r.displayName || '', email: r.emailAddress || '' });
+      contacts.push({ name: r.displayName || "", email: r.emailAddress || "" });
     }
   }
 
   if (item.cc) {
     for (const r of item.cc) {
-      contacts.push({ name: r.displayName || '', email: r.emailAddress || '' });
+      contacts.push({ name: r.displayName || "", email: r.emailAddress || "" });
     }
   }
 
@@ -296,10 +290,10 @@ function getReadModeRecipients(item: Office.MessageRead): Promise<EmailContact[]
 
 /** Compose mode: To and CC require getAsync calls. */
 function getComposeModeRecipients(item: any): Promise<EmailContact[]> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const contacts: EmailContact[] = [];
     let pending = 0;
-    let hasError = false;
+    const hasError = false;
 
     const tryResolve = () => {
       if (pending === 0 && !hasError) {
@@ -308,12 +302,12 @@ function getComposeModeRecipients(item: any): Promise<EmailContact[]> {
     };
 
     const processRecipientList = (recipientObj: any) => {
-      if (recipientObj && typeof recipientObj.getAsync === 'function') {
+      if (recipientObj && typeof recipientObj.getAsync === "function") {
         pending++;
         recipientObj.getAsync((result: Office.AsyncResult<Office.EmailAddressDetails[]>) => {
           if (result.status === Office.AsyncResultStatus.Succeeded && result.value) {
             for (const r of result.value) {
-              contacts.push({ name: r.displayName || '', email: r.emailAddress || '' });
+              contacts.push({ name: r.displayName || "", email: r.emailAddress || "" });
             }
           }
           pending--;
@@ -390,7 +384,7 @@ function getItemOrThrow(): any {
   const item = Office.context.mailbox.item;
   if (!item) {
     throw new Error(
-      'No mailbox item is currently open. Make sure the add-in is activated on an email.',
+      "No mailbox item is currently open. Make sure the add-in is activated on an email."
     );
   }
   return item as any;
@@ -403,8 +397,8 @@ function getItemOrThrow(): any {
 function getCurrentUserContact(): EmailContact {
   const profile = Office.context.mailbox.userProfile;
   return {
-    name: profile?.displayName || '',
-    email: profile?.emailAddress || '',
+    name: profile?.displayName || "",
+    email: profile?.emailAddress || "",
   };
 }
 
@@ -414,15 +408,15 @@ function getCurrentUserContact(): EmailContact {
  */
 export function stripHtml(html: string): string {
   return html
-    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ')
+    .replace(/\s+/g, " ")
     .trim();
 }

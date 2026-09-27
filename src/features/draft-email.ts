@@ -12,10 +12,11 @@
 
 /* global Office */
 
-import { generateText } from '../services/gemini';
-import { buildPrompt } from '../prompts/builder';
-import { DRAFT_EMAIL_PROMPT } from '../prompts/templates';
-import { getItemMode } from '../services/outlook';
+import { generateText } from "../services/gemini";
+import { buildPrompt } from "../prompts/builder";
+import { buildRulesText } from "./settings";
+import { DRAFT_EMAIL_PROMPT } from "../prompts/templates";
+import { getItemMode } from "../services/outlook";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -33,7 +34,7 @@ export interface DraftEmailOptions {
 // ---------------------------------------------------------------------------
 
 let lastOptions: DraftEmailOptions | null = null;
-let lastDraft: string = '';
+let lastDraft: string = "";
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -45,18 +46,22 @@ let lastDraft: string = '';
  */
 export async function generateDraft(options: DraftEmailOptions): Promise<string> {
   if (!options.instructions || !options.instructions.trim()) {
-    throw new Error('Please enter your instructions or bullet points.');
+    throw new Error("Please enter your instructions or bullet points.");
   }
 
   // Map length preference to a prompt hint
   const lengthHint = getLengthHint(options.length);
 
   // Build the prompt from the template
-  const prompt = buildPrompt(DRAFT_EMAIL_PROMPT, {
-    INSTRUCTIONS: `${options.instructions}\n\nDesired length: ${lengthHint}`,
-    TONE: options.tone || 'professional',
-    LANGUAGE: options.language || 'English',
-  }, true);
+  const prompt = buildPrompt(
+    DRAFT_EMAIL_PROMPT,
+    {
+      INSTRUCTIONS: `${options.instructions}\n\nDesired length: ${lengthHint}`,
+      TONE: options.tone || "professional",
+      LANGUAGE: options.language || "English",
+    },
+    buildRulesText()
+  );
 
   // Call Gemini
   const draft = await generateText(prompt, {
@@ -76,7 +81,7 @@ export async function generateDraft(options: DraftEmailOptions): Promise<string>
  */
 export async function regenerateDraft(): Promise<string> {
   if (!lastOptions) {
-    throw new Error('No previous draft to regenerate. Please generate a draft first.');
+    throw new Error("No previous draft to regenerate. Please generate a draft first.");
   }
   return generateDraft(lastOptions);
 }
@@ -86,11 +91,11 @@ export async function regenerateDraft(): Promise<string> {
  */
 export async function refineDraft(refinement: string): Promise<string> {
   if (!lastDraft) {
-    throw new Error('No draft to refine. Please generate a draft first.');
+    throw new Error("No draft to refine. Please generate a draft first.");
   }
 
   if (!refinement || !refinement.trim()) {
-    throw new Error('Please enter your refinement instructions.');
+    throw new Error("Please enter your refinement instructions.");
   }
 
   const prompt = `You are a professional email assistant.
@@ -128,20 +133,17 @@ export function copyToCompose(draft: string): void {
   const { subject, body } = parseSubjectAndBody(draft);
   const mode = getItemMode();
 
-  if (mode === 'compose') {
+  if (mode === "compose") {
     // Insert directly into the active compose window
     const item = Office.context.mailbox.item as any;
 
     // Prepend to body (preserves signature)
-    if (item && item.body && typeof item.body.prependAsync === 'function') {
-      item.body.prependAsync(
-        bodyToHtml(body),
-        { coercionType: Office.CoercionType.Html },
-      );
+    if (item && item.body && typeof item.body.prependAsync === "function") {
+      item.body.prependAsync(bodyToHtml(body), { coercionType: Office.CoercionType.Html });
     }
 
     // Set the subject inline (if the draft has one)
-    if (subject && item && item.subject && typeof item.subject.setAsync === 'function') {
+    if (subject && item && item.subject && typeof item.subject.setAsync === "function") {
       item.subject.setAsync(subject);
     }
   } else {
@@ -173,23 +175,23 @@ export function hasPreviousDraft(): boolean {
 
 function getLengthHint(length: string): string {
   switch (length) {
-    case 'short':
-      return 'Keep it brief — 2-4 sentences maximum.';
-    case 'detailed':
-      return 'Write a thorough, detailed email covering all points.';
-    case 'medium':
+    case "short":
+      return "Keep it brief — 2-4 sentences maximum.";
+    case "detailed":
+      return "Write a thorough, detailed email covering all points.";
+    case "medium":
     default:
-      return 'Standard length — a few short paragraphs.';
+      return "Standard length — a few short paragraphs.";
   }
 }
 
 function getMaxTokensForLength(length: string): number {
   switch (length) {
-    case 'short':
+    case "short":
       return 512;
-    case 'detailed':
+    case "detailed":
       return 4096;
-    case 'medium':
+    case "medium":
     default:
       return 2048;
   }
@@ -199,20 +201,20 @@ function getMaxTokensForLength(length: string): number {
  * Parse "Subject: ..." from the first line of the draft.
  */
 function parseSubjectAndBody(draft: string): { subject: string; body: string } {
-  const lines = draft.split('\n');
-  let subject = '';
+  const lines = draft.split("\n");
+  let subject = "";
   let bodyStartIndex = 0;
 
-  if (lines.length > 0 && lines[0].toLowerCase().startsWith('subject:')) {
-    subject = lines[0].replace(/^subject:\s*/i, '').trim();
+  if (lines.length > 0 && lines[0].toLowerCase().startsWith("subject:")) {
+    subject = lines[0].replace(/^subject:\s*/i, "").trim();
     bodyStartIndex = 1;
     // Skip blank line after subject
-    if (bodyStartIndex < lines.length && lines[bodyStartIndex].trim() === '') {
+    if (bodyStartIndex < lines.length && lines[bodyStartIndex].trim() === "") {
       bodyStartIndex++;
     }
   }
 
-  const body = lines.slice(bodyStartIndex).join('\n').trim();
+  const body = lines.slice(bodyStartIndex).join("\n").trim();
   return { subject, body };
 }
 
@@ -221,15 +223,15 @@ function parseSubjectAndBody(draft: string): { subject: string; body: string } {
  */
 function bodyToHtml(text: string): string {
   return text
-    .split('\n\n')
-    .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
-    .join('');
+    .split("\n\n")
+    .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br>")}</p>`)
+    .join("");
 }
 
 function escapeHtml(text: string): string {
   return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
