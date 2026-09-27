@@ -12,12 +12,12 @@ depends_on: []
 > **Goal:** `src/services/openrouter.ts` talks to OpenRouter over plain `fetch` with no SDK: one-shot chat completions, SSE streaming with cancellation, structured JSON output, the model catalogue, and the key status, each classifying every documented failure into a typed error, and each proven by an API contract test that replays committed fixtures of real OpenRouter responses. Nothing calls it yet: the callers move in D02 T02, so the Gemini path keeps working until the cutover.
 
 > [!IMPORTANT]
-> **Current state (verified 2026-09-27):** The only AI client is `src/services/gemini.ts` (441 lines) over `@google/genai` (`package.json` `"@google/genai": "^1.42.0"`, imported once, at `gemini.ts` line 13). It owns the retry loop (`MAX_RETRIES = 3`, `INITIAL_RETRY_DELAY_MS = 1000`, factor 2, jitter), the adaptive timeout (`calcTimeout`: 30 s plus 10 s per 5,000 prompt characters, capped at 90 s), and `classifyError`, whose `QUOTA_EXCEEDED` branch can never run because the 429 branch above it returns first. `withTimeout` rejects without aborting, so a timed-out request keeps running. There is no `src/services/openrouter.ts`, no fixtures folder, and no test that replays a recorded response: `src/services/gemini.test.ts` mocks the SDK's `generateContent` directly, and its retry tests wait on real timers. Jest runs in the `node` environment (`jest.config.js`), where Node 24 provides a global `fetch`, `ReadableStream`, and `AbortController`.
+> **Current state (verified 2026-09-27):** The only AI client is `src/services/gemini.ts` (438 lines; 441 before the Prettier pass of `d150913`) over `@google/genai` (`package.json` `"@google/genai": "^1.42.0"`, imported once, at `gemini.ts` line 13). It owns the retry loop (`MAX_RETRIES = 3`, `INITIAL_RETRY_DELAY_MS = 1000`, factor 2, jitter), the adaptive timeout (`calcTimeout`: 30 s plus 10 s per 5,000 prompt characters, capped at 90 s), and `classifyError`, whose `QUOTA_EXCEEDED` branch can never run because the 429 branch above it returns first. `withTimeout` rejects without aborting, so a timed-out request keeps running. There is no `src/services/openrouter.ts`, no fixtures folder, and no test that replays a recorded response: `src/services/gemini.test.ts` mocks the SDK's `generateContent` directly, and its retry tests wait on real timers. Jest runs in the `node` environment (`jest.config.js`), where Node 24 provides a global `fetch`, `ReadableStream`, and `AbortController`.
 <!-- claim: absent src/services/openrouter.ts -->
 <!-- claim: absent src/services/__fixtures__/openrouter -->
-<!-- claim: count "from '@google/genai'" src/services/gemini.ts = 1 -->
+<!-- claim: count "from \"@google/genai\"" src/services/gemini.ts = 1 -->
 <!-- claim: count "thinkingBudget" src/services/gemini.ts = 1 -->
-<!-- claim: lines src/services/gemini.ts = 441 -->
+<!-- claim: lines src/services/gemini.ts = 438 -->
 
 ## Inputs
 

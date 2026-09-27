@@ -75,7 +75,7 @@ Every later section cites these gates, so they must exist and be green before pr
 | [ ] | `D00 T02 §2` | Prettier pass over the tree                       |   4   |
 | [ ] | `D00 T02 §3` | Lint errors to zero                               |   5   |
 | [ ] | `D00 T02 §4` | CI build workflow                                 |   6   |
-| [ ] | `D00 T02 §5` | Strict TypeScript                                 |   6   |
+| [ ] | `D00 T02 §5` | Strict TypeScript                                 |   7   |
 | [ ] | `D00 T03 §1` | Wire the TODO gate into every clone               |   5   |
 | [ ] | `D00 T03 §2` | Prove the review panel end to end                 |   7   |
 | [ ] | `D00 T03 §3` | Raise the claims coverage floor                   |   4   |
