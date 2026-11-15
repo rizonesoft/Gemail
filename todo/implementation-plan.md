@@ -2,7 +2,7 @@
 
 The order to run every section in, from today (a dead published add-in on Google Gemini, freshly moved from WSL to Windows) to Gemail 2.0.0 on OpenRouter, proven on a clean Outlook profile.
 
-> **Progress:** **0 of 119 sections complete (0%).** 119 sections (0 discovered); backlog 9 of 500. Derived from the Implementation Order tables by `python scripts/todo-graph.py plan --sync` -- never edited by hand.
+> **Progress:** **0 of 122 sections complete (0%).** 122 sections (0 discovered); backlog 9 of 500. Derived from the Implementation Order tables by `python scripts/todo-graph.py plan --sync` -- never edited by hand.
 
 Seeded 2026-09-27 from the operator's decisions recorded in [`../AGENTS.md`](../AGENTS.md), the code inventory of the imported 1.3.2 tree, and every open item of the retired root `TODO.md`.
 
@@ -51,6 +51,7 @@ Gemail 2.0.0 is **one Outlook add-in that behaves like one product**: installed 
 | Users can learn it                                         | `D07 T01 §5`                                              |
 | It installs clean                                          | `D07 T01 §6` · `D07 T01 §7`                               |
 | Classic Outlook is turned away, never half-supported       | `D05 T03 §6`                                              |
+| It wears the approved design, in both themes               | `D03 T04 §1`-`§8` · `D06 T04 §1` · `D05 T02 §5`           |
 
 ---
 
@@ -133,7 +134,7 @@ Every caller moves to OpenRouter and Gemini leaves the tree.
 
 ### Phase 5 -- Task Pane Architecture, Design Adoption, and Import Defects
 
-The split gives every later UI section a module to work in; the approved design (tokens, icons, the pane frame, the ribbon icons) lands on those modules before any feature builds on them; and the defects are fixed in the modules rather than in the monolith.
+The split gives every later UI section a module to work in; the approved design (Fluent Native, operator decision 2026-11-15: tokens, icons, the pane frame, the action bar, the reply form and result card, the Settings cards, the ribbon icons) lands on those modules before any feature builds on them; and the defects are fixed in the modules rather than in the monolith.
 
 |  ✔  | Section      | Deliverable                                              | Items |
 | :-: | ------------ | -------------------------------------------------------- | :---: |
@@ -146,9 +147,12 @@ The split gives every later UI section a module to work in; the approved design 
 | [ ] | `D03 T01 §7` | Remove dead code                                         |   4   |
 | [ ] | `D03 T04 §1` | Tokens and the system font in the stylesheet             |   6   |
 | [ ] | `D03 T04 §2` | Every pane icon from the registry                        |   6   |
-| [ ] | `D03 T04 §3` | Header, tab bar, and footer from the mockup              |   7   |
+| [ ] | `D03 T04 §3` | Header, tab bar, and footer from the mockup              |   8   |
 | [ ] | `D03 T04 §4` | No color literal left in the pane                        |   5   |
 | [ ] | `D03 T04 §5` | Ribbon and app icons from the icon set                   |   6   |
+| [ ] | `D03 T04 §6` | The action bar holds every primary action                |   7   |
+| [ ] | `D03 T04 §7` | Reply settings row, instruction summary, and result card |   7   |
+| [ ] | `D03 T04 §8` | Settings as cards with a sticky Save bar                 |   6   |
 | [ ] | `D05 T03 §1` | Accept Changes replaces only what was improved           |   9   |
 | [ ] | `D05 T03 §2` | Include original is honored                              |   4   |
 | [ ] | `D05 T03 §3` | Refine starts from the edited preview                    |   4   |

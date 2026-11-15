@@ -43,8 +43,10 @@ import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-ARTIFACT_URL = "https://claude.ai/artifact/GHuFwncPVxchLZaPLQvURu"
-PANE_BOARDS = ("Main.dc.html", "Settings.dc.html", "Improve.dc.html")
+ARTIFACT_URL = "https://claude.ai/artifact/Vc5xq9U5iRvq1AiZ1gm5YD"
+# The boards that draw the task pane. Main.dc.html is the overview (rationale, token swatches) and Icons.dc.html
+# the icon sheet: neither is a pane surface, and the icon sheet carries the ribbon icons' own colors.
+PANE_BOARDS = ("Reply.dc.html", "Settings.dc.html", "Improve.dc.html")
 HEX = re.compile(r"^#[0-9a-f]{6}$")
 RATCHET_RULES = ("color-literal", "inline-svg", "font-family", "legacy-icon")
 # Generated files that are allowed to hold what the ratchet rules count.
@@ -347,12 +349,12 @@ def self_test() -> int:
         (root / "docs/design/tokens.json").write_text(json.dumps(tokens), encoding="utf-8")
         (root / "docs/design/mockup.md").write_text("# M\n\n## Result card\n\n```\n## Not an anchor\n```\n", encoding="utf-8")
         board = '<div style="color: #1b1d22">\n<svg><path fill="#123456"></path></svg>\n</div>\n'
-        (root / "docs/design/mockup/Main.dc.html").write_bytes(board.encode())
-        (root / "docs/design/mockup/canvas.json").write_text(json.dumps({"order": ["Main.dc.html"]}), encoding="utf-8")
-        (root / "docs/design/mockup/renders/Main.png").write_bytes(b"png")
-        (root / "docs/design/mockup/renders/manifest.json").write_text(json.dumps({"Main.png": {
-            "board": "Main.dc.html", "boardSha256": sha256(root / "docs/design/mockup/Main.dc.html"),
-            "pngSha256": sha256(root / "docs/design/mockup/renders/Main.png")}}), encoding="utf-8")
+        (root / "docs/design/mockup/Reply.dc.html").write_bytes(board.encode())
+        (root / "docs/design/mockup/canvas.json").write_text(json.dumps({"order": ["Reply.dc.html"]}), encoding="utf-8")
+        (root / "docs/design/mockup/renders/Reply.png").write_bytes(b"png")
+        (root / "docs/design/mockup/renders/manifest.json").write_text(json.dumps({"Reply.png": {
+            "board": "Reply.dc.html", "boardSha256": sha256(root / "docs/design/mockup/Reply.dc.html"),
+            "pngSha256": sha256(root / "docs/design/mockup/renders/Reply.png")}}), encoding="utf-8")
         relock_mockup(root, "v1")
         (root / "assets/icons/src/pane/a.svg").write_text("<svg></svg>", encoding="utf-8")
         (root / "src/ui/icons.ts").write_text("export const x = '<svg>';\n", encoding="utf-8")
@@ -366,7 +368,7 @@ def self_test() -> int:
         update_baseline(root)
         check("clean tree passes", run(root) == [], run(root))
         # a CRLF checkout of pinned text files (Windows, core.autocrlf) still passes
-        mb = root / "docs/design/mockup/Main.dc.html"
+        mb = root / "docs/design/mockup/Reply.dc.html"
         mb.write_bytes(board.encode().replace(b"\n", b"\r\n"))
         check("the CRLF copy really differs in bytes", mb.read_bytes() != board.encode())
         check("line endings do not change a pinned hash", run(root) == [], run(root))
@@ -393,13 +395,13 @@ def self_test() -> int:
         (root / "assets/icons/src/pane/b.svg").unlink()
 
         # mockup
-        (root / "docs/design/mockup/Main.dc.html").write_bytes(board.replace("#1b1d22", "#1b1d23").encode())
+        (root / "docs/design/mockup/Reply.dc.html").write_bytes(board.replace("#1b1d22", "#1b1d23").encode())
         probs = run(root)
         check("hand-edited artboard is caught", any("differs from the pinned" in p for p in probs), probs)
-        check("stale render is caught", any("older Main.dc.html" in p for p in probs), probs)
+        check("stale render is caught", any("older Reply.dc.html" in p for p in probs), probs)
         check("non-token mockup color is caught", any("#1b1d23, which is not" in p for p in probs), probs)
         check("svg colors are exempt from the token rule", not any("#123456" in p for p in probs), probs)
-        (root / "docs/design/mockup/Main.dc.html").write_bytes(board.encode())
+        (root / "docs/design/mockup/Reply.dc.html").write_bytes(board.encode())
         (root / "docs/design/mockup/Extra.dc.html").write_text("x", encoding="utf-8")
         check("unpinned artboard is caught", any("Extra.dc.html is not pinned" in p for p in run(root)))
         (root / "docs/design/mockup/Extra.dc.html").unlink()

@@ -39,6 +39,7 @@ depends_on: []
 - -> XREF: D06 T02 §1 -- the custom prompt library is a new panel on the structure §5 finishes
 - -> XREF: D06 T04 §1 -- live theming uses the shared UI helpers §1 creates
 - -> XREF: D03 T04 §2 -- icon hydration and the rebuilt frame (D03 T04 §3) build on the `src/ui/` helpers and the tab controller from here
+- -> XREF: D03 T04 §6 -- the action bar takes over the primary and result buttons of the panel modules §3 to §5 extract, and D03 T04 §8 regroups the Settings panel §5 extracts
 
 ## Outcome
 

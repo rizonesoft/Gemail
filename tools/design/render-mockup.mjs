@@ -131,6 +131,7 @@ fs.mkdirSync(OUT, { recursive: true });
 // so scripts/design-lint.py can refuse a render older than its board.
 const MANIFEST = path.join(OUT, 'manifest.json');
 const manifest = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : {};
+const produced = new Set();
 // Line-ending-neutral for text (boards); PNGs are hashed raw. Matches scripts/design-lint.py.
 const sha = (buf, file = '') => crypto.createHash('sha256')
   .update(file.toLowerCase().endsWith('.png') ? buf : Buffer.from(buf.toString('latin1').replace(/\r\n/g, '\n'), 'latin1'))
@@ -155,7 +156,16 @@ for (const file of canvas.order) {
     }
     screenshot(html, w, h, out);
     manifest[`${name}${suffix}.png`] = { board: file, props: p, boardSha256: sha(fs.readFileSync(path.join(MOCKUP, file)), file), pngSha256: sha(fs.readFileSync(out), out) };
+    produced.add(`${name}${suffix}.png`);
     console.log(`rendered ${path.relative(ROOT, out)} (${w}x${h} @2x)`);
   }
+}
+// A full run that rendered everything owns the folder: a render no board produces any more (a removed board, a
+// dropped state prop) leaves with its manifest entry, so a re-import never carries the last design's pictures.
+if (!only && !process.exitCode) {
+  for (const png of Object.keys(manifest)) {
+    if (!produced.has(png)) { delete manifest[png]; fs.rmSync(path.join(OUT, png), { force: true }); console.log(`removed stale render ${png}`); }
+  }
+  for (const f of fs.readdirSync(OUT)) if (f.endsWith('.png') && !produced.has(f)) fs.rmSync(path.join(OUT, f));
 }
 fs.writeFileSync(MANIFEST, JSON.stringify(Object.fromEntries(Object.entries(manifest).sort()), null, 2) + '\n');

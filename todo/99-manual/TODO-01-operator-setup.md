@@ -107,12 +107,12 @@ Every review slot in `.conclave/panel.toml` runs through the `codex` CLI, and th
 
 ## 5. Gemail Artwork
 
-The name changes in `01-rebrand`, but the pictures carry the old one: the README banner, the social preview, and the icon sources. Artwork is a taste call. `D07 T01 §3` renders every manifest icon size from the SVG sources this section commits.
+The name changes in `01-rebrand`, and the pictures now carry the new one: on 2026-11-15 the operator approved the Fluent Native design, whose letter-with-spark app icon is committed as `assets/icons/src/app/gemail.svg` (with every ribbon and menu source beside it), and `node tools/design/brand.mjs` rendered a Gemail README banner (`assets/banner.png`, 1280 x 420) and social preview (`assets/social-preview.png`, 1280 x 640) from `assets/brand/*.svg` around that icon. What is left is the owner's: look at the two pictures, replace them if they are not right, and upload the social preview. **Corrected 2026-11-15:** was "the pictures carry the old one ... Artwork is a taste call", with the logo and banner still to be made.
 
 **Requires:** operator -- choosing the logo and banner is the owner's brand decision for Rizonesoft
 
-- [ ] Commit the Gemail logo mark as `assets/icons/gemail.svg` (square, legible at 16 px) and replace the other `assets/icons/*.svg` sources the ribbon uses. Done when: `ls assets/icons/*.svg` lists `gemail.svg`.
-- [ ] Replace `assets/banner.png` and `assets/social-preview.png` with Gemail versions at their current pixel sizes. Done when: `python -c` with the PNG header read prints the same width and height as before for each file.
+- [ ] Confirm the Gemail logo mark is the approved app icon, `assets/icons/src/app/gemail.svg` with its 16 px redraw `gemail-16.svg`. Done when: `ls assets/icons/src/app/` lists both. **Corrected 2026-11-15:** was "Commit the Gemail logo mark as `assets/icons/gemail.svg` ... and replace the other `assets/icons/*.svg` sources"; the design import owns the icon sources under `assets/icons/src/`.
+- [ ] Review `assets/banner.png` and `assets/social-preview.png` (rendered from `assets/brand/banner.svg` and `assets/brand/social-preview.svg` by `node tools/design/brand.mjs`) and either accept them or change the SVG sources and re-render. Done when: both PNGs are the ones the owner wants and `node tools/design/brand.mjs` reproduces them. **Corrected 2026-11-15:** was "Replace ... with Gemail versions at their current pixel sizes"; Gemail versions now exist at 1280 x 420 and GitHub's 1280 x 640.
 - [ ] Upload the social preview in the repository settings (Settings, General, Social preview). Done when: `gh api repos/rizonesoft/Gemail --jq .open_graph_image_url` changes from its previous value.
 - [ ] Commit: `"manual: Gemail artwork"`
 

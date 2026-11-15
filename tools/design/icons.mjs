@@ -7,7 +7,7 @@
 // Sources (docs/design/icons.md is the catalog and the rules):
 //   app/gemail.svg (48 box) and app/gemail-16.svg   -> assets/icons/png/app/gemail-{16,32,64,80,128,256}.png
 //   ribbon/*.svg (32 box)                          -> assets/icons/png/ribbon/<name>-{16,32,80}.png
-//   menu/*.svg (20 box)                            -> assets/icons/png/menu/<name>-{16,32,80}.png
+//   menu/*.svg (32 box)                            -> assets/icons/png/menu/<name>-{16,32,80}.png
 //   pane/*.svg (20 box, currentColor)              -> src/ui/icons.ts (inline SVG registry, no PNGs)
 //
 // assets/icons/manifest.json records the sha256 of every source and output, so

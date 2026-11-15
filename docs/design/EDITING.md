@@ -1,6 +1,6 @@
 # Editing the Gemail Design
 
-The design has one origin: the operator's design artifact, https://claude.ai/artifact/GHuFwncPVxchLZaPLQvURu. Everything under `docs/design/` and `assets/icons/` descends from it. Change the origin, then re-import; never edit a copy.
+The design has one origin: the operator's design artifact, https://claude.ai/artifact/Vc5xq9U5iRvq1AiZ1gm5YD. Everything under `docs/design/` and `assets/icons/` descends from it. Change the origin, then re-import; never edit a copy.
 
 ## Change a screen or a component
 
@@ -14,7 +14,7 @@ Edit `docs/design/tokens.json` (both themes, same keys), check contrast (the `D0
 
 ## Change or add an icon
 
-Draw it in the artifact's Icons board, then copy the SVG into `assets/icons/src/<app|ribbon|menu|pane>/<name>.svg` (20 px grid and 1.4 px stroke for pane icons; see `icons.md`), add its row to `icons.md`, and run:
+Draw it in the artifact's Icons board, then copy the SVG into `assets/icons/src/<app|ribbon|menu|pane>/<name>.svg` (20 px grid and 1.5 px stroke for pane icons; see `icons.md`), add its row to `icons.md`, and run:
 
 ```bash
 npm ci --prefix tools/design      # once per clone

@@ -2,125 +2,102 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Gemail -- Settings</title>
+<title>Direction A settings pane</title>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <style>
-body{margin:0;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;color:#1b1d22;background:#ffffff}
-a{color:#1668c9}a:hover{color:#125aae}
-button,input,select{font-family:inherit}
+body{margin:0}
+a{color:#0f6cbd}a:hover{color:#115ea3}
 </style>
 </helmet>
-<div style="width: 400px; height: 1160px; box-sizing: border-box; background: #ffffff; display: flex; flex-direction: column; font-size: 14px; line-height: 20px">
+<div style="width: 840px; min-height: 1460px; box-sizing: border-box; padding: 40px; background: #ebebeb; font-family: 'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif; display: flex; gap: 40px; align-items: flex-start">
+  <sc-for list="{{themes}}" as="t" hint-placeholder-count="2">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 13px; font-weight: 600; color: #3d3d3d">{{t.caption}}</div>
+      <div style="width: 360px; height: 1340px; background: {{t.canvas}}; color: {{t.text}}; border: 1px solid {{t.border}}; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column">
+        <header style="height: 48px; padding: 0 16px 0 4px; display: flex; align-items: center; gap: 4px; flex-shrink: 0; background: {{t.bg}}; border-bottom: 1px solid {{t.border}}">
+          <button type="button" aria-label="Back" style="width: 40px; height: 40px; border: 0; background: transparent; color: {{t.text}}; border-radius: 4px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"></path></svg></button>
+          <h1 style="margin: 0; font-size: 16px; font-weight: 600">Settings</h1>
+        </header>
+        <div style="flex-grow: 1; overflow: hidden; padding: 12px; display: flex; flex-direction: column; gap: 12px">
 
-  <header style="display: flex; align-items: center; gap: 6px; padding: 12px 12px 12px 8px; border-bottom: 1px solid #e3e6eb">
-    <a href="Main.dc.html" aria-label="Back" style="width: 36px; height: 36px; border-radius: 6px; color: #5e6470; display: flex; align-items: center; justify-content: center">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5L6.5 10l5.5 5.5"></path></svg>
-    </a>
-    <h1 style="margin: 0; font-size: 16px; font-weight: 600">Settings</h1>
-  </header>
+          <section style="background: {{t.bg}}; border: 1px solid {{t.border}}; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 8px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="{{t.text2}}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 17a3.5 3.5 0 1 0 0-7a3.5 3.5 0 1 0 0 7zM9 11l8-8M14 6l2 2M12 8l1.5 1.5"></path></svg><h2 style="margin: 0; font-size: 14px; font-weight: 600">OpenRouter key</h2></div>
+            <div style="display: flex; gap: 8px">
+              <label style="flex-grow: 1; height: 32px; border: 1px solid {{t.borderInput}}; border-bottom: 2px solid {{t.text2}}; border-radius: 4px; display: flex; align-items: center; padding: 0 4px 0 10px; font-size: 14px; letter-spacing: 0.15em">••••••••••••3f9a<button type="button" aria-label="Show key" style="margin-left: auto; width: 28px; height: 28px; border: 0; background: transparent; color: {{t.text2}}; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10c2-4 5-6 8-6s6 2 8 6c-2 4-5 6-8 6s-6-2-8-6zM10 12.5a2.5 2.5 0 1 0 0-5a2.5 2.5 0 1 0 0 5z"></path></svg></button></label>
+              <button type="button" style="height: 32px; border: 1px solid {{t.borderInput}}; background: {{t.bg}}; color: {{t.text}}; border-radius: 4px; font: inherit; font-size: 13px; font-weight: 600; padding: 0 12px">Test</button>
+            </div>
+            <div role="status" style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: {{t.success}}"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"></path></svg>Connected · 312 models available</div>
+            <div style="display: flex; gap: 8px; font-size: 12px; line-height: 16px; color: {{t.text2}}"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M10 2.5l6 2.2v5c0 3.8-2.6 6.4-6 7.8c-3.4-1.4-6-4-6-7.8v-5zM7.3 10l2 2 3.5-3.6"></path></svg><span>Stored on this device only. It is never synced and only ever sent to OpenRouter. <a href="#" style="color: {{t.brand}}">Get a key</a></span></div>
+          </section>
 
-  <main style="flex-grow: 1; display: flex; flex-direction: column; gap: 24px; padding: 16px">
+          <section style="background: {{t.bg}}; border: 1px solid {{t.border}}; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 8px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="{{t.ai}}" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5c.6 3.9 2.6 5.9 6.5 6.5c-3.9.6-5.9 2.6-6.5 6.5c-.6-3.9-2.6-5.9-6.5-6.5c3.9-.6 5.9-2.6 6.5-6.5z"></path></svg><h2 style="margin: 0; font-size: 14px; font-weight: 600">Model</h2></div>
+            <label style="height: 32px; border: 1px solid {{t.borderInput}}; border-radius: 4px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: {{t.text3}}"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M8.5 14a5.5 5.5 0 1 0 0-11a5.5 5.5 0 1 0 0 11zM12.5 12.5L17 17"></path></svg>Search all models</label>
+            <div role="radiogroup" aria-label="Recommended models" style="display: flex; flex-direction: column; border: 1px solid {{t.border}}; border-radius: 4px">
+              <sc-for list="{{t.models}}" as="m" hint-placeholder-count="3">
+                <label style="display: flex; gap: 10px; padding: 10px; background: {{m.bg}}; border-bottom: 1px solid {{t.border}}">
+                  <input type="radio" name="model-{{t.key}}" checked="{{m.checked}}" style="margin: 3px 0 0; accent-color: {{t.brandFill}}">
+                  <span style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+                    <span style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600">{{m.name}}<span style="font-size: 11px; font-weight: 600; background: {{t.aiTint}}; color: {{t.ai}}; border-radius: 999px; padding: 1px 8px">{{m.tag}}</span></span>
+                    <span style="font-size: 12px; color: {{t.text3}}">{{m.meta}}</span>
+                  </span>
+                </label>
+              </sc-for>
+              <button type="button" style="height: 36px; border: 0; background: transparent; color: {{t.brand}}; font: inherit; font-size: 13px; font-weight: 600; text-align: left; padding: 0 10px">Browse the full catalogue</button>
+            </div>
+          </section>
 
-    <section style="display: flex; flex-direction: column; gap: 10px">
-      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #5e6470; text-transform: uppercase; letter-spacing: 0.4px">OpenRouter</h2>
-      <label for="api-key" style="font-weight: 600; font-size: 13px">API key</label>
-      <div style="display: flex; gap: 6px">
-        <div style="flex-grow: 1; display: flex; align-items: center; border: 1px solid #c9ced6; border-radius: 6px; padding-left: 10px">
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#686e7a" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="6.5" cy="13.5" r="3"></circle><path d="M8.6 11.4L15.5 4.5M13 7l2 2"></path></svg>
-          <input id="api-key" type="password" value="sk-or-v1-0000000000" style="flex-grow: 1; height: 32px; border: 0; padding: 0 8px; font-size: 13px; background: transparent">
-          <button aria-label="Show key" style="width: 32px; height: 32px; border: 0; background: transparent; color: #5e6470; display: flex; align-items: center; justify-content: center">
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 10s3-5.5 7.5-5.5S17.5 10 17.5 10s-3 5.5-7.5 5.5S2.5 10 2.5 10z"></path><circle cx="10" cy="10" r="2.5"></circle></svg>
-          </button>
+          <section style="background: {{t.bg}}; border: 1px solid {{t.border}}; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 12px">
+            <h2 style="margin: 0; font-size: 14px; font-weight: 600">Writing</h2>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <span style="font-size: 13px">Creativity</span>
+              <div style="position: relative; height: 20px; display: flex; align-items: center"><div style="height: 4px; width: 100%; border-radius: 2px; background: {{t.track}}"></div><div style="position: absolute; left: 0; height: 4px; width: 50%; border-radius: 2px; background: {{t.brandFill}}"></div><div style="position: absolute; left: calc(50% - 10px); width: 20px; height: 20px; border-radius: 999px; background: {{t.bg}}; border: 5px solid {{t.brandFill}}; box-sizing: border-box"></div></div>
+              <div style="display: flex; justify-content: space-between; font-size: 12px; color: {{t.text3}}"><span>Precise</span><span>Balanced</span><span>Creative</span></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+              <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: {{t.text2}}">Default tone</span><div style="height: 32px; border: 1px solid {{t.borderInput}}; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 10px; font-size: 13px">Professional<svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 8l5 5 5-5"></path></svg></div></div>
+              <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: {{t.text2}}">Write in</span><div style="height: 32px; border: 1px solid {{t.borderInput}}; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 10px; font-size: 13px">Match the email<svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 8l5 5 5-5"></path></svg></div></div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid {{t.border}}; padding-top: 10px; font-size: 14px"><span style="display: flex; align-items: center; gap: 8px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="{{t.text2}}" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M7 5h10M7 10h10M7 15h10M3 5h.5M3 10h.5M3 15h.5"></path></svg>Rules</span><span style="font-size: 13px; color: {{t.text3}}">4 active ›</span></div>
+          </section>
+
+          <section style="background: {{t.bg}}; border: 1px solid {{t.border}}; border-radius: 8px; padding: 14px; display: flex; gap: 12px; align-items: flex-start">
+            <div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1">
+              <span style="font-size: 14px; font-weight: 600">Only providers that don't keep my data</span>
+              <span style="font-size: 12px; color: {{t.text3}}">Fewer models are available when this is on.</span>
+            </div>
+            <button type="button" role="switch" aria-checked="false" aria-label="Only providers that don't keep my data" style="width: 40px; height: 20px; border: 1px solid {{t.text2}}; border-radius: 999px; background: transparent; padding: 0 3px; display: flex; align-items: center; flex-shrink: 0"><span style="width: 12px; height: 12px; border-radius: 999px; background: {{t.text2}}"></span></button>
+          </section>
+
+          <button type="button" style="height: 36px; border: 1px solid {{t.danger}}; background: transparent; color: {{t.danger}}; border-radius: 4px; font: inherit; font-size: 13px; font-weight: 600">Clear all Gemail data...</button>
         </div>
-        <button style="height: 34px; padding: 0 12px; border: 1px solid #c9ced6; border-radius: 6px; background: #ffffff; font-size: 13px; color: #1b1d22">Test</button>
-      </div>
-      <div role="status" style="display: flex; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 6px; background: #edf7f0; color: #1a7f37; font-size: 13px">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"></path></svg>
-        Connected. [credit remaining] left on this key.
-      </div>
-      <div style="display: flex; gap: 6px; font-size: 12px; color: #5e6470">
-        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 3px"><path d="M10 2.5l6 2.5v4.5c0 3.8-2.6 6.6-6 8-3.4-1.4-6-4.2-6-8V5z"></path></svg>
-        <span>Stored on this device only. It is never synced and only ever sent to OpenRouter. <a href="#">Get a key</a></span>
-      </div>
-    </section>
-
-    <section style="display: flex; flex-direction: column; gap: 10px">
-      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #5e6470; text-transform: uppercase; letter-spacing: 0.4px">Model</h2>
-      <div style="display: flex; align-items: center; gap: 8px; border: 1px solid #c9ced6; border-radius: 6px; padding: 0 10px; height: 34px">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#686e7a" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="5.5"></circle><path d="M13 13l4 4"></path></svg>
-        <label for="model-search" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Search models</label>
-        <input id="model-search" placeholder="Search every OpenRouter model" style="flex-grow: 1; border: 0; font-size: 13px; background: transparent">
-      </div>
-      <div role="radiogroup" aria-label="Model" style="display: flex; flex-direction: column; border: 1px solid #e3e6eb; border-radius: 8px; overflow: hidden">
-        <sc-for list="{{ models }}" as="m" hint-placeholder-count="4">
-          <label style="display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-bottom: 1px solid #eef0f3; background: {{ m.bg }}">
-            <input type="radio" name="model" checked="{{ m.selected }}" style="margin: 3px 0 0 0; accent-color: #1668c9">
-            <span style="display: flex; flex-direction: column; flex-grow: 1">
-              <span style="display: flex; gap: 6px; align-items: center">
-                <span style="font-weight: 600; font-size: 13px">{{ m.name }}</span>
-                <sc-if value="{{ m.tag }}" hint-placeholder-val="{{ true }}">
-                  <span style="font-size: 11px; line-height: 16px; padding: 0 6px; border-radius: 8px; background: #f1edfb; color: #5b43b8">{{ m.tag }}</span>
-                </sc-if>
-              </span>
-              <span style="font-size: 12px; color: #686e7a">{{ m.meta }}</span>
-            </span>
-          </label>
-        </sc-for>
-      </div>
-      <span style="font-size: 12px; color: #686e7a">Recommended picks are chosen from the live catalogue. Prices come from OpenRouter.</span>
-    </section>
-
-    <section style="display: flex; flex-direction: column; gap: 12px">
-      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #5e6470; text-transform: uppercase; letter-spacing: 0.4px">Writing</h2>
-      <div style="display: flex; flex-direction: column; gap: 6px">
-        <label for="creativity" style="font-size: 13px; font-weight: 600">Creativity</label>
-        <input id="creativity" type="range" min="0" max="100" value="45" style="accent-color: #1668c9">
-        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #686e7a"><span>Precise</span><span>Balanced</span><span>Creative</span></div>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
-        <div style="display: flex; flex-direction: column; gap: 4px">
-          <label for="tone" style="font-size: 12px; color: #5e6470">Default tone</label>
-          <select id="tone" style="height: 32px; padding: 0 8px; border: 1px solid #c9ced6; border-radius: 6px; background: #ffffff; font-size: 13px"><option>Professional</option></select>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 4px">
-          <label for="lang" style="font-size: 12px; color: #5e6470">Write in</label>
-          <select id="lang" style="height: 32px; padding: 0 8px; border: 1px solid #c9ced6; border-radius: 6px; background: #ffffff; font-size: 13px"><option>English</option></select>
+        <div style="flex-shrink: 0; border-top: 1px solid {{t.border}}; background: {{t.bg}}; padding: 12px 16px; display: flex; gap: 8px; align-items: center">
+          <span style="font-size: 12px; color: {{t.text3}}; flex-grow: 1">Unsaved changes: 1</span>
+          <button type="button" style="height: 44px; border: 0; background: {{t.brandFill}}; color: {{t.onBrand}}; border-radius: 4px; font: inherit; font-size: 14px; font-weight: 600; padding: 0 20px">Save settings</button>
         </div>
       </div>
-    </section>
-
-    <section style="display: flex; flex-direction: column; gap: 10px">
-      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #5e6470; text-transform: uppercase; letter-spacing: 0.4px">Privacy</h2>
-      <label style="display: flex; gap: 12px; align-items: flex-start">
-        <span style="flex-grow: 1; display: flex; flex-direction: column">
-          <span style="font-size: 13px; font-weight: 600">Only providers that don't keep my data</span>
-          <span style="font-size: 12px; color: #686e7a">Fewer models are available when this is on.</span>
-        </span>
-        <input type="checkbox" role="switch" style="width: 36px; height: 20px; margin: 2px 0 0 0; accent-color: #1668c9">
-      </label>
-    </section>
-
-    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto">
-      <button style="height: 40px; border: 0; border-radius: 6px; background: #1668c9; color: #ffffff; font-size: 14px; font-weight: 600">Save settings</button>
-      <button style="height: 36px; border: 1px solid #f1c8c3; border-radius: 6px; background: #ffffff; color: #c42b1c; font-size: 13px">Clear all Gemail data...</button>
     </div>
-  </main>
+  </sc-for>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":400,"height":1160}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":840,"height":1460}}'>
 class Component extends DCLogic {
   renderVals() {
-    const rows = [
-      { name: 'Gemini 2.5 Flash', tag: 'Recommended', meta: 'Google · 1M context · fast', selected: true },
-      { name: 'Claude Haiku 4.5', tag: 'Fast', meta: 'Anthropic · 200K context', selected: false },
-      { name: 'Claude Sonnet 5', tag: 'Best writing', meta: 'Anthropic · for careful replies', selected: false },
-      { name: 'Browse all models', tag: '', meta: 'Grouped by provider, with context and price', selected: false }
+    const models = (sel) => [
+      { name: 'Gemini 2.5 Flash', tag: 'Fast', meta: 'Google · 1M context · fast', checked: true, bg: sel },
+      { name: 'Claude Sonnet', tag: 'Best writing', meta: 'Anthropic · 200K context · medium', checked: false, bg: 'transparent' },
+      { name: 'GPT-4.1 mini', tag: 'Recommended', meta: 'OpenAI · 1M context · fast', checked: false, bg: 'transparent' }
     ];
-    return { models: rows.map((r) => ({ ...r, bg: r.selected ? '#f3f8fd' : '#ffffff' })) };
+    return {
+      themes: [
+        { key: 'l', caption: 'Light', canvas: '#f5f5f5', bg: '#ffffff', border: '#e0e0e0', borderInput: '#d1d1d1', track: '#d1d1d1', text: '#242424', text2: '#5c5c5c', text3: '#6b6b6b', brand: '#0f6cbd', brandFill: '#0f6cbd', onBrand: '#ffffff', ai: '#6d48c7', aiTint: '#f3effc', success: '#0e7a0d', danger: '#b10e1c', models: models('#ebf3fc') },
+        { key: 'd', caption: 'Dark', canvas: '#141414', bg: '#1f1f1f', border: '#3d3d3d', borderInput: '#5c5c5c', track: '#5c5c5c', text: '#ffffff', text2: '#d6d6d6', text3: '#adadad', brand: '#479ef5', brandFill: '#115ea3', onBrand: '#ffffff', ai: '#b69df8', aiTint: '#2d2541', success: '#54b054', danger: '#f1707b', models: models('#0e2a47') }
+      ]
+    };
   }
 }
 </script>

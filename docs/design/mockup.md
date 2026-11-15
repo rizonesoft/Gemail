@@ -1,15 +1,15 @@
 # Gemail Design Mockup
 
-The approved visual design for the Gemail task pane, the ribbon, and every icon. It is the **visual source of truth**: a surface section in `todo/` builds to the artboard it cites here, and review compares the rendered surface against the render below. Values (colors, fonts, spacing) come from [`tokens.json`](./tokens.json); icons come from [`assets/icons/src/`](../../assets/icons/src/) through the registry `src/ui/icons.ts` (catalog: [`icons.md`](./icons.md)); rules that are not visual live in [`taskpane.md`](./taskpane.md).
+The approved visual design for the Gemail task pane, the ribbon, and every icon: **Fluent Native** (operator decision 2026-11-15: "Most definately A"), which replaced the 2026-09-27 mockup. It is the **visual source of truth**: a surface section in `todo/` builds to the artboard it cites here, and review compares the rendered surface against the render below. Values (colors, fonts, spacing) come from [`tokens.json`](./tokens.json); icons come from [`assets/icons/src/`](../../assets/icons/src/) through the registry `src/ui/icons.ts` (catalog: [`icons.md`](./icons.md)); rules that are not visual live in [`taskpane.md`](./taskpane.md).
 
 Order of authority when they disagree: `tokens.json` for a value, this file and its renders for layout and composition, `taskpane.md` for behavior and rules. A disagreement is fixed in the losing file in the same commit, never left standing.
 
 ## Source
 
-- Artifact: https://claude.ai/artifact/GHuFwncPVxchLZaPLQvURu (operator-approved on 2026-09-27; private to the operator's account)
-- Imported: 2026-09-27, artifact version `1790526473-c417`, into [`mockup/`](./mockup/): `canvas.json` and the four artboards `Main.dc.html`, `Settings.dc.html`, `Improve.dc.html`, `Icons.dc.html`
+- Artifact: https://claude.ai/artifact/Vc5xq9U5iRvq1AiZ1gm5YD (operator-approved on 2026-11-15; private to the operator's account). It replaces https://claude.ai/artifact/GHuFwncPVxchLZaPLQvURu, the 2026-09-27 design, which is retired and no longer imported.
+- Imported: 2026-11-15, artifact version `1794764248-4c81`, into [`mockup/`](./mockup/): `canvas.json` and the five artboards `Main.dc.html` (overview and tokens), `Icons.dc.html`, `Reply.dc.html`, `Improve.dc.html`, `Settings.dc.html`
 - Pinned: [`mockup/source.json`](./mockup/source.json) records the version and the sha256 of every imported file; `python scripts/design-lint.py` refuses a hand-edited artboard. Change the design in the artifact and re-import with the `design-sync` skill.
-- Renders: [`mockup/renders/`](./mockup/renders/), made by `node tools/design/render-mockup.mjs` (2x PNG per artboard and per state), with the board hash each was made from in `renders/manifest.json`
+- Renders: [`mockup/renders/`](./mockup/renders/), made by `node tools/design/render-mockup.mjs` (2x PNG per artboard), with the board hash each was made from in `renders/manifest.json`. Each pane artboard draws the pane twice, light on the left and dark on the right, at 360 px wide.
 
 ## How this binds the plan
 
@@ -18,126 +18,157 @@ Order of authority when they disagree: `tokens.json` for a value, this file and 
 - A surface this file does not draw cites [Surfaces the mockup does not draw](#surfaces-the-mockup-does-not-draw) plus the nearest pattern anchors, and its section adds the artboard to the artifact through `design-sync` before building when the operator asks for a visual review.
 - The code side is held by the same gate: no color literal, font declaration, or inline `<svg>` in `src/` outside the generated token and icon files, on a shrink-only baseline (`docs/design/.lint-baseline.json`).
 
+## Design language
+
+![Overview and tokens](./mockup/renders/Main.png)
+
+Artboard: `mockup/Main.dc.html`. Gemail lives inside Outlook's chrome, so it looks like it belongs there: Fluent 2 metrics, the communication blue, Outlook's neutral greys, and Segoe UI Variable on Fluent's type ramp. The rules every surface follows:
+
+- **Color.** `brand` is the text, link, and indicator shade; `brandFill` is the filled-button shade with `onBrand` text (the dark theme splits the two so both pass 4.5:1). Purple (`ai`, `aiTint`, `aiIcon`) is reserved for AI: the spark and the model tags, nothing else.
+- **Type.** Title 20/28 semibold, subtitle 16/22 semibold, body 14/20, reading 14/22 for results, caption 12/16 (`font.size`, `font.lineHeight`).
+- **Radius.** Inputs and buttons `radius.sm` (4), cards `radius.md` (8), dialogs `radius.lg` (12), chips `radius.pill`.
+- **Spacing.** A 4 px grid. Pane gutter 16 (`space.paneGutter`), section gap 20 (`space.sectionGap`), control height 32 (`size.input`), touch targets 36 at least and 44 in the action bar (`size.actionBarButton`).
+- **Pane frame.** Three fixed bands: the header and tab bar at the top, the scrolling content in the middle, and the [Action bar](#action-bar) pinned at the bottom. The primary action is always in the action bar, never in the scrolling content.
+
 ## Reply read mode
 
-![Reply read mode, streaming](./mockup/renders/Main.png)
+![Reply in read mode: the result (light) and the form (dark)](./mockup/renders/Reply.png)
 
-The default view when a message is open in read mode, shown mid-stream (`renders/Main.png`) and finished (`renders/Main--streaming-false.png`). Artboard: `mockup/Main.dc.html`, 400 x 1160.
+The default view when a message is open in read mode. Artboard: `mockup/Reply.dc.html`, two panes of 360 x 1340: the result state after writing (left, light) and the form before writing (right, dark).
 
 ### Header
 
-The app mark (`assets/icons/src/app/gemail.svg` at 28 px), the product name **Gemail** in `font.size.title` semibold, and one icon button on the right: **Settings** (`settings`, `aria-label="Settings"`, 36 px target). Nothing else: no model name, no provider name.
+48 px (`size.header`): the app mark (`assets/icons/src/app/gemail.svg` at 24 px), the product name **Gemail** in `font.size.subtitle` semibold, and one icon button on the right: **Settings** (`settings`, `aria-label="Settings"`, 36 px target). Nothing else: no model name, no provider name.
 
 ### Tab bar
 
-Five equal tabs with a 20 px icon over a 12 px label: **Reply** (`reply`), **Draft** (`draft`), **Summarize** (`summarize`), **Improve** (`improve`), **More** (`more`). At rest the icon is the regular glyph in `textSecondary`; the active tab uses the `-filled` glyph, `brand` color, semibold label, and a 2 px `brand` underline. **More** opens the remaining features (Actions, Translate, and later features). Settings and Rules are not tabs: Settings is the header button, Rules sits inside Settings.
+Equal tabs, 52 px tall (`size.tab`), with a 20 px icon over a 12 px label, on a 1 px `border` bottom rule. Read mode has five: **Reply** (`reply`), **Draft** (`draft`), **Summarize** (`summarize`), **Improve** (`improve`), **More** (`more`). Compose mode has four: **Draft**, **Improve**, **Translate** (`translate`), **More** (see [Improve compose dark](#improve-compose-dark)). At rest the icon is the regular glyph in `textSecondary`; the active tab uses the `-filled` glyph (the same outline with a 20 percent tint fill), `brand` color, a semibold label, and Fluent's 2 px `brand` indicator on the bottom edge. **More** opens the remaining features. Settings and Rules are not tabs: Settings is the header button, Rules sits inside Settings.
 
 ### Reply context
 
-A `surface` card: a 32 px initials avatar in `brandTint` / `brand`, **Replying to <sender>** semibold, and the subject on one line in `textSecondary`, truncated with an ellipsis.
+No card: a 32 px round initials avatar in `brandTint` / `brand`, **Replying to <sender>** in 14 px semibold, and the subject on one line in 12 px `textSecondary`, truncated with an ellipsis.
 
 ### Quick replies
 
-The label **Quick replies** with the filled spark (`spark-filled`, 16 px, `ai`), then pill buttons (`radius.pill`, `borderChip`) that each start a reply from that intent.
+The label **Quick replies** in 13 px semibold `textSecondary` with the filled spark (`spark-filled`, 16 px, `ai`), then pill buttons (32 px, `radius.pill`, `borderInput`) that each start a reply from that intent. Shown only before writing.
 
 ### Reply form
 
-The instruction text area with a visible label (**What should the reply say?**) and a 2 px `brand` bottom border; **Tone** and **Language** selects side by side; **Length** as a three-way segmented control (Short, Medium, Detailed) on `surfaceSunken`; the **Send the original email as context** checkbox with its one-line explanation in `textTertiary`.
+The instruction text area with a visible label (**What should the reply say?**, 14 px semibold), `borderInput`, `radius.sm`, and a 2 px `brand` bottom border; then the [Reply settings row](#reply-settings-row); then the **Send the original email as context** checkbox with its one-line explanation in `textTertiary` (**Turn off to write from your instruction only.**).
+
+### Reply settings row
+
+The caption **Reply settings** in `textSecondary`, then one wrapping row of three dropdown buttons (32 px, `borderInput`, `radius.sm`, a `chevron-down` at 14 px), each showing its current value: tone (**Professional**), length (**Medium length**), and language (**Match the email**). Each opens a listbox (`aria-haspopup="listbox"`). There is no segmented control and no pair of labelled selects.
 
 ### Write action
 
-One full-width primary button, 40 px, `brand` fill, `onBrand` text, the filled spark, the verb (**Write reply**), and the shortcut hint (`Ctrl+Enter`) at reduced weight.
+The primary button of the [Action bar](#action-bar) before writing: full width, 44 px, `brandFill` fill, `onBrand` text, the filled spark at 18 px, the verb (**Write reply**), and the shortcut hint (`Ctrl+Enter`) at regular weight and reduced opacity.
+
+### Action bar
+
+Pinned to the bottom of the pane on `bg` with a 1 px `border` top rule, 12 px above and 8 px below, gutter 16. It holds the pane's primary action and changes with the state:
+
+- **Before writing:** the [Write action](#write-action).
+- **After writing (read mode):** **Reply** (primary, `brandFill`), **Reply all** (outlined, `borderInput`), each `flex: 1` and 44 px, and a 44 px square **Copy** icon button (`copy`, `aria-label="Copy"`).
+- **After improving (compose mode):** **Replace selection** (primary), then 44 px square **Copy** and **Try again** (`regenerate`) icon buttons.
+- **While streaming:** see [Streaming and Stop](#streaming-and-stop).
+
+Under the buttons sits the [Footer](#footer) line.
+
+### Instruction summary
+
+After writing, the form folds into one `surface` card (`radius.md`): a caption in `textTertiary` (**Your instruction · <tone> · <length>**), the instruction on one truncated line at 13 px, and an **Edit** text button in `brand` semibold that unfolds the form again with its values kept.
 
 ### Result card
 
-A bordered card (`border`, `radius.lg`): a status row, the editable result text (`font.lineHeight.reading`), then on `surface` the actions in this order: the insert action for the mode (**Reply**, primary), **Reply all**, **Copy** (icon button `copy`, labelled), and the refine input below. Finished state: the status row shows word count and reading time in `textTertiary` and a **Regenerate** button (`regenerate`).
+A bordered card (`border`, `radius.md`) that takes the freed space: a header row with the word count and reading time in 12 px `textTertiary` (**118 words · under 1 min read**) and a **Regenerate** text button (`regenerate` at 16 px); a 1 px `border` rule; the editable result text in reading type (14/22); then the refine input (32 px, `borderInput`, the outline spark in `ai`, the placeholder **Refine: shorter, warmer, add a deadline**). The insert actions are not in the card: they are in the [Action bar](#action-bar).
 
 ### Streaming and Stop
 
-While streaming, the status row shows an `ai` dot, **Writing your reply...** as a `role="status"` live region, and a **Stop** button with a filled square; the text grows in place with a caret. Stop keeps the partial text. No full-pane overlay.
+Not drawn in this version; composed from the components above and carried over from the 2026-09-27 design's behavior. While streaming, the result card's header row shows an `ai` dot and **Writing your reply...** as a `role="status"` live region, the text grows in place with a caret, and the action bar's primary button is replaced by one full-width outlined **Stop** button (`stop`). Stop keeps the partial text. No full-pane overlay.
 
 ### Footer
 
-`textTertiary`, 12 px: **Model: <model name> via OpenRouter** with a **Change** link to Settings, and the version on the right.
+The last line of the [Action bar](#action-bar), `textTertiary`, 12 px: **<model name> via OpenRouter** with a **Change** link (`brand`) to Settings, and the version on the right.
 
 ## Settings
 
-![Settings](./mockup/renders/Settings.png)
+![Settings, light and dark](./mockup/renders/Settings.png)
 
-Artboard: `mockup/Settings.dc.html`, 400 x 1160. A back button (`back`) and the title **Settings**; sections with uppercase `sectionLabel` headings.
+Artboard: `mockup/Settings.dc.html`, two panes of 360 x 1340. A 48 px header with a back button (`back`) and the title **Settings** on `bg` with a `border` rule; then grouped cards (`bg`, `border`, `radius.md`, 16 px padding, 12 px apart) on a `surface` canvas (`surfaceSunken` in the dark theme); then the sticky save bar. Card headings are 14 px semibold with a 20 px glyph, not uppercase labels.
 
 ### API key
 
-**OPENROUTER**: the key field with the `api-key` glyph, masked, a show toggle (`eye`, labelled **Show key**), and **Test** beside it. The connection result as a `role="status"` row in `successTint` / `success` with `check` (or `dangerTint` / `danger` with `error` on failure). Under it, with the `privacy` shield: **Stored on this device only. It is never synced and only ever sent to OpenRouter.** and a **Get a key** link.
+Card **OpenRouter key** (`api-key`): the masked key field with a show toggle (`eye`, labelled **Show key**) and **Test** beside it. The connection result as a `role="status"` row in `success` with `check` (**Connected · <n> models available**), or in `danger` with `error` on failure. Under it, with the `privacy` shield in `textSecondary`: **Stored on this device only. It is never synced and only ever sent to OpenRouter.** and a **Get a key** link.
 
 ### Model picker
 
-**MODEL**: a search field (`search`) over the whole OpenRouter catalogue, then a radio list of recommended models, each row with the model name, a tag chip in `aiTint` / `aiStrong` (Recommended, Fast, Best writing), and a meta line (provider, context, speed) in `textTertiary`; the selected row sits on `brandSelected`. The last row opens the full catalogue grouped by provider with context and price. A note that recommended picks come from the live catalogue.
+Card **Model** (the outline spark `ai` in `ai`): a search field (`search`, **Search all models**) over the whole OpenRouter catalogue, then a bordered radio list of recommended models, each row with the model name in 14 px semibold, a tag chip in `aiTint` / `ai` (Fast, Best writing, Recommended), and a meta line (provider, context, speed) in 12 px `textSecondary`; the selected row sits on `brandSelected`. The last row is the **Browse the full catalogue** text button in `brand`.
 
 ### Writing
 
-**WRITING**: the **Creativity** slider with Precise, Balanced, and Creative stops; **Default tone** and **Write in** selects side by side.
+Card **Writing**: the **Creativity** slider (`brandFill` fill and thumb on a `borderInput` track) with **Precise**, **Balanced**, and **Creative** stops; **Default tone** and **Write in** dropdowns side by side; then, above a `border` rule, the **Rules** row (`rules`) with the active count and a chevron (**4 active**), which opens the Rules panel.
 
 ### Privacy switch
 
-**PRIVACY**: **Only providers that don't keep my data** as a switch with its consequence (**Fewer models are available when this is on.**) in `textTertiary`. Off by default (operator decision 2026-09-27).
+Its own card: **Only providers that don't keep my data** in 14 px semibold as a `role="switch"` with its consequence (**Fewer models are available when this is on.**) in `textSecondary`. Off by default (operator decision 2026-09-27).
 
 ### Save and clear
 
-**Save settings** as the primary button; **Clear all Gemail data...** below it as an outlined `danger` button that opens a confirmation dialog before anything is removed.
+**Clear all Gemail data...** is a full-width outlined `danger` button under the cards that opens a confirmation dialog before anything is removed. **Save settings** is the primary button (`brandFill`, 44 px) in a sticky bar at the bottom of the pane, with the count of unsaved changes on its left in `textSecondary` (**Unsaved changes: 1**).
 
 ## Improve compose dark
 
-![Improve in compose mode, dark theme](./mockup/renders/Improve.png)
+![Improve in compose mode, light and dark](./mockup/renders/Improve.png)
 
-Artboard: `mockup/Improve.dc.html`, 400 x 1160, the dark theme (`color.dark`), with the undo confirmation shown (`renders/Improve.png`) and hidden (`renders/Improve--accepted-false.png`).
+Artboard: `mockup/Improve.dc.html`, two panes of 360 x 1140 in compose mode, light and dark, with the four-tab compose bar (Draft, Improve, Translate, More) and every state stacked: the undo confirmation, the selection context, the focus cards, the diff, and the error banner.
 
 ### Selection context
 
-A `surface` row with `selection`: **Improving your selection** and the size of the selection (sentences) on the right; with no selection it reads **Improving your whole draft**.
+A plain row with `selection`: **Improving your selection** in 14 px semibold and the size of the selection (**3 sentences**) on the right in `textTertiary`; with no selection it reads **Improving your whole draft**.
 
 ### Focus cards
 
-**Focus** as a legend over four toggle cards in a 2 x 2 grid, each with its outline glyph: **Grammar** (`focus-grammar`), **Clarity** (`focus-clarity`), **Concise** (`focus-concise`), **Professional** (`focus-professional`). The pressed card uses `brandTint` fill, `brand` border, and `brand` icon; `aria-pressed` carries the state.
+**Focus** as a legend over four toggle cards in a 2 x 2 grid, each 40 px with its outline glyph: **Grammar** (`focus-grammar`), **Clarity** (`focus-clarity`), **Concise** (`focus-concise`), **Professional** (`focus-professional`). The pressed card uses `brandTint` fill, `brand` border, `brand` icon, and a semibold label; `aria-pressed` carries the state.
 
 ### Diff view
 
-A bordered card: the change count and a legend (Removed, Added), then the text with removed words struck through on `diffRemovedBg` / `diffRemovedText` and added words on `diffAddedBg` / `diffAddedText`; then **Replace selection** (primary), **Copy**, and a labelled **Try again** icon button (`regenerate`).
+A bordered card (`border`, `radius.md`): a header row with the change count (**4 changes**) in `textTertiary` and a legend (**Removed**, **Added**) in the diff colors, a `border` rule, then the text in reading type with removed words struck through on `diffRemovedBg` / `diffRemovedText` and added words on `diffAddedBg` / `diffAddedText`. The actions (**Replace selection**, **Copy**, **Try again**) are in the [Action bar](#action-bar).
 
 ### Undo confirmation
 
-After a replace, a `role="status"` row with `check` in `success`: **Selection replaced. The rest of your email is unchanged.** and an **Undo** action (`undo`) that restores the original selection.
+After a replace, a `role="status"` card at the top of the content on `successTint` with a `successBorder` border and `check` in `success`: **Selection replaced. The rest of your email is unchanged.** and an **Undo** text button in `brand` semibold that restores the original selection.
 
 ### Error banner
 
-A `role="alert"` banner on `dangerTint` with `error`: what happened (**OpenRouter is rate limiting this key. Gemail tried 3 times.**), what to do in `textSecondary`, and a **Retry** button when retrying can help. Every error message follows this two-line shape.
+A `role="alert"` card on `dangerTint` with a `dangerBorder` border and `error` in `danger`: what happened in 14 px semibold (**OpenRouter is rate limiting this key.**), what to do in `textSecondary` (**Gemail tried 3 times. Wait a minute, then retry.**), and an outlined **Retry** button when retrying can help. Every error message follows this two-line shape.
 
 ### Dark theme
 
-Every surface uses the `color.dark` token set when Outlook is dark; the app mark's spark keeps a cut-out against the dark background. The light artboards and this one are the same components with the two token sets.
+Every surface uses the `color.dark` token set when Outlook is dark: `bg` `#1f1f1f`, cards on the same `bg` with `border`, `brand` as the lighter text shade and `brandFill` as the darker button shade. Every pane artboard draws both themes side by side; they are the same components with the two token sets.
 
 ## Icons
 
 ![Icon sheet](./mockup/renders/Icons.png)
 
-Artboard: `mockup/Icons.dc.html`. The icon sources extracted from it are canonical in `assets/icons/src/`; [`icons.md`](./icons.md) is the catalog.
+Artboard: `mockup/Icons.dc.html`. The icon sources exported from it are canonical in `assets/icons/src/`; [`icons.md`](./icons.md) is the catalog.
 
 ### App icon
 
-An open envelope with a letter and the spark, shape-based with no tile. Drawn once at 48 (used for 32, 64, 80, 128, 256) and redrawn at 16 (`gemail-16.svg`). Rendered PNGs: `assets/icons/png/app/`.
+A written letter, not an envelope: a white sheet with a folded corner on a `brand` blue back sheet, three text lines, and the purple AI spark at its lower right edge. Flat, no gradient and no tile. Drawn once at 48 (used for 32, 64, 80, 128, 256) and redrawn at 16 with one text line and a larger spark (`gemail-16.svg`). Rendered PNGs: `assets/icons/png/app/`.
 
 ### Ribbon
 
-Compose mode: one group **Gemail** with **Open Gemail** (the app icon) and the **AI Tools** menu button (`ribbon/ai-tools.svg`). Read mode: **Open Gemail** only. Fluent color style.
+Compose mode: one group **Gemail** with **Open Gemail** (the app icon) and the **AI Tools** menu button (`ribbon/ai-tools.svg`: the shared document base with a large and a small spark). Read mode: **Open Gemail** only. Fluent color style, flat two-tone.
 
 ### AI Tools menu
 
-**Fix grammar & spelling**, **Improve clarity**, **Make concise**, **Make professional**, a separator, then **My prompts...** (`menu/*.svg`, Fluent color style, rendered at 16, 32, and 80 px under `assets/icons/png/menu/`).
+**Fix grammar & spelling** (green check badge), **Improve clarity** (amber bulb badge), **Make concise** (blue inward-arrows badge), **Make professional** (brown briefcase badge), a separator, then **My prompts...** (purple speech badge). Every menu icon is the same document base (`menu/*.svg`, 32 px box) with one round badge that carries the meaning, rendered at 16, 32, and 80 px under `assets/icons/png/menu/`.
 
 ### Pane icons
 
-Fluent 2 system style on a 20 px grid, 1.4 px stroke, regular at rest and filled when active; purple (`aiIcon`) only on the spark. Every glyph is in `assets/icons/src/pane/` and reaches code only through `iconSvg()` in `src/ui/icons.ts`.
+Fluent 2 regular style on a 20 px grid, 1.5 px stroke, round caps and joins, `currentColor`; the active tab's glyph gains a 20 percent tint fill; purple (`aiIcon`) only on the spark. Every glyph is in `assets/icons/src/pane/` and reaches code only through `iconSvg()` in `src/ui/icons.ts`.
 
 ## Surfaces the mockup does not draw
 
-Draft, Summarize, Extract actions, Translate, Rules, templates, the first-run privacy notice, the offline banner, custom prompts, attachments, the thread timeline, CC suggestions, usage stats, and the user guide have no artboard yet. A section building one of them composes it only from the components above (header, tab bar, form controls from [Reply form](#reply-form), [Write action](#write-action), [Result card](#result-card), [Error banner](#error-banner), [Settings](#settings) rows) and the icons in [Pane icons](#pane-icons), cites this heading plus those component anchors on its `**Design:**` line, and adds its artboard to the artifact (the `design-sync` skill) before building when the operator asks for a visual review first.
+Draft, Summarize, Extract actions, Translate, Rules, templates, the first-run privacy notice, the offline banner, the streaming state, custom prompts, attachments, the thread timeline, CC suggestions, usage stats, and the user guide have no artboard yet. A section building one of them composes it only from the components above (the pane frame of [Design language](#design-language), header, tab bar, form controls from [Reply form](#reply-form) and [Reply settings row](#reply-settings-row), the [Action bar](#action-bar) with its primary action, [Instruction summary](#instruction-summary), [Result card](#result-card), [Error banner](#error-banner), [Settings](#settings) cards) and the icons in [Pane icons](#pane-icons), cites this heading plus those component anchors on its `**Design:**` line, and adds its artboard to the artifact (the `design-sync` skill) before building when the operator asks for a visual review first.

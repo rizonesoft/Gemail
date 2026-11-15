@@ -2,45 +2,31 @@
   "Icons.png": {
     "board": "Icons.dc.html",
     "props": {},
-    "boardSha256": "f4a1fe0966568b83f51d10dca5a1067b20543ed4498e23a593843fc553b28314",
-    "pngSha256": "74690f95299fd78d1925902f5ce00c7f7e01225089001e4002038af8c2f72568"
-  },
-  "Improve--accepted-false.png": {
-    "board": "Improve.dc.html",
-    "props": {
-      "accepted": false
-    },
-    "boardSha256": "3a3037b00bb260eed3ddad6be8b1af497194db371abec04cd02218d1833f676a",
-    "pngSha256": "e50b2e30b016bf5aab2b2ebd9e3f5ece30ec3c0ab94b6e1bad1fa5ad158930ef"
+    "boardSha256": "ee0689ee869264163795a5406335fb277ea6ee9def1e894680ef92e80b68dc26",
+    "pngSha256": "b93900327b184776c6db773aa8dfb2c15a3a208d11c3e5c6fa3e73eb92fde81e"
   },
   "Improve.png": {
     "board": "Improve.dc.html",
-    "props": {
-      "accepted": true
-    },
-    "boardSha256": "3a3037b00bb260eed3ddad6be8b1af497194db371abec04cd02218d1833f676a",
-    "pngSha256": "a4bd4ff6c20f396c00119eabc1f0da31cae2ed650491d5677ffb3bab8ebd975b"
-  },
-  "Main--streaming-false.png": {
-    "board": "Main.dc.html",
-    "props": {
-      "streaming": false
-    },
-    "boardSha256": "bfa2db2437c727aeb3d16910cd0db9de17bacf32207f01295407827d222c73ed",
-    "pngSha256": "2a2b005d0df75eb2103ca21ac8847d84861658d184dda414caf03a9b970da01c"
+    "props": {},
+    "boardSha256": "f4648c287cf3ef7452414de0687c325ab77d22620d063516e326c3feec529ae2",
+    "pngSha256": "a6ffc3add6283161ce54cd2d5cbc3ebae934721767c2f41e9354baa7ebac9309"
   },
   "Main.png": {
     "board": "Main.dc.html",
-    "props": {
-      "streaming": true
-    },
-    "boardSha256": "bfa2db2437c727aeb3d16910cd0db9de17bacf32207f01295407827d222c73ed",
-    "pngSha256": "9e26fdede3925f2c9de77aee5d1f9a738fe8b61ea319367183002cb31d71ed11"
+    "props": {},
+    "boardSha256": "c79066cced689c8fa1a0c65e5d6a3fb1f58c1d08db47f2641fa2aae450027d28",
+    "pngSha256": "dd9bc22ca52220c879d939d26d70a72a75cc7dccdb88da7e527b3e2e9a1c9ab8"
+  },
+  "Reply.png": {
+    "board": "Reply.dc.html",
+    "props": {},
+    "boardSha256": "f602b4777298bc0ac7e6c6098cb55cae5d8389f83d7ae23cae0ce33e7840c2c5",
+    "pngSha256": "873057131439521dbf99ddf419a07e8f1583cff426b5dd956e2835d28634e89e"
   },
   "Settings.png": {
     "board": "Settings.dc.html",
     "props": {},
-    "boardSha256": "db34fe67750cdc2acec047c51113d5515f07ac95245ecf88b3e088a54efbc33f",
-    "pngSha256": "c2f5a08fdccabfc00a1caed5595f8cedcb7e74131d39148f363aec2edc48df7c"
+    "boardSha256": "2c2a0ce4b0f346b3d3bdb415612410904225676cdf2ea0cc01769e0caa7b0393",
+    "pngSha256": "1b2c306e48a9f9db81207bed5a4f1f6e6a33b293a07afc61f53ae7f88fa95ca7"
   }
 }

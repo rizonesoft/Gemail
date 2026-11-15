@@ -33,6 +33,7 @@ depends_on: []
 - -> XREF: D02 T02 §2 -- the repointed callers whose refine prompts §4 changes
 - -> XREF: D03 T01 §4 -- the Improve panel module §1 works in and the Summarize and Extract panels §5 relabel; the Draft and Reply panels of D03 T01 §3 are where §2 and §3 work
 - -> XREF: D06 T03 §3 -- the thread timeline, which builds on the honest thread reading §5 defines
+- -> XREF: D03 T04 §6 -- §1 puts **Replace selection** in the action bar that section builds, with **Undo** in the undo confirmation
 - -> XREF: D01 T01 §3 -- §6 writes its notice and ribbon notification after the task pane and ribbon strings carry the Gemail name
 - -> XREF: D07 T01 §1 -- the manifest requirement sets for the supported clients; §6 is the runtime refusal the manifest cannot express
 - -> XREF: D07 T01 §5 -- the user guide states where Gemail runs, from the policy §6 enforces
@@ -55,7 +56,7 @@ depends_on: []
 
 | Order | Section | Deliverable                                            | Depends On | Status |
 | :---: | :-----: | ------------------------------------------------------ | ---------- | :----: |
-|   1   |   §1    | Accept Changes replaces only what was improved         | D03 T01 §4 |  [ ]   |
+|   1   |   §1    | Accept Changes replaces only what was improved         | D03 T01 §4, D03 T04 §6 |  [ ]   |
 |   2   |   §2    | Include original is honored                            | D03 T01 §3 |  [ ]   |
 |   3   |   §3    | Refine starts from the edited preview                  | D03 T01 §3 |  [ ]   |
 |   4   |   §4    | Rules reach refine prompts; Improve honors its focus   | D02 T02 §2 |  [ ]   |
@@ -68,7 +69,7 @@ depends_on: []
 
 The worst defect in the import: improving one sentence and accepting the change deletes the rest of the email. The operator's rule for writes into mail (`AGENTS.md`, "The user's mail first") is a preview, an explicit click, and a way back. This section makes Accept write only what was improved, snapshots the body before any write, and adds a one-step restore. When Outlook refuses the write (read mode, or an item the add-in has no write permissions on), the refusal is reported and nothing is written.
 
-**Fidelity:** Gemail task pane Improve result card (diff, Accept Changes, Restore original, the whole-body confirmation) -- docs/captures/taskpane/improve/. Accept Changes keeps its place; Restore original appears beside it after an accept.
+**Fidelity:** Gemail task pane Improve (the diff card, **Replace selection** in the action bar, the undo confirmation, the whole-body confirmation) -- docs/captures/taskpane/improve/. The states match the Improve artboard render. **Corrected 2026-11-15:** was "Accept Changes keeps its place; Restore original appears beside it after an accept"; in the Fluent Native design the accept action is **Replace selection** (or **Replace message** for the whole body) in the action bar of `D03 T04 §6`, and the way back is **Undo** in the undo confirmation at the top of the content. Wherever this section says Accept or **Restore original**, those are the controls.
 
 **Design:** docs/design/mockup.md#diff-view, docs/design/mockup.md#undo-confirmation, docs/design/taskpane.md#result-card -- states: improved, accepted, restored, confirm whole body, write failed, selection changed -- themes: n/a (the card uses the pane tokens) -- density: n/a (one density in a fixed-width task pane)
 

@@ -32,6 +32,7 @@ depends_on: []
 - -> XREF: D02 T02 §1 -- `streamText` and `AiError` in `src/services/ai.ts`, which §4 consumes; the catalogue picker (D02 T02 §4) is what §7 pre-warms; the scoring call §8 changes was repointed in D02 T02 §2
 - -> XREF: D03 T01 §5 -- the panel modules and the thin bootstrap §3 to §6 build on
 - -> XREF: D04 T01 §3 -- the CSP is written against the production build hygiene of §2 (no inline source maps, known chunk names)
+- -> XREF: D03 T04 §6 -- §4 puts **Stop** in the action bar that section builds
 
 ## Outcome
 
@@ -51,7 +52,7 @@ depends_on: []
 |   1   |   §1    | Bundle baseline and budget       | D00 T02 §4             |  [ ]   |
 |   2   |   §2    | Production build hygiene         | §1                     |  [ ]   |
 |   3   |   §3    | Lazy-load feature panels         | §1, D03 T01 §5         |  [ ]   |
-|   4   |   §4    | Streaming output with Stop       | D02 T02 §1, D03 T01 §5 |  [ ]   |
+|   4   |   §4    | Streaming output with Stop       | D02 T02 §1, D03 T01 §5, D03 T04 §6 |  [ ]   |
 |   5   |   §5    | One request at a time per action | D03 T01 §5             |  [ ]   |
 |   6   |   §6    | Email context cache per item     | D03 T01 §5             |  [ ]   |
 |   7   |   §7    | Pre-warm the connection          | D02 T02 §4             |  [ ]   |
@@ -105,7 +106,7 @@ Today every feature waits for the complete response behind a full-pane overlay. 
 **Fidelity:** Gemail task pane, result card while streaming and after Stop, in Draft, Reply, Summarize, Improve, and Translate -- docs/captures/taskpane/streaming/. The card layout, action order, and text match the spec; the overlay no longer covers a streaming card.
 **Design:** docs/design/mockup.md#result-card, docs/design/mockup.md#streaming-and-stop, docs/design/taskpane.md#result-card, docs/design/taskpane.md#loading-and-streaming, docs/design/taskpane.md#buttons -- states: idle, streaming, stopped, complete, error -- themes: n/a (colors come from existing tokens and D06 T04 owns live theming) -- density: n/a (one density in a fixed-width task pane)
 **Job:** A user can watch the email being written and stop it at any point, keeping the partial text. Consumer: the insert, copy, and refine actions of each panel, which read the card's final text.
-**Treatment:** Chunks appended to the preview through `textContent` as they arrive, with **Stop** replacing **Regenerate** while streaming. Cheaper substitute that fails the checkpoint: a typewriter animation over a completed response, which cannot be stopped mid-request and shows nothing until the whole response has arrived.
+**Treatment:** Chunks appended to the preview through `textContent` as they arrive, with **Stop** taking the action bar's primary slot while streaming (`D03 T04 §6`) and the result card's header row showing the status. **Corrected 2026-11-15:** was "with **Stop** replacing **Regenerate** while streaming"; the Fluent Native design moved every primary action, Stop included, into the action bar. Cheaper substitute that fails the checkpoint: a typewriter animation over a completed response, which cannot be stopped mid-request and shows nothing until the whole response has arrived.
 **Chrome:** consume `streamText` from `src/services/ai.ts`, `src/ui/result-card.ts`, and `src/ui/status.ts`. Do not invent a second loading indicator or a second abort mechanism.
 **Needs:** Outlook client (sideload)
 **Requires:** display-session -- the streaming and Stop proof drives a sideloaded task pane and captures it

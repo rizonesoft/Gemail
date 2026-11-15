@@ -29,6 +29,7 @@ depends_on: []
 - -> XREF: D03 T01 §5 -- §1 adds its panel beside the Settings, Rules, and Templates panels the split created
 - -> XREF: D05 T02 §2 -- §3 builds on the tab bar's arrow-key navigation and must not collide with it
 - -> XREF: D07 T01 §5 -- the user guide documents the prompt library and the shortcut list
+- -> XREF: D03 T04 §6 -- §3 binds `Ctrl+Enter` to the primary button of the action bar that section builds
 
 ## Outcome
 
@@ -46,7 +47,7 @@ depends_on: []
 | :---: | :-----: | ----------------------------------------------- | ---------------------- | :----: |
 |   1   |   §1    | A custom prompt library                         | D03 T01 §5, D02 T02 §2 |  [ ]   |
 |   2   |   §2    | Run a custom prompt on the message or selection | §1                     |  [ ]   |
-|   3   |   §3    | Keyboard shortcuts in the task pane             | D05 T02 §2             |  [ ]   |
+|   3   |   §3    | Keyboard shortcuts in the task pane             | D05 T02 §2, D03 T04 §6 |  [ ]   |
 
 ---
 
@@ -100,7 +101,7 @@ The legacy `TODO.md` asked for keyboard shortcuts for common actions. With the X
 **Fidelity:** Gemail shortcut list dialog opened with `?` -- docs/captures/taskpane/shortcuts/. A two-column table of keys and actions inside the inline dialog.
 **Design:** docs/design/mockup.md#write-action, docs/design/mockup.md#surfaces-the-mockup-does-not-draw, docs/design/taskpane.md#dialogs, docs/design/taskpane.md#accessibility -- states: closed, open -- themes: n/a (the pane has one light theme until D06 T04 ships dark mode) -- density: n/a (one density in a fixed-width task pane)
 **Job:** The user can run, stop, and switch features without the mouse, and look up every shortcut. Consumer: none: this surface is the consumer.
-**Treatment:** `Ctrl+Enter` (`Cmd+Enter` on Mac) runs the active tab's primary button, `Esc` stops a stream or closes the dropdown or dialog, `Alt+1` to `Alt+6` switch to Reply, Draft, Summarize, Improve, Extract, Translate, and `?` outside a text field opens the list; buttons show their shortcut in their tooltip. Cheaper substitute that fails the checkpoint: a list with no handlers, which the handler tests reject.
+**Treatment:** `Ctrl+Enter` (`Cmd+Enter` on Mac) runs the action bar's primary button (`D03 T04 §6`), whatever it currently is, `Esc` stops a stream or closes the dropdown or dialog, `Alt+1` to `Alt+6` switch to Reply, Draft, Summarize, Improve, Extract, Translate, and `?` outside a text field opens the list; buttons show their shortcut in their tooltip. Cheaper substitute that fails the checkpoint: a list with no handlers, which the handler tests reject.
 **Chrome:** consume the tab controller (`src/taskpane/tabs.ts`), the inline dialog, and the stop control from `D03 T02 §4`; do not add a second tab-switching path.
 **Needs:** Outlook client (sideload)
 **Requires:** display-session -- the checkpoint drives the shortcuts in sideloaded new Outlook and Outlook on the web windows

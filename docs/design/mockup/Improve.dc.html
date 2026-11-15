@@ -2,129 +2,96 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Gemail -- Improve, dark</title>
+<title>Direction A improve pane</title>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <style>
-body{margin:0;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;color:#eceef2;background:#1b1d22}
-a{color:#6cb4ff}a:hover{color:#9ccaff}
-button{font-family:inherit}
+body{margin:0}
+a{color:#0f6cbd}a:hover{color:#115ea3}
 </style>
 </helmet>
-<div style="width: 400px; height: 1160px; box-sizing: border-box; background: #1b1d22; color: #eceef2; display: flex; flex-direction: column; font-size: 14px; line-height: 20px">
+<div style="width: 840px; min-height: 1260px; box-sizing: border-box; padding: 40px; background: #ebebeb; font-family: 'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif; display: flex; gap: 40px; align-items: flex-start">
+  <sc-for list="{{themes}}" as="t" hint-placeholder-count="2">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 13px; font-weight: 600; color: #3d3d3d">{{t.caption}}</div>
+      <div style="width: 360px; height: 1140px; background: {{t.bg}}; color: {{t.text}}; border: 1px solid {{t.border}}; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column">
+        <header style="height: 48px; padding: 0 8px 0 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0">
+          <svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true"><path d="M11 10h20a5 5 0 0 1 5 5v24a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5V15a5 5 0 0 1 5-5z" fill="#0f6cbd"></path><path d="M12 5h17l9 9v25a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4z" fill="#ffffff"></path><path d="M29 5v6a3 3 0 0 0 3 3h6z" fill="#9cc3ec"></path><path d="M14 21.2h14" stroke="#0f6cbd" stroke-width="2.4" stroke-linecap="round"></path><path d="M14 27.2h17M14 33.2h10" stroke="#9cc3ec" stroke-width="2.4" stroke-linecap="round"></path><path d="M38.5 21.5c.9 4.2 2.8 6.1 7 7c-4.2.9-6.1 2.8-7 7c-.9-4.2-2.8-6.1-7-7c4.2-.9 6.1-2.8 7-7z" fill="#6d48c7" stroke="{{t.bg}}" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+          <span style="font-size: 16px; font-weight: 600; flex-grow: 1">Gemail</span>
+          <button type="button" aria-label="Settings" style="width: 36px; height: 36px; border: 0; background: transparent; border-radius: 4px; color: {{t.text2}}; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 6h8M15 6h2M3 14h2M9 14h8M11 6a2 2 0 1 0 4 0a2 2 0 1 0-4 0M5 14a2 2 0 1 0 4 0a2 2 0 1 0-4 0"></path></svg></button>
+        </header>
+        <nav aria-label="Features" style="display: flex; border-bottom: 1px solid {{t.border}}; flex-shrink: 0">
+          <button type="button" style="flex: 1; height: 52px; border: 0; background: transparent; font: inherit; font-size: 12px; color: {{t.text2}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5M15.5 2.5l2 2L10 12l-3 1 1-3z"></path></svg>Draft</button>
+          <button type="button" aria-current="page" style="flex: 1; height: 52px; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 600; color: {{t.brand}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; box-shadow: inset 0 -2px 0 {{t.brand}}"><svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l9-9M10.5 6.5l3 3M15 2v3M13.5 3.5h3M17 8v2M16 9h2"></path></svg>Improve</button>
+          <button type="button" style="flex: 1; height: 52px; border: 0; background: transparent; font: inherit; font-size: 12px; color: {{t.text2}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h8M7 2.5V4M9.5 4c-.5 3-2.5 5.5-5.5 7M5.5 7c1 1.6 2.5 3 4 3.6M10 17l3.5-8 3.5 8M11.2 14.5h4.6"></path></svg>Translate</button>
+          <button type="button" style="flex: 1; height: 52px; border: 0; background: transparent; font: inherit; font-size: 12px; color: {{t.text2}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.8 10a1.2 1.2 0 1 0 2.4 0a1.2 1.2 0 1 0-2.4 0M8.8 10a1.2 1.2 0 1 0 2.4 0a1.2 1.2 0 1 0-2.4 0M13.8 10a1.2 1.2 0 1 0 2.4 0a1.2 1.2 0 1 0-2.4 0"></path></svg>More</button>
+        </nav>
 
-  <header style="display: flex; align-items: center; gap: 10px; padding: 14px 16px 10px 16px">
-    <svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="hBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f67c9"></stop><stop offset="1" stop-color="#0c3d8c"></stop></linearGradient><linearGradient id="hFront" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#5cb3ff"></stop><stop offset="1" stop-color="#1768d4"></stop></linearGradient><linearGradient id="hSheet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"></stop><stop offset="1" stop-color="#dce7f5"></stop></linearGradient><linearGradient id="hSpark" x1="0.2" y1="0" x2="0.8" y2="1"><stop offset="0" stop-color="#d2b6ff"></stop><stop offset="1" stop-color="#7340e0"></stop></linearGradient></defs><path d="M5 20a5 5 0 0 1 2.2-4.1L22 6.3a3.6 3.6 0 0 1 4 0l14.8 9.6A5 5 0 0 1 43 20v17a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z" fill="url(#hBack)"></path><rect x="11" y="10" width="26" height="24" rx="2.5" fill="url(#hSheet)"></rect><rect x="15" y="15" width="12" height="2" rx="1" fill="#8fb0da"></rect><rect x="15" y="19.5" width="17" height="2" rx="1" fill="#bcd0ea"></rect><path d="M5 22.5l17.6 11.2a2.6 2.6 0 0 0 2.8 0L43 22.5V37a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z" fill="url(#hFront)"></path><path d="M39 3c.8 4.6 2.9 6.7 7.5 7.5-4.6.8-6.7 2.9-7.5 7.5-.8-4.6-2.9-6.7-7.5-7.5 4.6-.8 6.7-2.9 7.5-7.5z" fill="url(#hSpark)" stroke="#1b1d22" stroke-width="1.6" stroke-linejoin="round"></path></svg>
-    <span style="font-size: 16px; font-weight: 600; flex-grow: 1">Gemail</span>
-    <button aria-label="Settings" style="width: 36px; height: 36px; border: 0; background: transparent; border-radius: 6px; color: #b3b9c4; display: flex; align-items: center; justify-content: center">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.6 10a2.4 2.4 0 1 0 4.8 0a2.4 2.4 0 1 0-4.8 0M8.6 2.8h2.8l.5 2 1.8 1 2-.6 1.4 2.4-1.5 1.4v2l1.5 1.4-1.4 2.4-2-.6-1.8 1-.5 2H8.6l-.5-2-1.8-1-2 .6-1.4-2.4L4.4 11V9L2.9 7.6l1.4-2.4 2 .6 1.8-1z"></path></svg>
-    </button>
-  </header>
+        <div style="flex-grow: 1; overflow: hidden; padding: 16px; display: flex; flex-direction: column; gap: 20px">
+          <div role="status" style="background: {{t.successTint}}; border: 1px solid {{t.successBorder}}; border-radius: 8px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; font-size: 13px">
+            <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="{{t.success}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"></path></svg>
+            <span style="flex-grow: 1">Selection replaced. The rest of your email is unchanged.</span>
+            <button type="button" style="border: 0; background: transparent; color: {{t.brand}}; font: inherit; font-size: 13px; font-weight: 600; padding: 0">Undo</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 14px">
+            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="{{t.text2}}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6V4a1 1 0 0 1 1-1h2M14 3h2a1 1 0 0 1 1 1v2M17 14v2a1 1 0 0 1-1 1h-2M6 17H4a1 1 0 0 1-1-1v-2M7 8h6M7 12h4"></path></svg>
+            <span style="font-weight: 600; flex-grow: 1">Improving your selection</span>
+            <span style="font-size: 12px; color: {{t.text3}}">3 sentences</span>
+          </div>
+          <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+            <legend style="font-size: 12px; color: {{t.text2}}; padding: 0; margin-bottom: 8px">Focus</legend>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+              <button type="button" aria-pressed="true" style="height: 40px; border: 1px solid {{t.brand}}; background: {{t.brandTint}}; color: {{t.text}}; border-radius: 4px; font: inherit; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; padding: 0 10px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="{{t.brand}}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14l3-8 3 8M4.2 11.5h3.6M11 13l2 2 4.5-5"></path></svg>Grammar</button>
+              <button type="button" aria-pressed="true" style="height: 40px; border: 1px solid {{t.brand}}; background: {{t.brandTint}}; color: {{t.text}}; border-radius: 4px; font: inherit; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; padding: 0 10px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="{{t.brand}}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 15h5M8 17.5h4M10 2.5a5 5 0 0 0-3 9c.6.5 1 1.2 1 2v.5h4v-.5c0-.8.4-1.5 1-2a5 5 0 0 0-3-9z"></path></svg>Clarity</button>
+              <button type="button" aria-pressed="false" style="height: 40px; border: 1px solid {{t.borderInput}}; background: {{t.bg}}; color: {{t.text}}; border-radius: 4px; font: inherit; font-size: 13px; display: flex; align-items: center; gap: 8px; padding: 0 10px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 10h5M5.5 8l2 2-2 2M17.5 10h-5M14.5 8l-2 2 2 2M10 4v12"></path></svg>Concise</button>
+              <button type="button" aria-pressed="false" style="height: 40px; border: 1px solid {{t.borderInput}}; background: {{t.bg}}; color: {{t.text}}; border-radius: 4px; font: inherit; font-size: 13px; display: flex; align-items: center; gap: 8px; padding: 0 10px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h14v9H3zM7.5 7V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2M3 11h14"></path></svg>Professional</button>
+            </div>
+          </fieldset>
+          <div style="border: 1px solid {{t.border}}; border-radius: 8px">
+            <div style="display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-bottom: 1px solid {{t.border}}; font-size: 12px; color: {{t.text3}}">
+              <span style="flex-grow: 1">4 changes</span>
+              <span style="background: {{t.delBg}}; color: {{t.delText}}; padding: 0 4px; border-radius: 2px; text-decoration: line-through">Removed</span>
+              <span style="background: {{t.addBg}}; color: {{t.addText}}; padding: 0 4px; border-radius: 2px">Added</span>
+            </div>
+            <p style="margin: 0; padding: 12px; font-size: 14px; line-height: 22px">Thanks for the update. <span style="background: {{t.delBg}}; color: {{t.delText}}; text-decoration: line-through">We was hoping to</span> <span style="background: {{t.addBg}}; color: {{t.addText}}">We hoped to</span> start in September, but <span style="background: {{t.delBg}}; color: {{t.delText}}; text-decoration: line-through">its looking like</span> <span style="background: {{t.addBg}}; color: {{t.addText}}">it now looks like</span> October is more realistic. Could you confirm the revised timeline by Friday?</p>
+          </div>
+          <div role="alert" style="background: {{t.dangerTint}}; border: 1px solid {{t.dangerBorder}}; border-radius: 8px; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start">
+            <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="{{t.danger}}" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><path d="M10 17.5a7.5 7.5 0 1 0 0-15a7.5 7.5 0 1 0 0 15zM10 6v5M10 14h.01"></path></svg>
+            <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1; font-size: 13px">
+              <span style="font-weight: 600">OpenRouter is rate limiting this key.</span>
+              <span style="color: {{t.text2}}">Gemail tried 3 times. Wait a minute, then retry.</span>
+            </div>
+            <button type="button" style="height: 28px; border: 1px solid {{t.borderInput}}; background: {{t.bg}}; color: {{t.text}}; border-radius: 4px; font: inherit; font-size: 13px; padding: 0 10px">Retry</button>
+          </div>
+        </div>
 
-  <nav aria-label="Features" style="display: flex; gap: 2px; padding: 0 8px; border-bottom: 1px solid #353943">
-    <button style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 9px 0; border: 0; background: transparent; color: #b3b9c4; font-size: 12px">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 4.5L4 9l4.5 4.5"></path><path d="M4.5 9h7a5 5 0 0 1 5 5v1.5"></path></svg>
-      Reply
-    </button>
-    <button style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 9px 0; border: 0; background: transparent; color: #b3b9c4; font-size: 12px">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10"></path><path d="M14.4 3.4a1.8 1.8 0 0 1 2.6 2.6l-6.1 6.1-3.1.7.7-3.1z"></path></svg>
-      Draft
-    </button>
-    <button style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 9px 0; border: 0; background: transparent; color: #b3b9c4; font-size: 12px">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5.5 3h9A1.5 1.5 0 0 1 16 4.5v11a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 4 15.5v-11A1.5 1.5 0 0 1 5.5 3zM7 7h6M7 10h6M7 13h3.5" stroke-linejoin="round"></path></svg>
-      Summarize
-    </button>
-    <button aria-selected="true" style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 7px 0; border: 0; background: transparent; color: #6cb4ff; font-size: 12px; font-weight: 600; border-bottom: 2px solid #6cb4ff">
-      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.02 15.42L11.42 7.02A1.1 1.1 0 0 1 12.98 8.58L4.58 16.98A1.1 1.1 0 0 1 3.02 15.42Z" fill="currentColor"></path><path d="M9.07 9.37L10.63 10.93" fill="none" stroke="#1b1d22" stroke-width="1.3" stroke-linecap="round"></path><path d="M15.5 1.4Q15.9 3.6 18.1 4Q15.9 4.4 15.5 6.6Q15.1 4.4 12.9 4Q15.1 3.6 15.5 1.4ZM6 2.9Q6.25 4.25 7.6 4.5Q6.25 4.75 6 6.1Q5.75 4.75 4.4 4.5Q5.75 4.25 6 2.9Z" fill="currentColor"></path></svg>
-      Improve
-    </button>
-    <button aria-label="More features" style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 9px 0; border: 0; background: transparent; color: #b3b9c4; font-size: 12px">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="4.5" cy="10" r="1.25"></circle><circle cx="10" cy="10" r="1.25"></circle><circle cx="15.5" cy="10" r="1.25"></circle></svg>
-      More
-    </button>
-  </nav>
-
-  <main style="flex-grow: 1; display: flex; flex-direction: column; gap: 16px; padding: 16px">
-
-    <div style="display: flex; gap: 8px; align-items: center; padding: 10px 12px; background: #24272e; border-radius: 8px; font-size: 13px">
-      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#b3b9c4" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 5h12M4 10h8M4 15h10"></path></svg>
-      <span style="flex-grow: 1">Improving your selection</span>
-      <span style="color: #b3b9c4; font-size: 12px">2 sentences</span>
+        <div style="flex-shrink: 0; border-top: 1px solid {{t.border}}; background: {{t.bg}}; padding: 12px 16px 8px; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; gap: 8px">
+            <button type="button" style="flex: 1; height: 44px; border: 0; background: {{t.brandFill}}; color: {{t.onBrand}}; border-radius: 4px; font: inherit; font-size: 14px; font-weight: 600">Replace selection</button>
+            <button type="button" aria-label="Copy" style="width: 44px; height: 44px; border: 1px solid {{t.borderInput}}; background: {{t.bg}}; color: {{t.text}}; border-radius: 4px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6.5h7.5A1.5 1.5 0 0 1 17 8v8.5a1.5 1.5 0 0 1-1.5 1.5H8a1.5 1.5 0 0 1-1.5-1.5V8A1.5 1.5 0 0 1 8 6.5zM3.5 13V4A1.5 1.5 0 0 1 5 2.5h8"></path></svg></button>
+            <button type="button" aria-label="Try again" style="width: 44px; height: 44px; border: 1px solid {{t.borderInput}}; background: {{t.bg}}; color: {{t.text}}; border-radius: 4px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 10a6.5 6.5 0 1 1-2-4.7M16.5 2.5V6H13"></path></svg></button>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: {{t.text3}}">
+            <span>Gemini 2.5 Flash via OpenRouter · <a href="#" style="color: {{t.brand}}">Change</a></span>
+            <span>v2.0.0</span>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
-      <legend style="font-size: 13px; font-weight: 600; padding: 0; margin-bottom: 6px">Focus</legend>
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
-        <sc-for list="{{ focuses }}" as="f" hint-placeholder-count="4">
-          <button aria-pressed="{{ f.pressed }}" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px; border: 1px solid {{ f.border }}; border-radius: 8px; background: {{ f.bg }}; color: #eceef2; font-size: 13px; text-align: left">
-            <span style="color: {{ f.iconColor }}; display: flex"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ f.icon }}"></path></svg></span>
-            {{ f.label }}
-          </button>
-        </sc-for>
-      </div>
-    </fieldset>
-
-    <section aria-label="Changes" style="border: 1px solid #353943; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column">
-      <div style="display: flex; align-items: center; padding: 10px 12px; border-bottom: 1px solid #2e323a; font-size: 12px; color: #b3b9c4; gap: 12px">
-        <span style="flex-grow: 1">3 changes</span>
-        <span style="display: flex; align-items: center; gap: 4px"><span style="width: 10px; height: 10px; border-radius: 2px; background: #5a2a30"></span>Removed</span>
-        <span style="display: flex; align-items: center; gap: 4px"><span style="width: 10px; height: 10px; border-radius: 2px; background: #1d4a2e"></span>Added</span>
-      </div>
-      <p style="margin: 0; padding: 12px; font-size: 14px; line-height: 23px">We <span style="background: #5a2a30; color: #ffc9cc; text-decoration: line-through">wanted to let you know that we</span> <span style="background: #1d4a2e; color: #a6ecbd">have</span> reviewed the proposal <span style="background: #5a2a30; color: #ffc9cc; text-decoration: line-through">and we think its</span> <span style="background: #1d4a2e; color: #a6ecbd">and find it</span> mostly <span style="background: #5a2a30; color: #ffc9cc; text-decoration: line-through">fine</span> <span style="background: #1d4a2e; color: #a6ecbd">sound</span>, with two questions on the delivery dates.</p>
-      <div style="display: flex; gap: 8px; padding: 10px 12px; background: #24272e">
-        <button style="flex-grow: 1; height: 34px; border: 0; border-radius: 6px; background: #4ba3ff; color: #0d1117; font-size: 13px; font-weight: 600">Replace selection</button>
-        <button style="height: 34px; padding: 0 12px; border: 1px solid #454a55; border-radius: 6px; background: transparent; color: #eceef2; font-size: 13px">Copy</button>
-        <button aria-label="Try again" style="width: 34px; height: 34px; border: 1px solid #454a55; border-radius: 6px; background: transparent; color: #b3b9c4; display: flex; align-items: center; justify-content: center">
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10a6 6 0 1 1-1.8-4.3"></path><path d="M16.5 3v3.5H13"></path></svg>
-        </button>
-      </div>
-    </section>
-
-    <sc-if value="{{ accepted }}" hint-placeholder-val="{{ true }}">
-      <div role="status" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; background: #24272e; border: 1px solid #2f5a3d; font-size: 13px">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#7fd99b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"></path></svg>
-        <span style="flex-grow: 1">Selection replaced. The rest of your email is unchanged.</span>
-        <button style="display: flex; align-items: center; gap: 4px; height: 28px; padding: 0 8px; border: 0; border-radius: 6px; background: transparent; color: #6cb4ff; font-size: 13px; font-weight: 600">
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h7a3.5 3.5 0 0 1 0 7H9"></path><path d="M8.5 5.5L6 8l2.5 2.5"></path></svg>
-          Undo
-        </button>
-      </div>
-    </sc-if>
-
-    <div role="alert" style="display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 8px; background: #3a1f22; border: 1px solid #6b2f35; font-size: 13px">
-      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#ff9a9f" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><circle cx="10" cy="10" r="7.5"></circle><path d="M10 6v4.5M10 13.5v.2"></path></svg>
-      <span style="flex-grow: 1">OpenRouter is rate limiting this key. Gemail tried 3 times.<br><span style="color: #b3b9c4">Wait a minute, or choose a different model.</span></span>
-      <button style="height: 28px; padding: 0 10px; border: 1px solid #6b2f35; border-radius: 6px; background: transparent; color: #eceef2; font-size: 13px">Retry</button>
-    </div>
-  </main>
-
-  <footer style="display: flex; justify-content: space-between; padding: 10px 16px 14px 16px; font-size: 12px; color: #9aa3b2; border-top: 1px solid #2e323a">
-    <span>Model: Claude Haiku 4.5 via OpenRouter · <a href="Settings.dc.html">Change</a></span>
-    <span>v2.0.0</span>
-  </footer>
+  </sc-for>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accepted":{"editor":"boolean","default":true},"$preview":{"width":400,"height":1160}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":840,"height":1260}}'>
 class Component extends DCLogic {
   renderVals() {
-    const list = [
-      { label: 'Grammar', icon: 'M9 17H4.5A1.5 1.5 0 0 1 3 15.5V3a1.5 1.5 0 0 1 1.5-1.5h6.8l4.2 4.2V9M11.3 1.5v3.2a1 1 0 0 0 1 1h3.2M5.5 8h5.5M5.5 11h3.5M11.2 15.2l2 2 4.3-4.4' },
-      { label: 'Clarity', icon: 'M7.6 13.2C7.6 12.2 7.1 11.5 6.4 10.9A5.2 5.2 0 1 1 13.6 10.9C12.9 11.5 12.4 12.2 12.4 13.2ZM7.8 15.6h4.4M8.6 17.9h2.8' },
-      { label: 'Concise', icon: 'M6.5 5.2h7M6.5 10h7M6.5 14.8h4M1.5 10h3M3.2 8.3L4.9 10 3.2 11.7M18.5 10h-3M16.8 8.3L15.1 10l1.7 1.7' },
-      { label: 'Professional', icon: 'M7.2 6V4.6c0-.9.7-1.6 1.6-1.6h2.4c.9 0 1.6.7 1.6 1.6V6M4.2 6h11.6A2.2 2.2 0 0 1 18 8.2v6.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 14.8V8.2A2.2 2.2 0 0 1 4.2 6zM2.2 10.3C4.7 11.4 7.3 11.9 10 11.9s5.3-.5 7.8-1.6' }
-    ];
     return {
-      accepted: this.props.accepted ?? true,
-      focuses: list.map((f, i) => ({
-        ...f,
-        pressed: i === 1 ? 'true' : 'false',
-        bg: i === 1 ? '#1f3350' : '#24272e',
-        border: i === 1 ? '#4ba3ff' : '#353943',
-        iconColor: i === 1 ? '#6cb4ff' : '#b3b9c4'
-      }))
+      themes: [
+        { caption: 'Light · compose mode', bg: '#ffffff', border: '#e0e0e0', borderInput: '#d1d1d1', text: '#242424', text2: '#5c5c5c', text3: '#6b6b6b', brand: '#0f6cbd', brandFill: '#0f6cbd', onBrand: '#ffffff', brandTint: '#ebf3fc', success: '#0e7a0d', successTint: '#f1faf1', successBorder: '#9fd89f', danger: '#b10e1c', dangerTint: '#fdf3f4', dangerBorder: '#eeacb2', delBg: '#fde7e9', delText: '#8a0f19', addBg: '#dff6dd', addText: '#0b5a0b' },
+        { caption: 'Dark · compose mode', bg: '#1f1f1f', border: '#3d3d3d', borderInput: '#5c5c5c', text: '#ffffff', text2: '#d6d6d6', text3: '#adadad', brand: '#479ef5', brandFill: '#115ea3', onBrand: '#ffffff', brandTint: '#0e2a47', success: '#54b054', successTint: '#0e2a0e', successBorder: '#1f5a1f', danger: '#f1707b', dangerTint: '#3b1418', dangerBorder: '#6e1f26', delBg: '#5a1d23', delText: '#ffc9cd', addBg: '#173e17', addText: '#a8e6a3' }
+      ]
     };
   }
 }

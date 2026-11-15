@@ -30,6 +30,7 @@ depends_on: []
 - -> XREF: D04 T01 §4 -- §1 roams only after the key has moved to its own device-only storage
 - -> XREF: D06 T04 §3 -- local usage stats accumulate the per-request cost §5 reads
 - -> XREF: D07 T01 §5 -- the user guide documents every setting this file adds
+- -> XREF: D03 T04 §8 -- §1 adds its two settings to the Writing card that section builds
 
 ## Outcome
 
@@ -72,10 +73,10 @@ The legacy `TODO.md` asked for settings in `Office.context.roamingSettings` for 
 
 Every caller hard-codes its own `temperature` and `maxOutputTokens` today, so a user who wants plainer or shorter output has no lever. This section adds two settings with named consumers: `creativity` (Precise, Balanced, Creative) and `responseLength` (Short, Standard, Long), mapped per feature in one table in the facade, so the per-feature defaults the cutover chose stay the Balanced/Standard row.
 
-**Fidelity:** Gemail Settings panel, new "Output" group beneath the model picker -- docs/captures/taskpane/settings/. Control order, spacing, and wording follow the capture; the group matches the existing default-tone select.
+**Fidelity:** Gemail Settings panel, the Writing card of `D03 T04 §8` -- docs/captures/taskpane/settings/. Control order, spacing, and wording follow the Settings artboard render. **Corrected 2026-11-15:** was a new "Output" group beneath the model picker; the Fluent Native design draws Creativity in the Writing card, so both settings live there.
 **Design:** docs/design/mockup.md#writing, docs/design/mockup.md#reply-form, docs/design/taskpane.md#settings-panel -- states: default, changed, saved, reset -- themes: n/a (the pane has one light theme until D06 T04 ships dark mode) -- density: n/a (one density in a fixed-width task pane)
 **Job:** The user can make every feature's output more precise or more creative, and shorter or longer, once. Consumer: the facade call options of every generating feature.
-**Treatment:** two three-option segmented selects labeled Creativity and Response length, with a one-line hint under each. Cheaper substitute that fails the checkpoint: a raw 0.0 to 2.0 temperature slider, which exposes a number users cannot reason about and fails the mapping test.
+**Treatment:** Creativity as the three-stop slider the Writing card draws (Precise, Balanced, Creative) and Response length as a dropdown beside the default tone, each with a one-line hint. **Corrected 2026-11-15:** was "two three-option segmented selects"; the approved design has no segmented control. Cheaper substitute that fails the checkpoint: a raw 0.0 to 2.0 temperature slider, which exposes a number users cannot reason about and fails the mapping test.
 **Chrome:** consume the `.aic-select` and label styles and the settings service; do not invent a second settings writer.
 **Needs:** Outlook client (sideload)
 **Requires:** display-session -- the checkpoint drives the Settings panel in a sideloaded Outlook on the web window
@@ -138,7 +139,7 @@ The legacy `TODO.md` asked to show model capabilities in the selector. OpenRoute
 **Fidelity:** Gemail model picker rows and the result card footer -- docs/captures/taskpane/settings/ and docs/captures/taskpane/result-card/. The cost sits beside word count and reading time, same style.
 **Design:** docs/design/mockup.md#model-picker, docs/design/mockup.md#footer, docs/design/mockup.md#result-card, docs/design/taskpane.md#result-card, docs/design/taskpane.md#settings-panel -- states: cost known, cost unknown, free model -- themes: n/a (the pane has one light theme until D06 T04 ships dark mode) -- density: n/a (one density in a fixed-width task pane)
 **Job:** The user can see what a model costs before choosing it and what a request cost after running it. Consumer: none: this surface is the consumer; `D06 T04 §3` also reads the per-request cost.
-**Treatment:** each picker row shows "128K context · $0.15 / $0.60 per 1M tokens" (input / output); each result card footer shows "≈ $0.0004" from `usage.cost`, or "Free" for a zero-priced model, or nothing when usage is absent. Cheaper substitute that fails the checkpoint: estimating the cost locally from the price table, which disagrees with the billed figure and fails the fixture test.
+**Treatment:** each picker row shows "128K context · $0.15 / $0.60 per 1M tokens" (input / output); each result card header row shows, after the word count, "≈ $0.0004" from `usage.cost`, or "Free" for a zero-priced model, or nothing when usage is absent. Cheaper substitute that fails the checkpoint: estimating the cost locally from the price table, which disagrees with the billed figure and fails the fixture test.
 **Chrome:** consume the catalogue from `listModels()` (`D02 T01 §5`), the picker from `D02 T02 §4`, and the result card stats line; do not compute prices in a second place.
 **Needs:** Outlook client (sideload)
 **Requires:** display-session -- the checkpoint reads the picker and a result card in a sideloaded Outlook on the web window
