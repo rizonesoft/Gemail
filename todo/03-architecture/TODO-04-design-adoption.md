@@ -12,7 +12,7 @@ depends_on: []
 > **Goal:** The code wears the approved design. Every color, font, and spacing value the pane uses comes from `docs/design/tokens.json` through one generated stylesheet; every icon in the pane comes from the generated registry `src/ui/icons.ts`; the pane frame (header, tab bar, and the action bar pinned at the bottom with the footer line) matches the Reply artboard; the reply settings row, the folded instruction summary, the result card, and the Settings cards with their sticky Save bar are built once and shared; the ribbon and the manifests use the icons rendered from `assets/icons/src/`; and `docs/design/.lint-baseline.json` is empty, so `python scripts/design-lint.py` holds the code to the design with nothing grandfathered.
 
 > [!IMPORTANT]
-> **Current state (verified 2026-11-15):** The operator replaced the approved design on 2026-11-15 with the Fluent Native direction ("Most definately A") and it was imported the same day through `design-sync`: the five artboards under `docs/design/mockup/` (pinned to artifact version `1794764248-4c81` by `docs/design/mockup/source.json`) with renders under `docs/design/mockup/renders/`, the tokens in `docs/design/tokens.json` (brand `#0f6cbd` with a separate `brandFill`, tertiary text `#6b6b6b`, Fluent 2's type ramp in Segoe UI Variable, radius 4, 8, and 12, a light and a dark set with the same keys), 50 icon sources in `assets/icons/src/` redrawn for it (a letter-with-spark app icon, ribbon and menu icons on one document base, pane glyphs at a 1.5 px stroke), 25 rendered PNGs in `assets/icons/png/`, and the generated registry `src/ui/icons.ts` with 42 pane icons behind `iconSvg()`. The design also changed the pane's composition: the primary action sits in an action bar pinned at the bottom (§6), tone, length, and language are one row of dropdown buttons and the form folds into an instruction summary after a result (§7), and Settings is grouped cards over a sticky Save bar (§8). None of it is used by the add-in yet: `src/styles/main.css` still defines `--font-aic` as Poppins and the old `--color-aic-*` values (the brand is `#3b9eff`), `src/taskpane/taskpane.html` loads Google Fonts and carries 45 inline `<svg>` elements, and both manifests point at `assets/icon-*.png` and `assets/tool-icons/*.png`. `python scripts/design-lint.py` baselines what this file burns down: 54 color literals, 47 inline SVGs, 6 font declarations, and 88 legacy icon references.
+> **Current state (verified 2026-11-15):** The operator replaced the approved design on 2026-11-15 with the Fluent Native direction ("Most definately A") and it was imported the same day through `design-sync`: the six artboards under `docs/design/mockup/` (pinned to artifact version `1794766595-aa03` by `docs/design/mockup/source.json`) with renders under `docs/design/mockup/renders/`, the tokens in `docs/design/tokens.json` (brand `#0f6cbd` with a separate `brandFill`, tertiary text `#6b6b6b`, Fluent 2's type ramp in Segoe UI Variable, radius 4, 8, and 12, a light and a dark set with the same keys), 56 icon sources in `assets/icons/src/` redrawn for it (a letter-with-spark app icon, ribbon and menu icons on one document base with a 16 px redraw each, pane glyphs at a 1.5 px stroke), 25 rendered PNGs in `assets/icons/png/`, and the generated registry `src/ui/icons.ts` with 42 pane icons behind `iconSvg()`. The design also changed the pane's composition: the primary action sits in an action bar pinned at the bottom (§6), tone, length, and language are one row of dropdown buttons and the form folds into an instruction summary after a result (§7), Settings is grouped cards over a sticky Save bar (§8), and every control has five interaction states from tokens (§9). None of it is used by the add-in yet: `src/styles/main.css` still defines `--font-aic` as Poppins and the old `--color-aic-*` values (the brand is `#3b9eff`), `src/taskpane/taskpane.html` loads Google Fonts and carries 45 inline `<svg>` elements, and both manifests point at `assets/icon-*.png` and `assets/tool-icons/*.png`. `python scripts/design-lint.py` baselines what this file burns down: 54 color literals, 47 inline SVGs, 6 font declarations, and 88 legacy icon references.
 <!-- claim: exists docs/design/tokens.json -->
 <!-- claim: exists src/ui/icons.ts -->
 <!-- claim: exists docs/design/mockup/source.json -->
@@ -41,6 +41,7 @@ depends_on: []
 - -> XREF: D05 T03 §1 -- consumes §6: **Replace selection** is the action bar's primary action for Improve
 - -> XREF: D06 T02 §3 -- consumes §6: `Ctrl+Enter` runs whatever the action bar's primary button currently is
 - -> XREF: D06 T01 §1 -- consumes §8: the creativity and length settings are rows of the Writing card
+- -> XREF: D05 T02 §2 -- consumes §9: the keyboard work relies on the focus ring §9 puts on every control
 
 ## Outcome
 
@@ -50,6 +51,7 @@ depends_on: []
 - Every feature's primary action, its insert actions, and **Stop** live in one action bar pinned at the bottom of the pane (`docs/design/mockup.md#action-bar`), driven by one controller in `src/ui/`, and no panel carries a primary button of its own.
 - Tone, length, and language are one row of dropdown buttons shared by Reply and Draft, the form folds into an instruction summary when a result arrives, and the result card matches `docs/design/mockup.md#result-card`.
 - Settings is grouped cards with the Rules row, the privacy card, and a sticky **Save settings** bar that counts unsaved changes (`docs/design/mockup.md#settings`).
+- Every button, tab, dropdown, link, and input shows the rest, hover, pressed, focus, and disabled states of `docs/design/mockup.md#interaction-states` in both themes, from one stylesheet.
 - Both manifests reference only `assets/icons/png/` for images, and `assets/tool-icons/` and `assets/icon-*.png` are gone.
 - `docs/design/.lint-baseline.json` has no entries, so any new color literal, font declaration, inline SVG, or legacy icon path fails the commit hook and CI.
 
@@ -67,6 +69,7 @@ depends_on: []
 |   6   |   §6    | The action bar holds every primary action       | §3, D03 T01 §5 |  [ ]   |
 |   7   |   §7    | Reply settings row, instruction summary, and result card | §6 |  [ ]   |
 |   8   |   §8    | Settings as cards with a sticky Save bar        | §3, D03 T01 §5 |  [ ]   |
+|   9   |   §9    | Five interaction states on every control        | §6, §7, §8  |  [ ]   |
 
 ---
 
@@ -141,7 +144,7 @@ After §1 the stylesheet reads tokens, but `taskpane.css` and `taskpane.ts` stil
 
 The ribbon and the manifest still show the pre-2.0 PNGs. The approved icons are rendered at every manifest size under `assets/icons/png/`. This section points both manifests at them and deletes the old files, so the icons the operator approved are the ones Outlook shows.
 
-- [ ] Point every `bt:Image` and `IconUrl` / `HighResolutionIconUrl` in `manifest.xml` at `assets/icons/png/`: the add-in and Open Gemail at `app/gemail-{16,32,64,80,128}.png`, AI Tools at `ribbon/ai-tools-{16,32,80}.png`, and the four menu items at `menu/<name>-{16,32,80}.png` (names in `docs/design/icons.md`). Done when: `grep -c "tool-icons/\|assets/icon-" manifest.xml` prints `0` and `npm run validate` passes.
+- [ ] Point every `bt:Image` and `IconUrl` / `HighResolutionIconUrl` in `manifest.xml` at `assets/icons/png/`: the add-in and Open Gemail at `app/gemail-{16,32,64,80,128}.png`, AI Tools at `ribbon/ai-tools-{16,32,80}.png`, and the four menu items at `menu/<name>-{16,32,80}.png` (names in `docs/design/icons.md`; each 16 px PNG is built from its `-16.svg` redraw, approved 2026-11-15, with no manifest change needed). Done when: `grep -c "tool-icons/\|assets/icon-" manifest.xml` prints `0` and `npm run validate` passes.
 - [ ] Make the same change in `manifest.dev.xml`. Done when: the same grep on it prints `0`.
 - [ ] Check that the webpack build copies `assets/icons/png/**` to `dist/` (the `CopyWebpackPlugin` pattern covers `assets/**/*`). Done when: after `npm run build`, every icon URL in `dist/manifest.xml` names a file under `dist/` (a loop with `test -f` quoted in the commit body).
 - [ ] Delete `assets/tool-icons/` and `assets/icon-{16,32,64,80,128}.png` with `git rm`, and shrink the baseline with `--update-baseline`. Done when: `git ls-files assets/tool-icons assets/icon-16.png` prints nothing and the `legacy-icon` rule has no entries.
@@ -236,6 +239,33 @@ The approved Settings is four cards (the OpenRouter key, the model, writing, the
 - [ ] Commit: `"design: Settings as cards with a sticky Save bar"`
 
 **Test checkpoint:** `npx jest src/taskpane` passes the card-order, Rules-row, unsaved-count, and leave-dialog cases; the existing settings save tests pass unchanged; the sideloaded Settings panel is captured in light and dark under `docs/captures/taskpane/settings/` and matches `docs/design/mockup/renders/Settings.png`; `python scripts/design-lint.py` exits 0. Cheaper substitute that fails: restyling the list without the sticky bar, which the unsaved-count test fails.
+
+## 9. Five Interaction States on Every Control
+
+The approved States artboard gives every control five states in both themes: rest, hover, pressed, focus, and disabled, all from tokens. Today hover and focus styles are scattered through `taskpane.css` with their own values, several controls have no pressed or disabled style, and the focus ring differs from control to control. This section defines the states once per control kind and removes the scattered ones. It changes no behavior: what is disabled, and when, stays as each feature decides.
+
+**Fidelity:** Gemail task pane controls in each state, light and dark -- docs/captures/taskpane/states/. Each state matches the States artboard render.
+
+**Design:** docs/design/mockup.md#interaction-states, docs/design/taskpane.md#buttons, docs/design/taskpane.md#form-controls, docs/design/taskpane.md#accessibility -- states: rest, hover, pressed, focus, disabled -- themes: n/a (both token sets apply through tokens.css; the live switch is D06 T04 §1) -- density: n/a (one density in a fixed-width task pane)
+
+**Job:** a user always sees which control the pointer or the keyboard is on, that a press registered, and which controls cannot be used right now. Consumer: every control in the pane.
+
+**Treatment:** one block of state rules per control kind (primary, secondary and dropdown, text button and link, icon button and tab, text input) in the shared stylesheet, driven by `:hover`, `:active`, `:focus-visible`, and `:disabled` or `[aria-disabled="true"]`. Cheaper substitute that fails the checkpoint: an `opacity` change for every state, which fails the computed-color test and drops disabled text contrast unpredictably.
+
+**Chrome:** consume the token stylesheet of §1 (`--gm-color-brandHover`, `brandPressed`, `linkHover`, `linkPressed`, `disabledText`, `surface`, `surfaceSunken`, `border`) and the button, tab, and option-row components of §3, §6, and §7. Do not add a color that is not a token.
+
+**Needs:** Outlook client (sideload)
+
+**Requires:** display-session -- hover, pressed, and focus are proven by driving a sideloaded pane with the pointer and the keyboard in both themes, which needs a window
+
+- [ ] Write the state rules for the five control kinds in `src/taskpane/taskpane.css` (or the shared stylesheet `D03 T01 §1` names) from the table in `docs/design/mockup.md#interaction-states`. Done when: a jsdom test per kind reads the rule text for `:hover`, `:active`, and `:disabled` and asserts each names the token the table gives.
+- [ ] Give every focusable control one focus style: `outline: 2px solid var(--gm-color-brand)` with `outline-offset: 2px` on `:focus-visible` (`-2px` for tabs), and remove every other `outline`, `box-shadow` focus ring, and `focusPulse` use on a control. Done when: `grep -c "outline: none" src/taskpane/taskpane.css` prints `0` and a jsdom test asserts the rule for buttons, tabs, inputs, and links.
+- [ ] Style disabled controls as `--gm-color-surfaceSunken` with `--gm-color-disabledText` and no border, for both `:disabled` and `[aria-disabled="true"]`, and remove any `opacity` used to show a disabled state. Done when: `grep -c "opacity" src/taskpane/taskpane.css` no longer counts a disabled rule (the remaining uses are listed in the commit body).
+- [ ] Drive each control kind in a sideloaded pane in light and dark: hover, press, Tab to it, and a disabled instance, and capture the five states of each into `docs/captures/taskpane/states/`. Done when: the captures are committed and match `docs/design/mockup/renders/States.png`.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
+- [ ] Commit: `"design: five interaction states on every control"`
+
+**Test checkpoint:** `npx jest src/taskpane` passes the per-kind state-rule and focus-ring tests; `grep -c "outline: none" src/taskpane/taskpane.css` prints `0`; `python scripts/design-lint.py` exits 0 with no new color literal; the captures under `docs/captures/taskpane/states/` match `docs/design/mockup/renders/States.png` in both themes. Cheaper substitute that fails: styling only the primary button, which the per-kind tests fail for tabs, dropdowns, and links.
 
 ## Verification
 

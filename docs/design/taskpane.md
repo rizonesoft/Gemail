@@ -10,9 +10,9 @@ Every color, font, size, spacing, radius, and duration comes from [`tokens.json`
 
 | Group | Values (light / dark, from `tokens.json`) |
 | --- | --- |
-| Brand | `brand` `#0f6cbd` / `#479ef5` (text, links, indicators), `brandFill` `#0f6cbd` / `#115ea3` (filled buttons), `brandHover`, `brandTint`, `brandSelected`, `onBrand` `#ffffff` in both themes |
+| Brand | `brand` `#0f6cbd` / `#479ef5` (text, links, indicators), `brandFill` `#0f6cbd` / `#115ea3` (filled buttons), `brandHover` and `brandPressed` (their hover and pressed fills), `linkHover` and `linkPressed`, `brandTint`, `brandSelected`, `onBrand` `#ffffff` in both themes |
 | AI | `ai` `#6d48c7` / `#b69df8`, `aiTint`, `aiIcon` (the spark and the model tags only) |
-| Text | `text` `#242424` / `#ffffff`, `textSecondary` `#5c5c5c` / `#d6d6d6`, `textTertiary` `#6b6b6b` / `#adadad` |
+| Text | `text` `#242424` / `#ffffff`, `textSecondary` `#5c5c5c` / `#d6d6d6`, `textTertiary` `#6b6b6b` / `#adadad`, `disabledText` `#bdbdbd` / `#5c5c5c` (disabled controls only, exempt from the contrast minimum) |
 | Surfaces | `bg`, `surface`, `surfaceSunken`, `border`, `borderSubtle`, `borderInput`, `borderChip` |
 | Status | `success`, `successTint`, `successBorder`, `danger`, `dangerTint`, `dangerBorder`, the four `diff*` colors |
 | Type | Segoe UI Variable Text over the system stack (`font.family`) on Fluent 2's ramp: title 20/28, subtitle 16/22, body 14/20, reading 14/22, caption 12/16; regular and semibold |
@@ -44,7 +44,7 @@ Every input has a visible `<label for>`; radio groups sit in a `<fieldset>` with
 
 ## Buttons
 
-Primary (`.aic-btn--primary`, `brandFill` with `onBrand` text), secondary (outlined, `borderInput`), text (`brand`, semibold, no border), and icon-only (`.aic-btn--icon`) buttons, all `radius.sm`. Action bar buttons are 44 px tall; buttons in the content are 32 px, compact ones 28 px. A button that starts a model call disables itself until the call settles, and shows the in-flight state on itself as well as in the loading area *(target, owned by `todo/03-architecture/`)*. Focus is always visible (`:focus-visible` ring in `brand`).
+Primary (`.aic-btn--primary`, `brandFill` with `onBrand` text), secondary (outlined, `borderInput`), text (`brand`, semibold, no border), and icon-only (`.aic-btn--icon`) buttons, all `radius.sm`. Action bar buttons are 44 px tall; buttons in the content are 32 px, compact ones 28 px. A button that starts a model call disables itself until the call settles, and shows the in-flight state on itself as well as in the loading area *(target, owned by `todo/03-architecture/`)*. Every control has the five states of [`mockup.md#interaction-states`](./mockup.md#interaction-states): rest, hover, pressed, focus, and disabled, each from tokens. Focus is always visible: a 2 px `brand` ring with a 2 px offset on `:focus-visible`, in both themes. A disabled control keeps its place and its label, takes `disabledText` on `surfaceSunken`, and carries the `disabled` attribute (or `aria-disabled` where it must stay focusable).
 
 ## Result card
 

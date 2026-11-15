@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Direction A states and small icons</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0f6cbd}a:hover{color:#115ea3}
+</style>
+</helmet>
+<div style="width: 1400px; min-height: 1900px; box-sizing: border-box; padding: 48px 56px; background: #ffffff; color: #242424; font-family: 'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif; display: flex; flex-direction: column; gap: 40px">
+  <div style="display: flex; flex-direction: column; gap: 4px">
+    <h1 style="margin: 0; font-family: 'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif; font-size: 28px; font-weight: 600">Interaction states and 16 px icons · Fluent Native</h1>
+    <p style="margin: 0; font-size: 15px; color: #5c5c5c">Two gaps the first import left open: what each control looks like when hovered, pressed, focused and disabled in both themes, and how the ribbon and menu icons are redrawn for 16 px.</p>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 18px; font-weight: 600">1 · Interaction states</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+      <sc-for list="{{themes}}" as="t" hint-placeholder-count="2">
+        <div style="background: {{t.bg}}; color: {{t.text}}; border: 1px solid {{t.border}}; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 18px">
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 14px; font-weight: 600">{{t.name}}</span>
+            <span style="font-size: 12px; color: {{t.text2}}; text-align: center">Rest</span>
+            <span style="font-size: 12px; color: {{t.text2}}; text-align: center">Hover</span>
+            <span style="font-size: 12px; color: {{t.text2}}; text-align: center">Pressed</span>
+            <span style="font-size: 12px; color: {{t.text2}}; text-align: center">Focus</span>
+            <span style="font-size: 12px; color: {{t.text2}}; text-align: center">Disabled</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 12px; color: {{t.text2}}">Primary</span>
+            <sc-for list="{{t.primary}}" as="s" hint-placeholder-count="5">
+              <button type="button" style="height: 36px; border: 0; background: {{s.bg}}; color: {{s.fg}}; border-radius: 4px; font: inherit; font-size: 13px; font-weight: 600; outline: {{s.outline}}; outline-offset: 2px">Write</button>
+            </sc-for>
+          </div>
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 12px; color: {{t.text2}}">Secondary</span>
+            <sc-for list="{{t.secondary}}" as="s" hint-placeholder-count="5">
+              <button type="button" style="height: 36px; border: 1px solid {{s.border}}; background: {{s.bg}}; color: {{s.fg}}; border-radius: 4px; font: inherit; font-size: 13px; font-weight: 600; outline: {{s.outline}}; outline-offset: 2px">Reply all</button>
+            </sc-for>
+          </div>
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 12px; color: {{t.text2}}">Text and link</span>
+            <sc-for list="{{t.link}}" as="s" hint-placeholder-count="5">
+              <button type="button" style="height: 36px; border: 0; background: transparent; color: {{s.fg}}; border-radius: 4px; font: inherit; font-size: 13px; font-weight: 600; text-decoration: {{s.deco}}; outline: {{s.outline}}; outline-offset: 2px">Edit</button>
+            </sc-for>
+          </div>
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 12px; color: {{t.text2}}">Icon button</span>
+            <sc-for list="{{t.icon}}" as="s" hint-placeholder-count="5">
+              <div style="display: flex; justify-content: center">
+                <button type="button" aria-label="Copy" style="width: 36px; height: 36px; border: 0; background: {{s.bg}}; color: {{s.fg}}; border-radius: 4px; display: flex; align-items: center; justify-content: center; outline: {{s.outline}}; outline-offset: 2px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6.5h7.5A1.5 1.5 0 0 1 17 8v8.5a1.5 1.5 0 0 1-1.5 1.5H8a1.5 1.5 0 0 1-1.5-1.5V8A1.5 1.5 0 0 1 8 6.5zM3.5 13V4A1.5 1.5 0 0 1 5 2.5h8"></path></svg></button>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 12px; color: {{t.text2}}">Tab</span>
+            <sc-for list="{{t.tab}}" as="s" hint-placeholder-count="5">
+              <button type="button" style="height: 52px; border: 0; background: {{s.bg}}; color: {{s.fg}}; border-radius: 4px; font: inherit; font-size: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; outline: {{s.outline}}; outline-offset: -2px"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5M15.5 2.5l2 2L10 12l-3 1 1-3z"></path></svg>Draft</button>
+            </sc-for>
+          </div>
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 12px; color: {{t.text2}}">Dropdown and chip</span>
+            <sc-for list="{{t.chip}}" as="s" hint-placeholder-count="5">
+              <button type="button" style="height: 32px; border: 1px solid {{s.border}}; background: {{s.bg}}; color: {{s.fg}}; border-radius: 4px; padding: 0 6px 0 8px; font: inherit; font-size: 12px; display: flex; align-items: center; justify-content: space-between; gap: 2px; outline: {{s.outline}}; outline-offset: 2px">Medium<svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 8l5 5 5-5"></path></svg></button>
+            </sc-for>
+          </div>
+          <div style="display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center">
+            <span style="font-size: 12px; color: {{t.text2}}">Text input</span>
+            <sc-for list="{{t.input}}" as="s" hint-placeholder-count="5">
+              <div style="height: 32px; box-sizing: border-box; border: 1px solid {{s.border}}; border-bottom: 2px solid {{s.under}}; background: {{s.bg}}; color: {{s.fg}}; border-radius: 4px; padding: 0 8px; font-size: 12px; display: flex; align-items: center">Text</div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+      <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+        <div style="font-size: 14px; font-weight: 600">New and settled token values</div>
+        <div style="display: grid; grid-template-columns: 150px 1fr 1fr 1.6fr; gap: 6px 12px; font-size: 13px; align-items: center">
+          <span style="font-weight: 600; color: #5c5c5c">Token</span><span style="font-weight: 600; color: #5c5c5c">Light</span><span style="font-weight: 600; color: #5c5c5c">Dark</span><span style="font-weight: 600; color: #5c5c5c">Used for</span>
+          <sc-for list="{{tokens}}" as="k" hint-placeholder-count="7">
+            <span style="font-family: Consolas, monospace">{{k.name}}</span>
+            <span style="display: flex; align-items: center; gap: 6px; font-family: Consolas, monospace"><span style="width: 16px; height: 16px; border-radius: 4px; border: 1px solid #d1d1d1; background: {{k.light}}"></span>{{k.light}}</span>
+            <span style="display: flex; align-items: center; gap: 6px; font-family: Consolas, monospace"><span style="width: 16px; height: 16px; border-radius: 4px; border: 1px solid #d1d1d1; background: {{k.dark}}"></span>{{k.dark}}</span>
+            <span style="color: #5c5c5c">{{k.use}}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 14px; font-weight: 600">Rules</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 20px; color: #5c5c5c; display: flex; flex-direction: column; gap: 4px">
+          <li>Light gets darker as you press; dark gets lighter on hover and darker on press for fills, and lighter for text, so text never drops below 4.5:1.</li>
+          <li>White on every fill state passes: 6.7:1 at rest, 5.4:1 on hover, 11.7:1 pressed in the dark theme.</li>
+          <li>Dark link hover is 6.8:1 and pressed is 7.8:1 on the pane background.</li>
+          <li>Outlined, icon, tab and dropdown controls reuse existing tokens: hover is surface, pressed is surfaceSunken in light and border in dark. No new greys.</li>
+          <li>Focus is a 2 px brand ring with a 2 px offset in both themes (5.4:1 light, 5.9:1 dark against the pane), never colour alone; a focused text input also takes the 2 px brand underline.</li>
+          <li>Disabled controls sit on surfaceSunken with disabledText and no border; they are not required to meet contrast.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 18px; font-weight: 600">2 · Ribbon and menu icons redrawn for 16 px</h2>
+    <p style="margin: 0; font-size: 14px; color: #5c5c5c; max-width: 900px">At 16 px the 32 px drawing turns to mush: the badge is five pixels wide. The redraw keeps the document base but drops to one text line, and grows the badge to nine pixels with a one-pixel white ring and a heavier glyph. 32 and 80 px keep the existing drawing.</p>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+      <sc-for list="{{small}}" as="r" hint-placeholder-count="6">
+        <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+          <div style="display: flex; align-items: center; gap: 16px">
+            <svg viewBox="0 0 16 16" width="96" height="96" role="img" aria-label="{{r.label}}, enlarged 16 px redraw" style="background: #f5f5f5; border-radius: 8px">
+              <path d="{{r.p0.d}}" fill="{{r.p0.fill}}" stroke="{{r.p0.stroke}}" stroke-width="{{r.p0.sw}}" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="{{r.p1.d}}" fill="{{r.p1.fill}}" stroke="{{r.p1.stroke}}" stroke-width="{{r.p1.sw}}" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="{{r.p2.d}}" fill="{{r.p2.fill}}" stroke="{{r.p2.stroke}}" stroke-width="{{r.p2.sw}}" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="{{r.p3.d}}" fill="{{r.p3.fill}}" stroke="{{r.p3.stroke}}" stroke-width="{{r.p3.sw}}" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="{{r.p4.d}}" fill="{{r.p4.fill}}" stroke="{{r.p4.stroke}}" stroke-width="{{r.p4.sw}}" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div style="display: grid; grid-template-columns: auto auto auto; gap: 8px 14px; align-items: center; font-size: 12px; color: #5c5c5c">
+              <span></span><span>Before</span><span>After</span>
+              <span>Light</span>
+              <span style="width: 32px; height: 32px; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 4px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 32 32" width="16" height="16" aria-hidden="true"><path d="{{r.o0.d}}" fill="{{r.o0.fill}}" stroke="{{r.o0.stroke}}" stroke-width="{{r.o0.sw}}" stroke-linejoin="round"></path><path d="{{r.o1.d}}" fill="{{r.o1.fill}}"></path><path d="{{r.o2.d}}" fill="none" stroke="{{r.o2.stroke}}" stroke-width="{{r.o2.sw}}" stroke-linecap="round"></path><path d="{{r.o3.d}}" fill="{{r.o3.fill}}" stroke="{{r.o3.stroke}}" stroke-width="{{r.o3.sw}}" stroke-linejoin="round"></path><path d="{{r.o4.d}}" fill="{{r.o4.fill}}" stroke="{{r.o4.stroke}}" stroke-width="{{r.o4.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+              <span style="width: 32px; height: 32px; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 4px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="{{r.p0.d}}" fill="{{r.p0.fill}}" stroke="{{r.p0.stroke}}" stroke-width="{{r.p0.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p1.d}}" fill="{{r.p1.fill}}" stroke="{{r.p1.stroke}}" stroke-width="{{r.p1.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p2.d}}" fill="{{r.p2.fill}}" stroke="{{r.p2.stroke}}" stroke-width="{{r.p2.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p3.d}}" fill="{{r.p3.fill}}" stroke="{{r.p3.stroke}}" stroke-width="{{r.p3.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p4.d}}" fill="{{r.p4.fill}}" stroke="{{r.p4.stroke}}" stroke-width="{{r.p4.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+              <span>Dark</span>
+              <span style="width: 32px; height: 32px; background: #292929; border: 1px solid #3d3d3d; border-radius: 4px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 32 32" width="16" height="16" aria-hidden="true"><path d="{{r.o0.d}}" fill="{{r.o0.fill}}" stroke="{{r.o0.stroke}}" stroke-width="{{r.o0.sw}}" stroke-linejoin="round"></path><path d="{{r.o1.d}}" fill="{{r.o1.fill}}"></path><path d="{{r.o2.d}}" fill="none" stroke="{{r.o2.stroke}}" stroke-width="{{r.o2.sw}}" stroke-linecap="round"></path><path d="{{r.o3.d}}" fill="{{r.o3.fill}}" stroke="{{r.o3.stroke}}" stroke-width="{{r.o3.sw}}" stroke-linejoin="round"></path><path d="{{r.o4.d}}" fill="{{r.o4.fill}}" stroke="{{r.o4.stroke}}" stroke-width="{{r.o4.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+              <span style="width: 32px; height: 32px; background: #292929; border: 1px solid #3d3d3d; border-radius: 4px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="{{r.p0.d}}" fill="{{r.p0.fill}}" stroke="{{r.p0.stroke}}" stroke-width="{{r.p0.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p1.d}}" fill="{{r.p1.fill}}" stroke="{{r.p1.stroke}}" stroke-width="{{r.p1.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p2.d}}" fill="{{r.p2.fill}}" stroke="{{r.p2.stroke}}" stroke-width="{{r.p2.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p3.d}}" fill="{{r.p3.fill}}" stroke="{{r.p3.stroke}}" stroke-width="{{r.p3.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{r.p4.d}}" fill="{{r.p4.fill}}" stroke="{{r.p4.stroke}}" stroke-width="{{r.p4.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 14px; font-weight: 600">{{r.label}}</span>
+            <span style="font-size: 12px; color: #5c5c5c">{{r.file}}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+      <sc-for list="{{menus}}" as="mt" hint-placeholder-count="2">
+        <div style="background: {{mt.canvas}}; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+          <span style="font-size: 12px; font-weight: 600; color: {{mt.text2}}; text-transform: uppercase; letter-spacing: 0.06em">{{mt.name}} · AI Tools menu at actual size</span>
+          <div style="width: 280px; background: {{mt.bg}}; border: 1px solid {{mt.border}}; border-radius: 8px; padding: 4px; color: {{mt.text}}">
+            <sc-for list="{{mt.items}}" as="m" hint-placeholder-count="5">
+              <div style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 4px; font-size: 14px; background: {{m.bg}}">
+                <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="{{m.p0.d}}" fill="{{m.p0.fill}}" stroke="{{m.p0.stroke}}" stroke-width="{{m.p0.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{m.p1.d}}" fill="{{m.p1.fill}}" stroke="{{m.p1.stroke}}" stroke-width="{{m.p1.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{m.p2.d}}" fill="{{m.p2.fill}}" stroke="{{m.p2.stroke}}" stroke-width="{{m.p2.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{m.p3.d}}" fill="{{m.p3.fill}}" stroke="{{m.p3.stroke}}" stroke-width="{{m.p3.sw}}" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{m.p4.d}}" fill="{{m.p4.fill}}" stroke="{{m.p4.stroke}}" stroke-width="{{m.p4.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                {{m.label}}
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const mk = (bg, fg, border, outline) => ({ bg, fg, border: border || 'transparent', outline: outline || 'none', deco: 'none' });
+    const theme = (c) => ({
+      ...c,
+      primary: [mk(c.brandFill, c.onBrand), mk(c.brandHover, c.onBrand), mk(c.brandPressed, c.onBrand), mk(c.brandFill, c.onBrand, null, '2px solid ' + c.brand), mk(c.sunken, c.disabledText)],
+      secondary: [mk(c.bg, c.text, c.borderInput), mk(c.surface, c.text, c.borderInput), mk(c.pressedBg, c.text, c.borderInput), mk(c.bg, c.text, c.borderInput, '2px solid ' + c.brand), mk(c.sunken, c.disabledText, c.sunken)],
+      link: [mk('transparent', c.brand), { ...mk('transparent', c.linkHover), deco: 'underline' }, { ...mk('transparent', c.linkPressed), deco: 'underline' }, mk('transparent', c.brand, null, '2px solid ' + c.brand), mk('transparent', c.disabledText)],
+      icon: [mk('transparent', c.text2), mk(c.surface, c.text), mk(c.pressedBg, c.text), mk('transparent', c.text2, null, '2px solid ' + c.brand), mk('transparent', c.disabledText)],
+      tab: [mk('transparent', c.text2), mk(c.surface, c.text), mk(c.pressedBg, c.text), mk('transparent', c.text2, null, '2px solid ' + c.brand), mk('transparent', c.disabledText)],
+      chip: [mk(c.bg, c.text, c.borderInput), mk(c.surface, c.text, c.borderInput), mk(c.pressedBg, c.text, c.borderInput), mk(c.bg, c.text, c.borderInput, '2px solid ' + c.brand), mk(c.sunken, c.disabledText, c.sunken)],
+      input: [
+        { bg: c.bg, fg: c.text, border: c.borderInput, under: c.borderInput },
+        { bg: c.bg, fg: c.text, border: c.borderInput, under: c.text2 },
+        { bg: c.bg, fg: c.text, border: c.borderInput, under: c.brand },
+        { bg: c.bg, fg: c.text, border: c.borderInput, under: c.brand },
+        { bg: c.sunken, fg: c.disabledText, border: c.sunken, under: c.sunken }
+      ]
+    });
+    const light = { name: 'Light', bg: '#ffffff', surface: '#f5f5f5', sunken: '#ebebeb', pressedBg: '#ebebeb', border: '#e0e0e0', borderInput: '#d1d1d1', text: '#242424', text2: '#5c5c5c', brand: '#0f6cbd', brandFill: '#0f6cbd', brandHover: '#115ea3', brandPressed: '#0c3b5e', onBrand: '#ffffff', linkHover: '#115ea3', linkPressed: '#0c3b5e', disabledText: '#bdbdbd' };
+    const dark = { name: 'Dark', bg: '#1f1f1f', surface: '#292929', sunken: '#141414', pressedBg: '#3d3d3d', border: '#3d3d3d', borderInput: '#5c5c5c', text: '#ffffff', text2: '#d6d6d6', brand: '#479ef5', brandFill: '#115ea3', brandHover: '#0f6cbd', brandPressed: '#0c3b5e', onBrand: '#ffffff', linkHover: '#62abf5', linkPressed: '#77b7f7', disabledText: '#5c5c5c' };
+    const tokens = [
+      { name: 'brandHover', light: '#115ea3', dark: '#0f6cbd', use: 'Filled button, hovered' },
+      { name: 'brandPressed', light: '#0c3b5e', dark: '#0c3b5e', use: 'Filled button, pressed (new)' },
+      { name: 'linkHover', light: '#115ea3', dark: '#62abf5', use: 'Link and text button, hovered' },
+      { name: 'linkPressed', light: '#0c3b5e', dark: '#77b7f7', use: 'Link and text button, pressed (new)' },
+      { name: 'disabledText', light: '#bdbdbd', dark: '#5c5c5c', use: 'Label and glyph of a disabled control (new)' },
+      { name: 'surface', light: '#f5f5f5', dark: '#292929', use: 'Hover fill of outlined, icon, tab, dropdown (existing)' },
+      { name: 'surfaceSunken / border', light: '#ebebeb', dark: '#3d3d3d', use: 'Pressed fill of the same controls (existing)' }
+    ];
+    const P = (parts, key) => { const o = {}; for (let i = 0; i < 5; i++) { const p = parts[i] || {}; o[key + i] = { d: p.d || '', fill: p.fill || 'none', stroke: p.stroke || 'none', sw: p.sw || 0 }; } return o; };
+    const spark = (cx, cy, r, fill, sw) => ({ d: `M${cx} ${cy - r}c${(r * 0.13).toFixed(2)} ${(r * 0.6).toFixed(2)} ${(r * 0.4).toFixed(2)} ${(r * 0.87).toFixed(2)} ${r} ${r}c${(-r * 0.6).toFixed(2)} ${(r * 0.13).toFixed(2)} ${(-r * 0.87).toFixed(2)} ${(r * 0.4).toFixed(2)} ${-r} ${r}c${(-r * 0.13).toFixed(2)} ${(-r * 0.6).toFixed(2)} ${(-r * 0.4).toFixed(2)} ${(-r * 0.87).toFixed(2)} ${-r} ${-r}c${(r * 0.6).toFixed(2)} ${(-r * 0.13).toFixed(2)} ${(r * 0.87).toFixed(2)} ${(-r * 0.4).toFixed(2)} ${r} ${-r}z`, fill, stroke: '#ffffff', sw });
+    // The 32 px drawings (unchanged), for the "before" column.
+    const sheet = { d: 'M8 3h11l7 7v17a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z', fill: '#e8f1fb', stroke: '#0f6cbd', sw: 1.3 };
+    const fold = { d: 'M19 3v5a2 2 0 0 0 2 2h5z', fill: '#9cc3ec' };
+    const lines = { d: 'M10 12h8M10 16h6', stroke: '#0f6cbd', sw: 1.6 };
+    const disc = (fill) => ({ d: 'M23 16a7 7 0 1 0 0 14a7 7 0 1 0 0-14z', fill, stroke: '#ffffff', sw: 1.3 });
+    // The 16 px redraws: one text line, a 9 px badge with a 1 px white ring.
+    const sheet16 = { d: 'M3.5 1.5h4.5l3.5 3.5v8.5a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1z', fill: '#e8f1fb', stroke: '#0f6cbd', sw: 1 };
+    const fold16 = { d: 'M8 1.5v2.5a1 1 0 0 0 1 1h2.5z', fill: '#9cc3ec' };
+    const line16 = { d: 'M4.8 7.5h2.4', stroke: '#0f6cbd', sw: 1.2 };
+    const disc16 = (fill) => ({ d: 'M11 6.5a4.5 4.5 0 1 0 0 9a4.5 4.5 0 1 0 0-9z', fill, stroke: '#ffffff', sw: 1 });
+    const defs = [
+      { label: 'AI Tools', file: 'ribbon/ai-tools-16.svg', old: [sheet, fold, lines, spark(23, 22.5, 7.5, '#6d48c7', 1.2), { ...spark(14, 23, 3.2, '#9b7ce0', 0.8) }], neo: [sheet16, fold16, line16, spark(11, 10.8, 4.7, '#6d48c7', 0.9)] },
+      { label: 'Fix grammar & spelling', file: 'menu/fix-grammar-and-spelling-16.svg', old: [sheet, fold, lines, disc('#0e7a0d'), { d: 'M19.8 23.2l2.2 2.2 4.2-4.4', stroke: '#ffffff', sw: 1.8 }], neo: [sheet16, fold16, line16, disc16('#0e7a0d'), { d: 'M9 11.1l1.4 1.4 2.6-2.8', stroke: '#ffffff', sw: 1.4 }] },
+      { label: 'Improve clarity', file: 'menu/improve-clarity-16.svg', old: [sheet, fold, lines, disc('#e8a317'), { d: 'M23 18.5a3 3 0 0 0-1.8 5.4v1.3h3.6v-1.3A3 3 0 0 0 23 18.5zM21.8 27h2.4', stroke: '#4d3200', sw: 1.3 }], neo: [sheet16, fold16, line16, disc16('#e8a317'), { d: 'M11 8.4a2 2 0 0 0-1.1 3.7v.7h2.2v-.7A2 2 0 0 0 11 8.4zM10.2 14h1.6', stroke: '#4d3200', sw: 1 }] },
+      { label: 'Make concise', file: 'menu/make-concise-16.svg', old: [sheet, fold, lines, disc('#0f6cbd'), { d: 'M18.5 23h3M20 21.5l1.5 1.5-1.5 1.5M27.5 23h-3M26 21.5l-1.5 1.5 1.5 1.5', stroke: '#ffffff', sw: 1.4 }], neo: [sheet16, fold16, line16, disc16('#0f6cbd'), { d: 'M8.2 11h2M9.3 9.9l1.1 1.1-1.1 1.1M13.8 11h-2M12.7 9.9l-1.1 1.1 1.1 1.1', stroke: '#ffffff', sw: 1.1 }] },
+      { label: 'Make professional', file: 'menu/make-professional-16.svg', old: [sheet, fold, lines, disc('#8a5a2b'), { d: 'M19.5 21.5h7v5h-7zM21.5 21.5v-1.2h3v1.2', stroke: '#ffffff', sw: 1.3 }], neo: [sheet16, fold16, line16, disc16('#8a5a2b'), { d: 'M8.8 10.2h4.4v3h-4.4zM10.1 10.2v-1h1.8v1', stroke: '#ffffff', sw: 1 }] },
+      { label: 'My prompts...', file: 'menu/my-prompts-16.svg', old: [sheet, fold, lines, disc('#6d48c7'), { d: 'M19.5 20h7v4.5h-4l-2 1.6v-1.6h-1z', stroke: '#ffffff', sw: 1.2 }], neo: [sheet16, fold16, line16, disc16('#6d48c7'), { d: 'M8.8 9.2h4.4v3h-2.5l-1.2 1v-1h-.7z', stroke: '#ffffff', sw: 1 }] }
+    ];
+    const small = defs.map((d) => ({ label: d.label, file: d.file, ...P(d.old, 'o'), ...P(d.neo, 'p') }));
+    const items = (hoverBg) => defs.slice(1).map((d, i) => ({ label: d.label, bg: i === 1 ? hoverBg : 'transparent', ...P(d.neo, 'p') }));
+    const menus = [
+      { name: 'Light', canvas: '#f5f5f5', bg: '#ffffff', border: '#e0e0e0', text: '#242424', text2: '#5c5c5c', items: items('#f5f5f5') },
+      { name: 'Dark', canvas: '#141414', bg: '#292929', border: '#3d3d3d', text: '#ffffff', text2: '#d6d6d6', items: items('#3d3d3d') }
+    ];
+    return { themes: [theme(light), theme(dark)], tokens, small, menus };
+  }
+}
+</script>
+</body>
+</html>

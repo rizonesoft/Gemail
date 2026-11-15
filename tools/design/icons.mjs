@@ -6,8 +6,8 @@
 //
 // Sources (docs/design/icons.md is the catalog and the rules):
 //   app/gemail.svg (48 box) and app/gemail-16.svg   -> assets/icons/png/app/gemail-{16,32,64,80,128,256}.png
-//   ribbon/*.svg (32 box)                          -> assets/icons/png/ribbon/<name>-{16,32,80}.png
-//   menu/*.svg (32 box)                            -> assets/icons/png/menu/<name>-{16,32,80}.png
+//   ribbon/*.svg (32 box, <name>-16.svg 16 box)    -> assets/icons/png/ribbon/<name>-{16,32,80}.png (16 from the redraw)
+//   menu/*.svg (32 box, <name>-16.svg 16 box)      -> assets/icons/png/menu/<name>-{16,32,80}.png (16 from the redraw)
 //   pane/*.svg (20 box, currentColor)              -> src/ui/icons.ts (inline SVG registry, no PNGs)
 //
 // assets/icons/manifest.json records the sha256 of every source and output, so
@@ -39,8 +39,14 @@ function jobs() {
   for (const size of [32, 64, 80, 128, 256]) out.push(['app/gemail.svg', `app/gemail-${size}.png`, size]);
   out.push(['app/gemail-16.svg', 'app/gemail-16.png', 16]);
   for (const group of ['ribbon', 'menu']) {
-    for (const f of list(path.join(SRC, group))) {
-      for (const size of [16, 32, 80]) out.push([`${group}/${f}`, `${group}/${f.replace('.svg', '')}-${size}.png`, size]);
+    // `<name>-16.svg` is the 16 px redraw of `<name>.svg` (a larger badge, one text line): it renders the 16 px PNG,
+    // and the 32 px drawing renders 32 and 80. An icon without a redraw renders all three from its one source.
+    const files = list(path.join(SRC, group));
+    const small = new Set(files.filter((f) => f.endsWith('-16.svg')).map((f) => f.replace('-16.svg', '')));
+    for (const name of small) if (!files.includes(`${name}.svg`)) throw new Error(`icons: ${group}/${name}-16.svg has no ${name}.svg beside it`);
+    for (const f of files.filter((x) => !x.endsWith('-16.svg'))) {
+      const name = f.replace('.svg', '');
+      for (const size of [16, 32, 80]) out.push([size === 16 && small.has(name) ? `${group}/${name}-16.svg` : `${group}/${f}`, `${group}/${name}-${size}.png`, size]);
     }
   }
   return out;

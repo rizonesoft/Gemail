@@ -12,6 +12,7 @@ The catalog and the rules for every icon Gemail shows. The pictures are in [`moc
 - **Purple means AI.** Only the spark carries the AI accent (`aiIcon` in `docs/design/tokens.json`), drawn as `stroke="#6d48c7" class="gm-icon-accent"` so the pane's CSS retints it per theme. No other glyph uses purple.
 - **Accessible by construction.** `iconSvg(name)` marks an icon `aria-hidden` unless it gets a `label`; an icon-only button gets its name from the button's `aria-label`, never from the SVG.
 - **Adding an icon.** Draw it in the design artifact first (the `design-sync` skill), then export it into `assets/icons/src/<group>/<name>.svg` on the grid and stroke above, add a row below, run the build, and use it through `iconSvg()` or the manifest. Where Microsoft's MIT-licensed Fluent UI System Icons has the glyph, match it.
+- **A 16 px redraw where 16 px needs one.** A ribbon or menu icon may have a `<name>-16.svg` beside its `<name>.svg` (16 px box): the build renders the 16 px PNG from the redraw and 32 and 80 from the 32 px drawing. Every ribbon and menu icon has one (operator-approved 2026-11-15); the app icon has had one since the first import.
 - **No envelope.** The app icon is a written letter with the AI spark, not an envelope, so Gemail never reads as another mail brand's mark (operator decision 2026-11-15).
 
 ## App
@@ -25,12 +26,12 @@ The catalog and the rules for every icon Gemail shows. The pictures are in [`moc
 
 | Source | Box | Outputs | Used by |
 | --- | --- | --- | --- |
-| `ribbon/ai-tools.svg` | 32 | `png/ribbon/ai-tools-{16,32,80}.png` | The **AI Tools** menu button (compose mode) |
-| `menu/fix-grammar-and-spelling.svg` | 32 | `png/menu/fix-grammar-and-spelling-{16,32,80}.png` | Menu item **Fix grammar & spelling** (`fixGrammar`) |
-| `menu/improve-clarity.svg` | 32 | `png/menu/improve-clarity-{16,32,80}.png` | Menu item **Improve clarity** (`improveClarity`) |
-| `menu/make-concise.svg` | 32 | `png/menu/make-concise-{16,32,80}.png` | Menu item **Make concise** (`makeConcise`) |
-| `menu/make-professional.svg` | 32 | `png/menu/make-professional-{16,32,80}.png` | Menu item **Make professional** (`makeProfessional`) |
-| `menu/my-prompts.svg` | 32 | `png/menu/my-prompts-{16,32,80}.png` | Menu item **My prompts...** (planned, `D06 T02 §2`) |
+| `ribbon/ai-tools.svg`, `ribbon/ai-tools-16.svg` | 32, 16 | `png/ribbon/ai-tools-{16,32,80}.png` | The **AI Tools** menu button (compose mode) |
+| `menu/fix-grammar-and-spelling.svg`, `-16.svg` | 32, 16 | `png/menu/fix-grammar-and-spelling-{16,32,80}.png` | Menu item **Fix grammar & spelling** (`fixGrammar`) |
+| `menu/improve-clarity.svg`, `-16.svg` | 32, 16 | `png/menu/improve-clarity-{16,32,80}.png` | Menu item **Improve clarity** (`improveClarity`) |
+| `menu/make-concise.svg`, `-16.svg` | 32, 16 | `png/menu/make-concise-{16,32,80}.png` | Menu item **Make concise** (`makeConcise`) |
+| `menu/make-professional.svg`, `-16.svg` | 32, 16 | `png/menu/make-professional-{16,32,80}.png` | Menu item **Make professional** (`makeProfessional`) |
+| `menu/my-prompts.svg`, `-16.svg` | 32, 16 | `png/menu/my-prompts-{16,32,80}.png` | Menu item **My prompts...** (planned, `D06 T02 §2`) |
 
 ## Task pane
 

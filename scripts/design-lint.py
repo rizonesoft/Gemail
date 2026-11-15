@@ -45,7 +45,8 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 ARTIFACT_URL = "https://claude.ai/artifact/Vc5xq9U5iRvq1AiZ1gm5YD"
 # The boards that draw the task pane. Main.dc.html is the overview (rationale, token swatches) and Icons.dc.html
-# the icon sheet: neither is a pane surface, and the icon sheet carries the ribbon icons' own colors.
+# the icon sheet: neither is a pane surface, and the icon sheet carries the ribbon icons' own colors. States.dc.html
+# (interaction states and the 16 px icon redraws) carries those icon colors too, so it is not listed either.
 PANE_BOARDS = ("Reply.dc.html", "Settings.dc.html", "Improve.dc.html")
 HEX = re.compile(r"^#[0-9a-f]{6}$")
 RATCHET_RULES = ("color-literal", "inline-svg", "font-family", "legacy-icon")

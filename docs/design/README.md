@@ -32,10 +32,11 @@ These hold for every surface and every change, and a section, a review, or a cam
 2. **The operator decides.** A new look, a new component, a moved control, a new color, or a replaced design is the operator's decision, recorded with its date. An unattended run never changes the design: it builds what is drawn, composes an undrawn surface only from drawn components, and files anything else for the operator.
 3. **Tokens only.** A surface takes every color, font, size, space, and radius from `tokens.json`. Both themes carry the same keys, and every text pair passes WCAG 2.1 AA (4.5:1) in both.
 4. **Registry icons only.** A pane icon comes from `iconSvg()`; a ribbon or menu icon is a PNG built from its source. No inline `<svg>`, no icon font, no hand-resized PNG.
-5. **The frame is fixed.** Header and tab bar at the top, scrolling content, the action bar pinned at the bottom with the primary action in it.
-6. **Purple means AI, and the app icon is a letter.** Purple marks only the spark and the model tags; the app icon is a written letter with the spark, never an envelope.
-7. **A capture proves it.** A surface section ships with a capture under `docs/captures/taskpane/` compared with the render it cites; a difference is fixed or recorded as a `**Design deviation:**` with its follow-up section.
-8. **Authority.** `tokens.json` decides a value, `mockup.md` and its renders decide layout and composition, `taskpane.md` decides behavior; the losing file is corrected in the same commit.
+5. **Every control has five states.** Rest, hover, pressed, focus, and disabled, from tokens, with a visible 2 px focus ring in both themes.
+6. **The frame is fixed.** Header and tab bar at the top, scrolling content, the action bar pinned at the bottom with the primary action in it.
+7. **Purple means AI, and the app icon is a letter.** Purple marks only the spark and the model tags; the app icon is a written letter with the spark, never an envelope.
+8. **A capture proves it.** A surface section ships with a capture under `docs/captures/taskpane/` compared with the render it cites; a difference is fixed or recorded as a `**Design deviation:**` with its follow-up section.
+9. **Authority.** `tokens.json` decides a value, `mockup.md` and its renders decide layout and composition, `taskpane.md` decides behavior; the losing file is corrected in the same commit.
 
 ## The plan side
 

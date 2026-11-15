@@ -28,5 +28,11 @@
     "props": {},
     "boardSha256": "2c2a0ce4b0f346b3d3bdb415612410904225676cdf2ea0cc01769e0caa7b0393",
     "pngSha256": "1b2c306e48a9f9db81207bed5a4f1f6e6a33b293a07afc61f53ae7f88fa95ca7"
+  },
+  "States.png": {
+    "board": "States.dc.html",
+    "props": {},
+    "boardSha256": "0977e6e9ed67fcc1bf96273c74d2a028036747be3a92cab8716b93baa9586e7e",
+    "pngSha256": "b79bea4ff46f0aa544ee9470ed9c6639265354acbc4f165ac4cdb1d6cf4aaa10"
   }
 }

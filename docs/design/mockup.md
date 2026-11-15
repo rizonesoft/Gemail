@@ -7,7 +7,7 @@ Order of authority when they disagree: `tokens.json` for a value, this file and 
 ## Source
 
 - Artifact: https://claude.ai/artifact/Vc5xq9U5iRvq1AiZ1gm5YD (operator-approved on 2026-11-15; private to the operator's account). It replaces https://claude.ai/artifact/GHuFwncPVxchLZaPLQvURu, the 2026-09-27 design, which is retired and no longer imported.
-- Imported: 2026-11-15, artifact version `1794764248-4c81`, into [`mockup/`](./mockup/): `canvas.json` and the five artboards `Main.dc.html` (overview and tokens), `Icons.dc.html`, `Reply.dc.html`, `Improve.dc.html`, `Settings.dc.html`
+- Imported: 2026-11-15, artifact version `1794766595-aa03`, into [`mockup/`](./mockup/): `canvas.json` and the six artboards `Main.dc.html` (overview and tokens), `Icons.dc.html`, `Reply.dc.html`, `Improve.dc.html`, `Settings.dc.html`, and `States.dc.html` (interaction states and the 16 px icon redraws, approved the same day)
 - Pinned: [`mockup/source.json`](./mockup/source.json) records the version and the sha256 of every imported file; `python scripts/design-lint.py` refuses a hand-edited artboard. Change the design in the artifact and re-import with the `design-sync` skill.
 - Renders: [`mockup/renders/`](./mockup/renders/), made by `node tools/design/render-mockup.mjs` (2x PNG per artboard), with the board hash each was made from in `renders/manifest.json`. Each pane artboard draws the pane twice, light on the left and dark on the right, at 360 px wide.
 
@@ -147,6 +147,22 @@ A `role="alert"` card on `dangerTint` with a `dangerBorder` border and `error` i
 
 Every surface uses the `color.dark` token set when Outlook is dark: `bg` `#1f1f1f`, cards on the same `bg` with `border`, `brand` as the lighter text shade and `brandFill` as the darker button shade. Every pane artboard draws both themes side by side; they are the same components with the two token sets.
 
+## Interaction states
+
+![Interaction states and 16 px icons](./mockup/renders/States.png)
+
+Artboard: `mockup/States.dc.html` (operator-approved 2026-11-15). Every control has five states in both themes: rest, hover, pressed, focus, and disabled. The values are tokens; nothing here is a new grey.
+
+| Control | Rest | Hover | Pressed | Disabled |
+| --- | --- | --- | --- | --- |
+| Primary (filled) | `brandFill`, `onBrand` text | `brandHover` | `brandPressed` | `surfaceSunken`, `disabledText` |
+| Secondary (outlined), dropdown, chip | `bg`, `borderInput`, `text` | `surface` | `surfaceSunken` light, `border` dark | `surfaceSunken`, `disabledText`, no border |
+| Text button and link | `brand` | `linkHover`, underlined | `linkPressed`, underlined | `disabledText` |
+| Icon button and tab (not active) | transparent, `textSecondary` | `surface`, `text` | `surfaceSunken` light, `border` dark, `text` | `disabledText` |
+| Text input | `borderInput` on all sides | bottom border `textSecondary` | 2 px `brand` bottom border | `surfaceSunken`, `disabledText` |
+
+**Focus** is a 2 px `brand` ring with a 2 px offset on every control in both themes (inside the edge for a tab), never color alone; a focused text input also takes the 2 px `brand` bottom border. Light fills get darker on hover and press; dark fills get lighter on hover and darker on press, and dark text gets lighter, so text never drops below 4.5:1. White on every fill state passes (at least 5.4:1). A disabled control is exempt from the contrast minimum.
+
 ## Icons
 
 ![Icon sheet](./mockup/renders/Icons.png)
@@ -159,11 +175,11 @@ A written letter, not an envelope: a white sheet with a folded corner on a `bran
 
 ### Ribbon
 
-Compose mode: one group **Gemail** with **Open Gemail** (the app icon) and the **AI Tools** menu button (`ribbon/ai-tools.svg`: the shared document base with a large and a small spark). Read mode: **Open Gemail** only. Fluent color style, flat two-tone.
+Compose mode: one group **Gemail** with **Open Gemail** (the app icon) and the **AI Tools** menu button (`ribbon/ai-tools.svg`: the shared document base with a large and a small spark). Read mode: **Open Gemail** only. Fluent color style, flat two-tone. At 16 px the AI Tools icon is redrawn (`ribbon/ai-tools-16.svg`): one text line and one larger spark.
 
 ### AI Tools menu
 
-**Fix grammar & spelling** (green check badge), **Improve clarity** (amber bulb badge), **Make concise** (blue inward-arrows badge), **Make professional** (brown briefcase badge), a separator, then **My prompts...** (purple speech badge). Every menu icon is the same document base (`menu/*.svg`, 32 px box) with one round badge that carries the meaning, rendered at 16, 32, and 80 px under `assets/icons/png/menu/`.
+**Fix grammar & spelling** (green check badge), **Improve clarity** (amber bulb badge), **Make concise** (blue inward-arrows badge), **Make professional** (brown briefcase badge), a separator, then **My prompts...** (purple speech badge). Every menu icon is the same document base (`menu/*.svg`, 32 px box) with one round badge that carries the meaning, rendered at 16, 32, and 80 px under `assets/icons/png/menu/`. The 16 px size is a redraw (`menu/<name>-16.svg`, pictured in [Interaction states](#interaction-states)): the document keeps one text line and the badge grows to nine pixels with a one-pixel white ring and a heavier glyph, because the 32 px drawing's badge is five pixels wide at 16.
 
 ### Pane icons
 
@@ -171,4 +187,4 @@ Fluent 2 regular style on a 20 px grid, 1.5 px stroke, round caps and joins, `cu
 
 ## Surfaces the mockup does not draw
 
-Draft, Summarize, Extract actions, Translate, Rules, templates, the first-run privacy notice, the offline banner, the streaming state, custom prompts, attachments, the thread timeline, CC suggestions, usage stats, and the user guide have no artboard yet. A section building one of them composes it only from the components above (the pane frame of [Design language](#design-language), header, tab bar, form controls from [Reply form](#reply-form) and [Reply settings row](#reply-settings-row), the [Action bar](#action-bar) with its primary action, [Instruction summary](#instruction-summary), [Result card](#result-card), [Error banner](#error-banner), [Settings](#settings) cards) and the icons in [Pane icons](#pane-icons), cites this heading plus those component anchors on its `**Design:**` line, and adds its artboard to the artifact (the `design-sync` skill) before building when the operator asks for a visual review first.
+Draft, Summarize, Extract actions, Translate, Rules, templates, the first-run privacy notice, the offline banner, the streaming state, custom prompts, attachments, the thread timeline, CC suggestions, usage stats, and the user guide have no artboard yet. A section building one of them composes it only from the components above (the pane frame of [Design language](#design-language), header, tab bar, form controls from [Reply form](#reply-form) and [Reply settings row](#reply-settings-row), the [Action bar](#action-bar) with its primary action, [Instruction summary](#instruction-summary), [Result card](#result-card), [Error banner](#error-banner), [Settings](#settings) cards, each control in the five [Interaction states](#interaction-states)) and the icons in [Pane icons](#pane-icons), cites this heading plus those component anchors on its `**Design:**` line, and adds its artboard to the artifact (the `design-sync` skill) before building when the operator asks for a visual review first.
