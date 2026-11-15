@@ -24,7 +24,7 @@ Domains are numbered in **allocation order**. `DNN TNN §N` cross-references enc
 | 02 | [OpenRouter](./02-openrouter/INDEX.md) | 3, 4 | The provider migration from Google Gemini to OpenRouter: the fetch client, streaming, structured output, the model catalogue, and the cutover. |
 | 03 | [Architecture](./03-architecture/INDEX.md) | 5, 6 | The task pane split into modules, shared UI helpers, the approved design in code, performance, and resilience. |
 | 04 | [Security](./04-security/INDEX.md) | 7 | Output rendering, prompt injection, CSP, the API key, rate limiting, consent, and privacy documentation. |
-| 05 | [Quality](./05-quality/INDEX.md) | 1, 5, 8 | The test backbone, accessibility, and the behavior defects found in the imported code. |
+| 05 | [Quality](./05-quality/INDEX.md) | 1, 2, 5, 8 | The test backbone, accessibility, the behavior defects found in the imported code, and the classic Outlook refusal. |
 | 06 | [Features](./06-features/INDEX.md) | 9 | New user-facing features: settings upgrades, custom prompts and shortcuts, message context, dark mode and local stats. |
 | 07 | [Release](./07-release/INDEX.md) | 10 | Manifests for new Outlook and the web, icons, the release process, the user guide, v2.0.0, and the clean-install acceptance. |
 | 99 | [Manual](./99-manual/INDEX.md) | 99 | Operator-only steps no agent session can perform: accounts, keys, repository settings, artwork, and human checks. |

@@ -19,6 +19,8 @@ depends_on: []
 <!-- claim: count "\$\{lastReply\}" src/features/draft-reply.ts = 1 -->
 <!-- claim: count "Fix grammar, spelling, and punctuation errors" src/prompts/templates.ts = 1 -->
 <!-- claim: count "Fallback: read only the current email" src/features/summarize-thread.ts = 1 -->
+<!-- claim: count "isClassicOutlook" src/services/outlook.ts = 0 -->
+<!-- claim: count "In classic Outlook on Windows" README.md = 1 -->
 
 ## Inputs
 
@@ -31,6 +33,10 @@ depends_on: []
 - -> XREF: D02 T02 §2 -- the repointed callers whose refine prompts §4 changes
 - -> XREF: D03 T01 §4 -- the Improve panel module §1 works in and the Summarize and Extract panels §5 relabel; the Draft and Reply panels of D03 T01 §3 are where §2 and §3 work
 - -> XREF: D06 T03 §3 -- the thread timeline, which builds on the honest thread reading §5 defines
+- -> XREF: D01 T01 §3 -- §6 writes its notice and ribbon notification after the task pane and ribbon strings carry the Gemail name
+- -> XREF: D07 T01 §1 -- the manifest requirement sets for the supported clients; §6 is the runtime refusal the manifest cannot express
+- -> XREF: D07 T01 §5 -- the user guide states where Gemail runs, from the policy §6 enforces
+- Microsoft Learn, "Office.Diagnostics interface" (https://learn.microsoft.com/javascript/api/outlook/office.diagnostics) -- the `hostName` values §6 detects classic Outlook by
 
 ## Outcome
 
@@ -39,6 +45,7 @@ depends_on: []
 - **Refine** sends the text currently in the preview, including the user's edits.
 - The preset and custom rules appear in refine prompts, and each Improve focus produces a prompt that asks for that focus only.
 - Summarize and Extract read the open message once, with no fallback that repeats the read, and their panels say they cover "this message and the replies quoted in it".
+- In classic Outlook for Windows the pane shows one notice and nothing else, every ribbon command notifies and completes without acting, and new Outlook, Outlook on Mac, and Outlook on the web are unaffected.
 
 **Adjacency:** list=not-applicable (nothing browsable); document=applicable; settings=not-applicable (the rules already exist; §4 only makes refine consume them); reporting=not-applicable (no summaries of Gemail's own data); notifications=applicable @ D05 T03 §1; permissions=applicable @ D05 T03 §1; audit=not-applicable (the debug log is owned by the resilience TODO in 03-architecture); exchange=not-applicable (nothing imported or exported); reverse=applicable
 
@@ -53,6 +60,7 @@ depends_on: []
 |   3   |   §3    | Refine starts from the edited preview                  | D03 T01 §3 |  [ ]   |
 |   4   |   §4    | Rules reach refine prompts; Improve honors its focus   | D02 T02 §2 |  [ ]   |
 |   5   |   §5    | Honest thread reading                                  | D03 T01 §4 |  [ ]   |
+|   6   |   §6    | Classic Outlook is turned away                         | D01 T01 §3 |  [ ]   |
 
 ---
 
@@ -130,6 +138,26 @@ Summarize and Extract present themselves as thread tools, but `getConversationMe
 - [ ] Commit: `"fix: Summarize and Extract read the open message honestly"`
 
 **Test checkpoint:** `npx jest src/features src/services` passes the single-read and read-failure tests; `grep -rn "getConversationMessages\|Fallback: read only the current email\|Fallback to current email" src` prints nothing; the two intro lines are present. Cheaper substitute that fails: relabeling the panels without removing the fallbacks, which the single-read test fails.
+
+## 6. Classic Outlook Is Turned Away
+
+The operator discontinued classic Outlook for Windows on 2026-11-15 ("Outlook classic is giving us alot of issues, so discontinue the outlook classic plugin"). Until then it was unsupported but still loaded: the XML manifest's `DesktopFormFactor` covers classic Outlook, new Outlook, and Outlook on the web alike, and no manifest element separates them, so the add-in itself has to refuse. `Office.context.mailbox.diagnostics.hostName` is `Outlook` in classic Outlook on Windows and on Mac, `newOutlookWindows` in new Outlook on Windows, and `OutlookWebApp` on the web; `Office.context.diagnostics.platform` is `PC` only on Windows. Classic is therefore `hostName === "Outlook"` on platform `PC`, and Outlook on Mac (supported) is the same host name on platform `Mac`. This section must not turn away Mac, new Outlook, or the web, and must not call the model or read the message in classic. Source: https://learn.microsoft.com/javascript/api/outlook/office.diagnostics
+
+**Fidelity:** Gemail task pane, the classic Outlook notice in place of the panels -- docs/captures/taskpane/classic/. The notice uses the error banner's two-line shape: what happened, then what to do.
+**Design:** docs/design/mockup.md#error-banner, docs/design/mockup.md#surfaces-the-mockup-does-not-draw, docs/design/taskpane.md#status-and-errors -- states: classic, supported -- themes: n/a (existing status tokens; D06 T04 owns live theming) -- density: n/a (one density in a fixed-width task pane)
+**Job:** A user who opens Gemail in classic Outlook learns in one sentence that it no longer runs there and where it does, instead of meeting a half-working pane. Consumer: none: this surface is the consumer.
+**Treatment:** Detection once in the Office.js wrapper, a notice that replaces the tab bar and panels, and ribbon commands that notify and complete without acting. Cheaper substitute that fails the checkpoint: a dismissible warning above a working pane, which the no-model-call test fails.
+**Chrome:** consume the existing `#error-banner` styles in `src/taskpane/taskpane.html` and `showNotification` in `src/commands/commands.ts`. Do not invent a second banner style or a second notification helper.
+
+- [ ] Add `isClassicOutlook()` to `src/services/outlook.ts`: true only when `Office.context.mailbox.diagnostics.hostName` is `Outlook` and `Office.context.diagnostics.platform` is `Office.PlatformType.PC`; false when either value is missing. Done when: `npx jest src/services/outlook.test.ts -t "classic"` passes five cases: classic Windows true; Mac (`Outlook`, `Mac`), new Outlook (`newOutlookWindows`), the web (`OutlookWebApp`), and missing diagnostics all false. Cheaper substitute that fails: testing the host name alone, which the Mac case fails.
+- [ ] In `src/taskpane/taskpane.ts`, check `isClassicOutlook()` first inside `Office.onReady`: when true, hide the tab bar and every panel, show one notice ("Gemail no longer runs in classic Outlook." and under it "Open this mailbox in new Outlook or in Outlook on the web to keep using Gemail." with a **How to switch** link to `https://support.microsoft.com/office/656bb8d9-5a60-49b2-a98b-ba7822bc7627`), and return before any settings read, message read, or event handler is registered. Done when: a jsdom test with classic diagnostics asserts the notice text, that no tab or action button is visible, and that the provider client and `Office.context.mailbox.item` were never touched.
+- [ ] In `src/commands/commands.ts`, start each of the four ribbon command handlers with the same check: when true, call `showNotification` with "Gemail no longer runs in classic Outlook. Use new Outlook or Outlook on the web." and `event.completed()`, and do nothing else. Done when: a test per command with classic diagnostics asserts one notification, one `event.completed()`, and no provider call or body write.
+- [ ] Remove the classic Outlook tip from `README.md` ("In classic Outlook on Windows, you can also access this via ...") and state under the install steps that Gemail runs in new Outlook for Windows and Mac and in Outlook on the web, and not in classic Outlook for Windows. Done when: `grep -c -i "classic" README.md` prints `1` and that line is the not-supported statement.
+- [ ] Render the notice: load the built `dist/taskpane.html` in the headless browser `tools/design/render-mockup.mjs` drives, with `Office` stubbed to report `hostName` `Outlook` on platform `PC`, and capture it into `docs/captures/taskpane/classic/notice.png`. Done when: the capture is committed and shows the notice with no tab bar.
+- [ ] Hold the built surface to the approved mockup: render it (sideloaded, or in the jsdom harness for a component), compare it with the anchors on this section's `**Design:**` line in `docs/design/mockup.md` and their renders under `docs/design/mockup/renders/`, use only design tokens (`docs/design/tokens.json`) and registry icons (`iconSvg()` from `src/ui/icons.ts`), and commit a capture of the result under `docs/captures/taskpane/`. Done when: `python scripts/design-lint.py` exits 0 with the baseline no larger, every difference from the mockup is fixed or recorded as a `**Design deviation:**` naming its follow-up section, and the capture is committed. Cheaper substitute that fails: building from the prose alone, which the capture comparison at review refuses.
+- [ ] Commit: `"clients: classic Outlook is turned away with a notice"`
+
+**Test checkpoint:** `npx jest src/services/outlook.test.ts -t "classic"` passes its five cases; `npx jest src/taskpane src/commands -t "classic"` passes the notice and the four command cases with the provider client never called; `grep -c -i "classic" README.md` prints `1`; `npm run build` and `npx tsc --noEmit` exit 0. Cheaper substitute that fails: hiding the ribbon button with CSS or a manifest edit, which leaves the commands callable and which the command tests fail.
 
 ## Verification
 

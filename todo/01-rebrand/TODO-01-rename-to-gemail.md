@@ -38,6 +38,7 @@ depends_on: []
 - -> XREF: D02 T02 §3 -- the OpenRouter settings migration builds on the `gemail_settings` key §5 writes, and D02 T02 §7 rewrites the provider copy in the documents §6 renames
 - -> XREF: D99 T01 §3 -- the operator publishes the redirect stub §7 writes
 - -> XREF: D03 T04 §5 -- swaps the manifest icon URLs after the names settle here
+- -> XREF: D05 T03 §6 -- the classic Outlook notice and ribbon notification are written with the Gemail name §3 settles
 
 ## Outcome
 

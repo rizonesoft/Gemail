@@ -39,6 +39,7 @@ depends_on: []
 - -> XREF: D06 T04 §3 -- §5 documents the theme behavior and the usage view
 - -> XREF: D99 T01 §8 -- the operator updates organization deployments after §6 ships
 - -> XREF: D03 T04 §5 -- the manifests already point at the approved icons in `assets/icons/png/`
+- -> XREF: D05 T03 §6 -- classic Outlook is turned away at runtime (operator decision 2026-11-15), which no requirement set in §1 can express; §5 documents where Gemail runs from that policy
 
 ## Outcome
 
@@ -68,7 +69,7 @@ depends_on: []
 
 ## 1. Requirement Sets for New Outlook and the Web
 
-The operator decided on 2026-09-27 to support new Outlook and Outlook on the web only. Both implement recent Mailbox sets, so the manifest can declare what the code needs instead of 1.1, and guard only the features above that floor. This section measures the APIs in use, chooses the floor, and cleans the icon references that point at nothing.
+The operator decided on 2026-09-27 to support new Outlook and Outlook on the web only, and on 2026-11-15 discontinued classic Outlook for Windows outright (`D05 T03 §6` turns it away at runtime, because no manifest element separates it from new Outlook). Both implement recent Mailbox sets, so the manifest can declare what the code needs instead of 1.1, and guard only the features above that floor. This section measures the APIs in use, chooses the floor, and cleans the icon references that point at nothing.
 
 - [ ] Write `docs/dev/requirement-sets.md`: a table of every Office.js member the code calls (from `grep -rn "Office\.\|item\.\|mailbox\." src --include=*.ts`), the Mailbox set each needs (from the Microsoft Learn requirement set pages), and the feature that uses it. Done when: every call in the grep maps to a row with a source link. Source: https://learn.microsoft.com/javascript/api/requirement-sets/outlook/outlook-api-requirement-sets
 - [ ] Set `<Set Name="Mailbox" MinVersion>` in `manifest.xml` to the highest set a core feature (Reply, Draft, Summarize, Improve, Extract, Translate) needs, and the `VersionOverrides` `DefaultMinVersion` values to match. Done when: `npm run validate` passes and the chosen set is justified in the table.
@@ -130,6 +131,7 @@ A user who installs Gemail from a manifest file needs to know how in each suppor
 - [ ] Write `docs/design/user-guide.md`: the page template (purpose, steps, what is sent, what is written, troubleshooting), capture naming, and tone. Done when: the file exists and the Design line above resolves under `python scripts/todo-graph.py validate`.
 - [ ] Write `docs/user/install.md` for new Outlook and Outlook on the web from the production manifest URL, and `docs/user/admin-deployment.md` for the Microsoft 365 admin centre. Done when: following each on a test mailbox installs the add-in, recorded in the commit body.
 - [ ] Write the feature documents, one page per feature (`reply.md`, `draft.md`, `summarize.md`, `improve.md`, `extract.md`, `translate.md`, `prompts.md`, `settings.md`, `shortcuts.md`, `attachments.md`, `timeline.md`, `usage.md`) with current captures. Done when: every tab and Settings group in the pane has a page.
+- [ ] State in `docs/user/install.md` and `docs/user/troubleshooting.md` that Gemail runs in new Outlook for Windows and Mac and in Outlook on the web, and that classic Outlook for Windows shows the not-supported notice of `D05 T03 §6`, with the steps to switch to new Outlook. Done when: `grep -l -i "classic Outlook" docs/user/install.md docs/user/troubleshooting.md` prints both files.
 - [ ] Write `docs/user/privacy-and-your-key.md` and `docs/user/troubleshooting.md` (one entry per error message the pane can show, from the error table of `D03 T03 §1`). Done when: every message in that table has an entry.
 - [ ] Add `docs/user/README.md` as the index and `scripts/check-docs-links.js` that fails on a dead relative link or image under `docs/user/`. Done when: the check exits 0 and exits 1 after renaming a capture in a scratch copy.
 - [ ] Link the guide from `README.md` and from the Settings panel footer. Done when: both links resolve on the deployed dev build.

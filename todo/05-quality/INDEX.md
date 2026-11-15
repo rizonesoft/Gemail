@@ -1,6 +1,6 @@
 # 05 Quality
 
-> **Phase 1, 5, 8**
+> **Phase 1, 2, 5, 8**
 
 The test backbone, accessibility, and the behavior defects found in the imported code.
 

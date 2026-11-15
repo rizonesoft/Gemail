@@ -2,7 +2,7 @@
 
 The order to run every section in, from today (a dead published add-in on Google Gemini, freshly moved from WSL to Windows) to Gemail 2.0.0 on OpenRouter, proven on a clean Outlook profile.
 
-> **Progress:** **0 of 118 sections complete (0%).** 118 sections (0 discovered); backlog 10 of 500. Derived from the Implementation Order tables by `python scripts/todo-graph.py plan --sync` -- never edited by hand.
+> **Progress:** **0 of 119 sections complete (0%).** 119 sections (0 discovered); backlog 9 of 500. Derived from the Implementation Order tables by `python scripts/todo-graph.py plan --sync` -- never edited by hand.
 
 Seeded 2026-09-27 from the operator's decisions recorded in [`../AGENTS.md`](../AGENTS.md), the code inventory of the imported 1.3.2 tree, and every open item of the retired root `TODO.md`.
 
@@ -50,6 +50,7 @@ Gemail 2.0.0 is **one Outlook add-in that behaves like one product**: installed 
 | Proven by tests, not by hope                               | `D05 T01 §1`-`§6`                                         |
 | Users can learn it                                         | `D07 T01 §5`                                              |
 | It installs clean                                          | `D07 T01 §6` · `D07 T01 §7`                               |
+| Classic Outlook is turned away, never half-supported       | `D05 T03 §6`                                              |
 
 ---
 
@@ -88,7 +89,7 @@ Every later section cites these gates, so they must exist and be green before pr
 
 ### Phase 2 -- Rename to Gemail
 
-The name changes before the provider does, so the cutover writes the new names once instead of twice.
+The name changes before the provider does, so the cutover writes the new names once instead of twice. Classic Outlook is turned away here too, as soon as the notice can carry the Gemail name (operator decision 2026-11-15).
 
 |  ✔  | Section      | Deliverable                                      | Items |
 | :-: | ------------ | ------------------------------------------------ | :---: |
@@ -99,6 +100,7 @@ The name changes before the provider does, so the cutover writes the new names o
 | [ ] | `D01 T01 §5` | Settings storage keys migrate to the Gemail keys |   6   |
 | [ ] | `D01 T01 §6` | Documentation rebrand                            |   5   |
 | [ ] | `D01 T01 §7` | Redirect stub for the old Pages path             |   6   |
+| [ ] | `D05 T03 §6` | Classic Outlook is turned away                   |   7   |
 
 ### Phase 3 -- The OpenRouter Client
 
@@ -236,7 +238,7 @@ Manifests, icons, the user guide, the tag, and the clean-install acceptance.
 | [ ] | `D07 T01 §2` | One manifest source and validation in CI     |   5   |
 | [ ] | `D07 T01 §3` | Icons at every size from the SVG sources     |   5   |
 | [ ] | `D07 T01 §4` | The release process                          |   4   |
-| [ ] | `D07 T01 §5` | The user guide                               |   8   |
+| [ ] | `D07 T01 §5` | The user guide                               |   9   |
 | [ ] | `D07 T01 §6` | Ship v2.0.0                                  |   7   |
 | [ ] | `D07 T01 §7` | Clean-install acceptance                     |   5   |
 
