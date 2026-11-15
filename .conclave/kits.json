@@ -1,0 +1,167 @@
+{
+  "files": {
+    ".claude/agents/code-explorer.md": {
+      "kit": "base",
+      "sha256": "62a2c6f7802162fe03b87d47cf878fbfc6116bc17c8ee25967a150d6cf9a58f1"
+    },
+    ".claude/agents/debug-evidence.md": {
+      "kit": "base",
+      "sha256": "fb0a98b9189b2197ec5d3fd2b26d573edb3db3c5780d361b587ba1475a15dfbf"
+    },
+    ".claude/agents/git-runner.md": {
+      "kit": "base",
+      "sha256": "8758b028da02878da61a450a997b1acfbf906db7c4d630eff6dd16ff9df35d46"
+    },
+    ".claude/agents/mutation-tester.md": {
+      "kit": "base",
+      "sha256": "d122feb11090af12eee827f01df9d6a43b003faa72a4d19d81f25c559def1148"
+    },
+    ".claude/agents/test-runner.md": {
+      "kit": "base",
+      "sha256": "0be2595ce352a755c94df5213260a0f84ba94001ea9b092f3d997918ff313494"
+    },
+    ".claude/rules/claude-output-and-safety.md": {
+      "kit": "base",
+      "sha256": "fc72eae5ee55ada7e7fdc40ec1fb497cf8618c85ff773625360bedbe5e27ee78"
+    },
+    ".claude/skills/authoring-skills/SKILL.md": {
+      "kit": "base",
+      "sha256": "d1cef6252285fa9d4957b52341c90d110e6789ede52996190094989be5b5db71"
+    },
+    ".claude/skills/authoring-skills/references/skill-layout-checklist.md": {
+      "kit": "base",
+      "sha256": "c9e93eb46ed8d3754b227845ddb98f3704cbf9816f8eee13d1c1c514c2b7b327"
+    },
+    ".claude/skills/local-tool-safety/SKILL.md": {
+      "kit": "base",
+      "sha256": "e704487c2ef1a9ec9581f53f643a127f3dec13c69dd4a6e06938901f3ffd6e8e"
+    },
+    ".claude/skills/local-tool-safety/references/local-tool-capability-safety.md": {
+      "kit": "base",
+      "sha256": "8e006ccd58132dfec856961b1b2a728b6da32de725ffcbd396d7bf58558e0924"
+    },
+    ".claude/skills/unattended-run/SKILL.md": {
+      "kit": "unattended",
+      "sha256": "ba77ec74b61be4fb66bde78462a70f4c2dca3d43cdcbf1427c905b6170076846"
+    },
+    ".claude/skills/web-toolchain/SKILL.md": {
+      "kit": "toolchain-web",
+      "sha256": "22d65597d48f39fc09b36ab8109d4abf6ef9ac87c6a7463d977bf5dc3198dcc0"
+    },
+    ".conclave/toolchain-web.json": {
+      "kit": "toolchain-web",
+      "sha256": "b956e041004bb4bb6e840befaa143aef94a7c2cf3aa66fe01ff69ee36f1c42a7"
+    },
+    ".conclave/unattended.json": {
+      "kit": "unattended",
+      "sha256": "9f9a26216d886ea6173803574dad57f53fcb4d8045b87d9ae96c6181f021064d"
+    },
+    "docs/agent-skills-and-rules-structure.md": {
+      "kit": "base",
+      "sha256": "8254e2aa6561e206fd4ef83d77bf99ca363af0a18fd04bb64d8e610de84bc506"
+    },
+    "docs/toolchain-web.md": {
+      "kit": "toolchain-web",
+      "sha256": "ba797d0f6b4aba7e4f282ccb61d7dcad30c323502b1cbd6e6d1a9188e26c4f6f"
+    },
+    "docs/unattended-prompt.md": {
+      "kit": "unattended",
+      "sha256": "c26bba11e2b5e3acfb79ce36cd2ac93d3801fdcf1b4a0afe5062b53968fc32f1"
+    },
+    "docs/unattended-run.md": {
+      "kit": "unattended",
+      "sha256": "84e9e9a95303867e080e9b9cebc924af3da92b3898b4a69967b24c6c67bbbbae"
+    },
+    "scripts/campaign-icon.py": {
+      "kit": "unattended",
+      "sha256": "c69424284585adead0cd8ca6bf4af2a1c345de6de69bc628d1cb8908b1304947"
+    },
+    "scripts/lib/todo_graph.py": {
+      "kit": "todo",
+      "sha256": "d41ce27e5c4f9e395bf761c336440204b50bf407e7e291c16235c3fa76a9289c"
+    },
+    "scripts/lib/unattended.py": {
+      "kit": "unattended",
+      "sha256": "5f35092ffd5adb0455dbc4f8531db4918b92b7a62e237ce12ed44bfe92f500e4"
+    },
+    "scripts/tests/test_campaign_icon.py": {
+      "kit": "unattended",
+      "sha256": "96f8c94942e235e919d8db917e932b6144b9a2bcff5ba314f7c1abac72555eda"
+    },
+    "scripts/tests/test_document.py": {
+      "kit": "unattended",
+      "sha256": "890738b2c2962209eba8c6f05e4218490240cf145f647f6e5eb3f1b4ba09d85a"
+    },
+    "scripts/tests/test_preflight.py": {
+      "kit": "unattended",
+      "sha256": "c9fa33a086aef21519397b2e04dbd95fab204cd35b44e8e8bb068a383901ee3f"
+    },
+    "scripts/tests/test_run.py": {
+      "kit": "unattended",
+      "sha256": "f9688e477715843907195e1855f125dedeb817b640b50c9f00694cf5418033e9"
+    },
+    "scripts/tests/test_shortcut.py": {
+      "kit": "unattended",
+      "sha256": "1ec2cd4e011d567b51cabfb92bcbf4b12ae656c71d7fdd0a73d5d8a9dec9e19b"
+    },
+    "scripts/tests/test_toolchain_check.py": {
+      "kit": "toolchain-web",
+      "sha256": "1097fb19ef23d06b1393b694cce8581e4ff2f0aa51e70e6b9b8a8993018a73a5"
+    },
+    "scripts/tests/test_unattended.py": {
+      "kit": "unattended",
+      "sha256": "347137c0dbccea6e62bcdf168377eb9968a3f75a1104f1ce53b1f7f674dc912c"
+    },
+    "scripts/toolchain-check.py": {
+      "kit": "toolchain-web",
+      "sha256": "ff27d54cdc3c0d87129ea5b9ff74580de7ea234936077749eb906a2ea233290a"
+    },
+    "scripts/unattended-preflight.py": {
+      "kit": "unattended",
+      "sha256": "08e5db14a355565b07bc3913464170fcd212f9c8da0ecadde70557b73d53d495"
+    },
+    "scripts/unattended-run.py": {
+      "kit": "unattended",
+      "sha256": "199864b9b977567f0eaec9cf89d93d50e80f2acd15fb08f2d87494fbb9a66242"
+    },
+    "scripts/unattended-shortcut.ps1": {
+      "kit": "unattended",
+      "sha256": "7235ecfe5cf0f3082203813baf1f2a6fcdbf8c94f37de2c0172a47a528aa7e6b"
+    },
+    "scripts/verify-agent-tiers.mjs": {
+      "kit": "base",
+      "sha256": "16d115a8723eb330b47333aced6e5027ba6d804487beda5969af94e62abd7191"
+    }
+  },
+  "kits": {
+    "base": {
+      "agents": [
+        "claude"
+      ],
+      "host": null,
+      "sdk_commit": "1f30da6b5a8a74230919dced723d4ca504b0c902"
+    },
+    "todo": {
+      "agents": [
+        "claude"
+      ],
+      "host": null,
+      "sdk_commit": "1f30da6b5a8a74230919dced723d4ca504b0c902"
+    },
+    "toolchain-web": {
+      "agents": [
+        "claude"
+      ],
+      "host": null,
+      "sdk_commit": "1f30da6b5a8a74230919dced723d4ca504b0c902"
+    },
+    "unattended": {
+      "agents": [
+        "claude"
+      ],
+      "host": null,
+      "sdk_commit": "1f30da6b5a8a74230919dced723d4ca504b0c902"
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "name": "gemail",
+  "agent": "claude",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "prompt_file": "docs/unattended-prompt.md",
+  "branch": "main",
+  "skip_permissions": true,
+  "tools": ["git", "python", "python3", "tmux", "node", "npm", "pwsh", "gh", "codex"],
+  "min_disk_gb": 20,
+  "min_ram_gb": 2,
+  "tick_seconds": 300,
+  "idle_minutes": 45,
+  "stall_hours": 6,
+  "preflight": [
+    {"name": "todo-graph", "command": ["python3", "scripts/todo-graph.py", "validate"], "timeout_seconds": 120},
+    {"name": "plan-sync", "command": ["python3", "scripts/todo-graph.py", "plan", "--check"], "timeout_seconds": 120},
+    {"name": "review-panel", "command": ["python3", "scripts/panel_slots.py", "validate"], "timeout_seconds": 60},
+    {"name": "codex-login", "command": ["codex", "login", "status"], "timeout_seconds": 60},
+    {"name": "linux-binaries", "command": ["python3", "tools/wsl-native.py", "--check"], "timeout_seconds": 60}
+  ]
+}

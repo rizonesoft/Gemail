@@ -86,3 +86,6 @@ jobs:
       - name: Self-test the campaign guard
         shell: pwsh
         run: python scripts/campaign_guard.py --self-test
+      - name: Script tests (the run guard, the CI repair ledger, the unattended kit)
+        shell: pwsh
+        run: python -m unittest discover -s scripts/tests

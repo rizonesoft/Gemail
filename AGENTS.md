@@ -16,8 +16,8 @@ Agent instructions for this repository. Human orientation lives in `README.md`. 
 | `src/styles/` | Tailwind CSS v4 entry |
 | `manifest.xml`, `manifest.dev.xml` | The production and development add-in manifests (XML, Mailbox requirement sets) |
 | `assets/` | Icons referenced by the manifests, the README banner |
-| `scripts/` | `check-all.ps1` (every gate), `sync-manifest-version.js`, the live smoke script, and the stdlib Python TODO tooling (`todo-graph.py`, validator, claims, findings, runs, review prompt, panel slots, campaign guard) |
-| `tools/` | `provision.ps1` (sets up a Windows clone: Node, deps, dev certs, the commit hook, Python) and `githooks/pre-commit` |
+| `scripts/` | `check-all.ps1` (every gate), `sync-manifest-version.js`, the live smoke script, the stdlib Python TODO tooling (`todo-graph.py`, validator, claims, findings, runs, review prompt, panel slots, the campaign guard and its Stop hook), the unattended launcher and preflight, `toolchain-check.py`, and their tests under `scripts/tests/` |
+| `tools/` | `provision.ps1` (sets up a Windows clone: Node, deps, dev certs, the commit hook, Python), `githooks/pre-commit`, and `wsl-native.py` (adds the Linux native binaries the unattended run in WSL needs) |
 | `todo/` | The live execution plan; read `todo/README.md` before authoring or implementing |
 | `todo/implementation-plan.md` | Ordered phase plan; its boxes are synchronized through `scripts/todo-graph.py` |
 | `todo/budget.json`, `todo/backlog.md` | The caps on campaign discovery and the backlog, with their history; the capped list of deferred ideas that are not sections |
@@ -28,8 +28,8 @@ Agent instructions for this repository. Human orientation lives in `README.md`. 
 | `docs/reviews/` | Per-section review findings, attestations, the derived findings ledger, run records |
 | `docs/phase-runs/` | One findings file per phase run, written as the run goes |
 | `docs/captures/taskpane/` | Committed captures of rendered surfaces, the visual reference for review |
-| `.claude/` | Claude Code skills, the Stop hook, and settings |
-| `.conclave/panel.toml` | The review panel wiring: writer, model registry, and every review slot |
+| `.claude/` | Claude Code skills, subagents (`agents/`), rules, and settings (which wire the campaign Stop hook) |
+| `.conclave/` | `panel.toml` (the review panel wiring: writer, model registry, and every review slot), `unattended.json` (the unattended run profile), `toolchain-web.json` (the Node pins), and `kits.json` (what the Conclave-SDK kits installed) |
 | `dist/` | Webpack output; ignored, deployed by `.github/workflows/deploy.yml` to GitHub Pages, never authoritative |
 | `build/` | Scratch, caches, and campaign guard state; ignored, never authoritative |
 
@@ -66,6 +66,8 @@ For TODO work, read the target section, `todo/README.md`, its dependencies, and 
 The lifecycle is: capture, author, validate the plan and source claims, record `Started:`, implement, run the section's gates, commit, independent review, panel review and stamp, then sync the plan. Each section must be executable with zero conversation context. **One section = one commit.** Preserve section addresses and bidirectional cross-references. A TODO Implementation Order row turns `[x]` only with its `Verified:` stamp through the review skill. Do not rewrite a stamped checklist or transfer evidence across changed candidates. File new work with its own owner and dependency.
 
 `/process-plan` is the campaign front door: it audits the plan, starts the run guard (the Stop hook in `.claude/settings.json`, the guard file under `build/`, and a heartbeat job), and runs phase after phase until every row is shipped, parked, or blocked.
+
+**Unattended runs** (Conclave-SDK `unattended` kit, imported 2026-11-15) start `process-plan` in a tmux session in WSL on this checkout (`/mnt/d/Gemail`): `python3 scripts/unattended-run.py start | status | attach | stop`, or the `Gemail Claude campaign` desktop shortcut. The profile is `.conclave/unattended.json`, the seed prompt `docs/unattended-prompt.md`, and the operator's page `docs/unattended-run.md`; `python3 scripts/unattended-preflight.py` must print no FAIL first. After a Windows `npm ci`, run `python3 tools/wsl-native.py` in WSL again (the preflight's `linux-binaries` check names it). A run never restarts itself.
 
 ## What counts as proof
 
@@ -133,7 +135,9 @@ python scripts/todo-graph.py resolve 'DNN TNN §N'   # ref -> file, section, dep
 python scripts/todo-claims.py                # re-measure what the TODOs claim about the repo
 python scripts/todo-findings.py --check      # fail if docs/reviews/findings.md is stale
 python scripts/todo-runs.py --check          # run records agree with the review files
-python scripts/campaign_guard.py --self-test # the Stop hook and guard lifecycle
+python scripts/campaign_guard.py --self-test # the wired Stop hook command against a scratch run
+python -m unittest discover -s scripts/tests  # the run guard, the CI repair ledger, the unattended kit, wsl-native
+python3 scripts/unattended-preflight.py      # in WSL: every precondition of an unattended run
 python scripts/panel_slots.py validate       # the review panel wiring holds
 python scripts/design-lint.py                # the design gate: mockup citations, tokens, icons, baseline
 node tools/design/icons.mjs --check          # icon outputs match their sources (npm ci --prefix tools/design once)

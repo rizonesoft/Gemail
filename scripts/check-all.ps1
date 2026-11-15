@@ -15,10 +15,11 @@
   9. python scripts/todo-claims.py
   10. python scripts/todo-findings.py --check
   11. python scripts/todo-runs.py --check
-  12. python scripts/campaign_guard.py --self-test
-  13. python scripts/design-lint.py --self-test
-  14. python scripts/design-lint.py   (mockup citations, tokens, icons, the shrink-only baseline)
-  15. node tools/design/icons.mjs --check   (icon outputs rebuild identically; installs tools/design once)
+  12. python scripts/campaign_guard.py --self-test   (each wired Stop hook command against a scratch run)
+  13. python -m unittest discover -s scripts/tests   (the run guard, the CI repair ledger, the unattended kit)
+  14. python scripts/design-lint.py --self-test
+  15. python scripts/design-lint.py   (mockup citations, tokens, icons, the shrink-only baseline)
+  16. node tools/design/icons.mjs --check   (icon outputs rebuild identically; installs tools/design once)
   A python gate whose script is absent is skipped with a warning. Every gate
   runs even after an earlier failure; the exit code is 1 when any gate failed.
 .EXAMPLE
@@ -85,6 +86,8 @@ try {
     Invoke-PythonGate 'todo-findings --check' 'todo-findings.py' @('--check')
     Invoke-PythonGate 'todo-runs --check' 'todo-runs.py' @('--check')
     Invoke-PythonGate 'campaign_guard self-test' 'campaign_guard.py' @('--self-test')
+    $py = $script:Python
+    Invoke-Gate 'script tests (unittest)' { & $py -m unittest discover -s scripts/tests }
     Invoke-PythonGate 'design-lint self-test' 'design-lint.py' @('--self-test')
     Invoke-PythonGate 'design-lint' 'design-lint.py' @()
   } else {

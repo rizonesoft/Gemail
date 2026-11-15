@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "search": [
+    "node_modules/.bin"
+  ],
+  "tools": [
+    {
+      "name": "node",
+      "commands": [
+        {
+          "command": "node",
+          "version_args": [
+            "--version"
+          ],
+          "version_pattern": "^v([0-9]+(?:\\.[0-9]+)*)",
+          "min_version": "22"
+        }
+      ],
+      "install": "https://nodejs.org/en/download (Windows: winget install OpenJS.NodeJS.LTS); package.json engines: >=22 <25"
+    },
+    {
+      "name": "package-manager",
+      "commands": [
+        {
+          "command": "npm",
+          "version_args": [
+            "--version"
+          ],
+          "version_pattern": "^([0-9]+(?:\\.[0-9]+)+)",
+          "min_version": "9"
+        }
+      ],
+      "install": "npm comes with Node; Gemail installs with npm ci from package-lock.json"
+    },
+    {
+      "name": "python",
+      "commands": [
+        {
+          "command": "python3",
+          "version_args": [
+            "--version"
+          ],
+          "version_pattern": "Python ([0-9]+(?:\\.[0-9]+)*)",
+          "min_version": "3.11"
+        }
+      ],
+      "install": "Windows: winget install Python.Python.3.14; WSL: apt install python3 (the TODO tooling is stdlib only)"
+    }
+  ]
+}
