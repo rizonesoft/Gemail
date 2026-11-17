@@ -1103,8 +1103,8 @@ run: D00-T01-S1
 date: 2026-09-17
 runner: codex
 rounds: 2
-round: 1 model: gpt-6-astra effort: high outcome: findings candidate: 6bb635e provider: openai version: gpt-6-astra cost: unresolved latency: unresolved opportunity: full-scope purpose: section-review provenance: reconstructed findings: D00-T01-S1-F1, D00-T01-S1-F2
-round: 2 model: gpt-6-astra effort: high outcome: empty candidate: 8437dd5 provider: openai version: gpt-6-astra cost: unresolved latency: unresolved opportunity: delta-plus-regressions purpose: fix-loop provenance: reconstructed findings:
+round: 1 model: gpt-6.2-astra effort: high outcome: findings candidate: 6bb635e provider: openai version: gpt-6.2-astra cost: unresolved latency: unresolved opportunity: full-scope purpose: section-review provenance: reconstructed findings: D00-T01-S1-F1, D00-T01-S1-F2
+round: 2 model: gpt-6.2-astra effort: high outcome: empty candidate: 8437dd5 provider: openai version: gpt-6.2-astra cost: unresolved latency: unresolved opportunity: delta-plus-regressions purpose: fix-loop provenance: reconstructed findings:
 empty: 1
 refuted: 0
 """

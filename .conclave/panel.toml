@@ -13,7 +13,7 @@
 # the model entry; nothing else in the tree changes.
 #
 # Operator decision (Resolute 2026-09-25, adopted for Photon and Gemail): every
-# review slot runs GPT-6 Astra through codex (bulk at medium, every other
+# review slot runs GPT-6.2 Astra through codex (bulk at medium, every other
 # slot at high), and there are no fallback slots. A failed round stops
 # for the operator.
 
@@ -29,7 +29,7 @@ model = "claude-opus-5-5"
 # whose captures are version parts: records naming any concrete model it
 # matches (suffixed variants such as `-build-fast` never match) parse.
 # `served` names what the provider reported having run, for records only.
-[model."gpt-6-astra"]
+[model."gpt-6.2-astra"]
 family = "codex"
 probed = "2026-09-25"
 
@@ -65,35 +65,35 @@ retired = "2026-09-23"
 # findings only). Light: R1 bulk, R2 signoff. There are no fallback
 # slots: a failed round re-runs nothing and waits for the operator.
 [slot.bulk]
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 effort = "medium"
 timeout = 600
 
 [slot.signoff] # governs every stamp
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 effort = "high"
 timeout = 600
 
 [slot.depth]
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 effort = "high"
 timeout = 600
 
 # Plan review after panel close.
 [slot.plan-primary]
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 effort = "high"
 timeout = 900
 
 # The staged-stamp review before the stamp commit.
 [slot.stamp-check]
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 effort = "high"
 timeout = 600
 
 # The independent `codex review --commit` pass in process-todo-section.
 [slot.independent]
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 effort = "high"
 timeout = 900
 
@@ -102,6 +102,6 @@ timeout = 900
 # format readers and writers, undo history). Blocking, GPT like the
 # sign-off.
 [slot.arch-primary]
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 effort = "high"
 timeout = 600
